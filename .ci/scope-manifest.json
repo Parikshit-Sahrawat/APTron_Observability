@@ -3369,6 +3369,36 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_no_evidence_is_blocked_and_never_certified": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_independent_test_records_only_ready_for_human_review": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_single_host_docker_containers_are_not_three_failure_domains": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_no_duplicate_or_lost_acknowledged_critical_events": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_all_scenarios_are_mandatory_with_real_evidence_hash": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_missing_immutable_image_identity_fails_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
     }
   }
 }
