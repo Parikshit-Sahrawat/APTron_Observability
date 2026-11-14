@@ -8,6 +8,36 @@ concurrency:
   group: sec001-r03-candidates-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  ha-contract-readiness:
+    name: ha-contract-readiness (NOT HA certification)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Run independent failure-domain negative contract tests
+        run: python -m unittest discover -s tests -p 'test_r03_ha_evidence_contract.py' -v
+      - name: Record missing independent multi-host evidence as BLOCKED
+        run: |
+          python scripts/ci/r03_ha_evidence_contract.py --output "$RUNNER_TEMP/r03-ha-contract.json"
+          python - <<'PY'
+          import json, os, pathlib
+          result=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r03-ha-contract.json").read_text())
+          assert result["status"]=="BLOCKED" and not result["release_eligible"]
+          assert "three independently attested physical failure domains missing" in result["blocking_reasons"]
+          print("PASS: no false HA certification on single GitHub runner")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sec001-r03-multihost-ha-readiness-not-certified
+          path: ${{ runner.temp }}/r03-ha-contract.json
+          if-no-files-found: error
   candidate-evidence:
     name: candidate-evidence (${{ matrix.role }})
     runs-on: ubuntu-24.04
@@ -282,6 +312,11 @@ jobs:
             docker rm "$collector"
             trap - EXIT
           fi
+      - name: Qualify patched Collector local mTLS + checkpoint/replay
+        if: matrix.role == 'otel-contrib-r03-rebuilt'
+        env:
+          R03_COLLECTOR_IMAGE: sec001-r03-otel-contrib-r03-rebuilt:scan
+        run: bash scripts/ci/r03_collector_mtls_checkpoint.sh
       - name: Generate full exact-image SBOM and Grype evidence
         env:
           ROLE: ${{ matrix.role }}
