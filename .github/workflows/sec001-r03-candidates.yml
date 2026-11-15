@@ -20,8 +20,10 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
-      - name: Run vendor trust and missing-signer negative tests
-        run: python -m unittest discover -s tests -p 'test_r03_supplier_evidence.py' -v
+      - name: Run vendor trust, offline signature and missing-signer negative tests
+        run: |
+          python -m unittest discover -s tests -p 'test_r03_supplier_evidence.py' -v
+          python -m unittest discover -s tests -p 'test_r03_verify_vendor_apk_offline.py' -v
       - name: Verify no supplier APK can be installed without authenticated trust and legal review
         run: |
           python scripts/ci/r03_supplier_evidence.py --output "$RUNNER_TEMP/r03-supplier.json"
