@@ -77,3 +77,42 @@ as *separate*, explicit, audited decisions, never as a scanner suppression.
 - **Image-bound licence/NOTICE approval:** NOT RECEIVED
 - **Customer deployment or final-image promotion:** NOT AUTHORIZED
 - **Release decision:** NO-GO
+
+## Authenticated offline APK signature intake (new engineering tooling)
+
+The supplier-claim preflight `scripts/ci/r03_supplier_evidence.py` still
+reports `BLOCKED_INDEPENDENT_REVIEW_REQUIRED`. A separate, read-only
+`scripts/ci/r03_verify_vendor_apk_offline.py` can cryptographically verify a
+**locally furnished** APK with `apk verify`, provided Security supplies the
+out-of-band trusted key fingerprint and a separately verified signer/source
+reference. This does **not** fetch any supplier package or authenticate a
+supplier merely because the key arrived with the package.
+
+Manual isolated Alpine workstation/lab command (replace placeholders with
+real *independently authenticated* data; do not commit APKs or keys):
+
+```sh
+python scripts/ci/r03_verify_vendor_apk_offline.py \
+  --offline-apk /secure-lab/approved/sqlite-libs-3.53.4-r00073.apk \
+  --trusted-public-key /secure-lab/approved/rootio-signing.rsa.pub \
+  --apk-sha256 '<independently_verified_apk_sha256>' \
+  --trusted-key-sha256 '<out_of_band_verified_public_key_sha256>' \
+  --independent-trust-reference '<security_review_ticket>' \
+  --output /secure-lab/supplier-signature-report.json
+```
+
+The command requires Alpine's `apk-tools` installed **before** the offline
+test. It invokes `apk --network=no --keys-dir <ephemeral-directory> verify`,
+never `apk add`, `apk upgrade`, a package script or a supplier API. It
+confirms matching bytes and the cryptographic signature against the
+out-of-band supplied key, not actual legal redistribution permission.
+
+Only after a successful `apk verify`, independent Security/Platform review
+of **who controls the signing key**, permitted entitlement and source-diff
+review may the owner separately authorize an isolated build with those APK
+bytes. Actual final-image Syft/CycloneDX/Grype, ABI/security compatibility,
+redistribution/NOTICE approval and eight-role Tier C are still mandatory.
+
+**As of 16 Nov 2026:** no authenticated Root.io key, APK, independent
+supplier entitlement or legal signature was supplied. No patched package was
+installed or promoted. All four SQLite High findings remain open.
