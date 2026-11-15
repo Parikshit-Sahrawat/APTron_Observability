@@ -15,8 +15,10 @@ cleanup() {
 trap cleanup EXIT
 mkdir -p "$work/server" "$work/client" "$work/fixture/state"
 chmod 0755 "$work" "$work/fixture" "$work/server"
-sudo chown 10001:10001 "$work/fixture/state"
+# Set POSIX mode before ownership transfer: the runner user cannot chmod
+# a directory after chown to container UID 10001 on GitHub-hosted Linux.
 chmod 0755 "$work/fixture/state"
+sudo chown 10001:10001 "$work/fixture/state"
 printf '%s\n' SEC001_R03_CHECKPOINT_BEFORE > "$work/fixture/events.log"
 chmod 0644 "$work/fixture/events.log"
 
