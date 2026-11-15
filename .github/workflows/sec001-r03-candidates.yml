@@ -64,11 +64,24 @@ jobs:
           assert "three independently attested physical failure domains missing" in result["blocking_reasons"]
           print("PASS: no false HA certification on single GitHub runner")
           PY
+      - name: Record read-only three-host plan as BLOCKED until exact owners/hosts are known
+        run: |
+          python -m unittest discover -s tests -p "test_r03_ha_lab_plan.py" -v
+          python scripts/ci/r03_ha_lab_plan.py --output "$RUNNER_TEMP/r03-ha-lab-plan.json"
+          python - <<'PY'
+          import json,os,pathlib
+          data=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r03-ha-lab-plan.json").read_text())
+          assert data["status"]=="BLOCKED" and not data["release_eligible"]
+          assert not data["contains_host_commands"] and not data["physical_fencing_executed"]
+          print("PASS: three-host lab plan never executes physical-host actions or falsely certifies HA")
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: sec001-r03-multihost-ha-readiness-not-certified
-          path: ${{ runner.temp }}/r03-ha-contract.json
+          path: |
+            ${{ runner.temp }}/r03-ha-contract.json
+            ${{ runner.temp }}/r03-ha-lab-plan.json
           if-no-files-found: error
   candidate-evidence:
     name: candidate-evidence (${{ matrix.role }})
