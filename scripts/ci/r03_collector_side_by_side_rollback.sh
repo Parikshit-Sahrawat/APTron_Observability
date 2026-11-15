@@ -1,14 +1,29 @@
 #!/usr/bin/env bash
-# SEC001-R03: isolated 0.123.0 -> patched 0.165.0 -> 0.123.0 rollback.
-# This qualifies only local filelog checkpoint compatibility, not CL-2/CL-3,
-# authenticated central ACK, production upgrade or native Collector promotion.
+# SEC001-R03: isolated 0.123 -> patched 0.165 -> 0.163.2 JSON-bridge
+# -> 0.123 rollback experiment. OpenTelemetry v0.164+ writes protobuf-only
+# checkpoints, so direct downgrade to 0.123 is NOT safe. The 0.163.2
+# bridge is evaluation-only and MUST NOT be promoted based on this test.
+# Never claim central ACK, physical HA, prod upgrade or legal approval.
 set -euo pipefail
 : "${RUNNER_TEMP:?An isolated CI-owned temporary root is required}"
 : "${R03_COLLECTOR_IMAGE:?Use the locally built patched 0.165 candidate}"
 legacy='otel/opentelemetry-collector-contrib:0.123.0@sha256:e39311df1f3d941923c00da79ac7ba6269124a870ee87e3c3ad24d60f8aee4d2'
+# This pinned, previously evaluated 0.163.2 image is a temporary local
+# JSON-checkpoint bridge, not an accepted production/release binary.
+bridge='otel/opentelemetry-collector-contrib:0.163.2@sha256:7f22d2a6748110ffb6a59bc0df448bccbf501cdb667d610ede4c61d3863d5849'
 docker pull "$legacy"
+docker pull "$bridge"
 docker run --rm --entrypoint /otelcol-contrib "$legacy" --version | grep -F '0.123.0'
+docker run --rm --entrypoint /otelcol-contrib "$bridge" --version | grep -F '0.163.2'
 docker run --rm --entrypoint /otelcol-contrib "$R03_COLLECTOR_IMAGE" --version | grep -F '0.165.0'
+# Do not silently trust floating aliases: exact RepoDigest must be present.
+BRIDGE_IMAGE="$bridge" python - <<'PY'
+import json,os,subprocess
+image=os.environ["BRIDGE_IMAGE"]
+digests=json.loads(subprocess.check_output(["docker","image","inspect",image],text=True))[0]["RepoDigests"]
+assert any(d.endswith("@"+image.split("@")[1]) for d in digests), digests
+print("Checkpoint bridge immutable upstream RepoDigest verified")
+PY
 work="$(mktemp -d "$RUNNER_TEMP/r03-collector-rollback.XXXXXX")"
 container="r03-rollback-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-1}"
 cleanup() {
@@ -84,13 +99,26 @@ if docker logs "$container" 2>&1 | grep -Fq SEC001_R03_LEGACY_0_123; then
   exit 1
 fi
 stop_phase "phase-patched.log"
+# 0.163.2 reads protobuf checkpoints from v0.165 and, with the default
+# disabled Alpha encoding flag, persists the updated offset in JSON. Do not
+# delete/reset checkpoint files: the bridge must preserve offsets exactly.
+printf '%s\n' SEC001_R03_BRIDGE_0_163 >> "$work/events.log"
+start_phase "$bridge"
+await_marker SEC001_R03_BRIDGE_0_163
+if docker logs "$container" 2>&1 | grep -Eq 'SEC001_R03_(LEGACY_0_123|NEW_0_165)'; then
+  echo "FAIL: bridge replayed an already checkpointed log" >&2
+  exit 1
+fi
+# Permit two checkpoint polling cycles before a clean stop and JSON handoff.
+sleep 1
+stop_phase "phase-bridge.log"
 printf '%s\n' SEC001_R03_ROLLBACK_0_123 >> "$work/events.log"
 start_phase "$legacy"
 await_marker SEC001_R03_ROLLBACK_0_123
-if docker logs "$container" 2>&1 | grep -Eq 'SEC001_R03_(LEGACY_0_123|NEW_0_165)'; then
+if docker logs "$container" 2>&1 | grep -Eq 'SEC001_R03_(LEGACY_0_123|NEW_0_165|BRIDGE_0_163)'; then
   echo "FAIL: rollback 0.123 replayed a previously checkpointed log" >&2
   exit 1
 fi
 stop_phase "phase-rollback.log"
-echo "PASS: isolated pinned 0.123 -> patched 0.165 -> 0.123 filelog checkpoint and no-duplicate rollback"
-echo "REVIEW_ONLY: central receipt durability, identity, HA, TLS rotation and production rollback are not certified"
+echo "PASS: isolated 0.123 -> patched 0.165 -> 0.163.2 JSON bridge -> 0.123 with retained filelog offsets"
+echo "REVIEW_ONLY: 0.163.2 bridge is NOT a qualified final image; central receipt durability, tenant identity, HA, TLS rotation and production rollback are NOT certified"
