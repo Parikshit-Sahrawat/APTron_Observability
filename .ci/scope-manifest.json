@@ -3424,6 +3424,31 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_default_is_blocked_and_no_remote_actions_exist": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_authorized_manifest_only_prepares_never_certifies": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_shared_failure_domain_is_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_missing_host_authorization_is_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_production_network_or_unidentified_images_fail_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
     }
   }
 }
