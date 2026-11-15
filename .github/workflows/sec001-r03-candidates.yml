@@ -362,6 +362,11 @@ jobs:
         env:
           R03_COLLECTOR_IMAGE: sec001-r03-otel-contrib-r03-rebuilt:scan
         run: bash scripts/ci/r03_collector_mtls_checkpoint.sh
+      - name: Qualify 0.123 -> patched 0.165 -> 0.123 checkpoint rollback
+        if: matrix.role == 'otel-contrib-r03-rebuilt'
+        env:
+          R03_COLLECTOR_IMAGE: sec001-r03-otel-contrib-r03-rebuilt:scan
+        run: bash scripts/ci/r03_collector_side_by_side_rollback.sh
       - name: Generate full exact-image SBOM and Grype evidence
         env:
           ROLE: ${{ matrix.role }}
