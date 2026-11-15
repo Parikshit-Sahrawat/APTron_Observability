@@ -39,8 +39,10 @@ openssl x509 -req -sha256 -days 1 -in "$work/client.csr" \
   -CA "$work/ca.crt" -CAkey "$work/ca.key" -CAcreateserial \
   -out "$work/client/client.crt" -extfile "$work/client.ext" >/dev/null 2>&1
 cp "$work/ca.crt" "$work/server/ca.crt"
-sudo chown 10001:10001 "$work/server/server.key"
+# Lock key mode while the runner still owns it, then transfer ownership
+# to the unprivileged Collector UID. No key bytes are uploaded to CI artifacts.
 chmod 0400 "$work/server/server.key"
+sudo chown 10001:10001 "$work/server/server.key"
 chmod 0644 "$work/server/server.crt" "$work/server/ca.crt"
 chmod 0600 "$work/ca.key" "$work/client/client.key"
 cat > "$work/fixture/config.yaml" <<'YAML'
