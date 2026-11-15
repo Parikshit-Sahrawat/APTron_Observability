@@ -3449,6 +3449,26 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_absent_package_and_key_never_authorize_install": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_untrusted_fingerprint_blocks_before_invoking_apk_tools": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_untrusted_self_declared_key_without_independent_reference_blocks": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_even_mocked_success_never_grants_supplier_license_or_release": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
     }
   }
 }
