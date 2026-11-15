@@ -2,6 +2,10 @@
 # DO NOT select for release or deploy without owned-PostgreSQL, tenant/RBAC,
 # migration/rollback, platform/ABI and accountable license acceptance.
 # Exact official Python 3.12.16 Alpine 3.23 linux/amd64 image manifest.
+# UAT parity candidate includes the unchanged pinned 0.123 Collector binary.
+# This inherits its scanner findings and must NEVER be promoted on smoke tests.
+FROM otel/opentelemetry-collector-contrib:0.123.0@sha256:e39311df1f3d941923c00da79ac7ba6269124a870ee87e3c3ad24d60f8aee4d2 AS legacy_telemetry
+
 FROM python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422 AS dependencies
 WORKDIR /build
 COPY requirements*.txt bootstrap_pip.py pip-bootstrap.json ./
@@ -47,3 +51,18 @@ COPY alembic.ini /app/alembic.ini
 RUN chmod -R a+rX /app/migrations /app/alembic.ini
 USER 10001:10001
 CMD ["python", "-m", "alembic", "upgrade", "head"]
+
+# Isolated hardened UAT parity target. Keeps legacy 0.123 binary and migration
+# scripts, but removes runtime pip, compilers and root execution. This is NOT a
+# migration to the patched 0.165 or native Collector and inherits older CVEs.
+FROM runtime_base AS uat
+USER 0
+COPY --from=legacy_telemetry /otelcol-contrib /usr/local/bin/otelcol-contrib
+COPY migrations/ /app/migrations/
+COPY alembic.ini /app/alembic.ini
+RUN chmod -R a+rX /app/migrations /app/alembic.ini \
+    && chmod 0755 /usr/local/bin/otelcol-contrib
+ENV OPSCONTROL_OTEL_BINARY=/usr/local/bin/otelcol-contrib
+USER 10001:10001
+EXPOSE 8000
+CMD ["python", "-m", "scripts.run_api"]
