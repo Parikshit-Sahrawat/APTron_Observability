@@ -81,23 +81,36 @@ cat > "$work/client/otlp.json" <<'JSON'
 JSON
 docker network create --internal "$network" >/dev/null
 start_collector() {
+  # Internal Docker network + unprivileged Collector: no host port published.
   docker run -d --name "$container" --network "$network" \
-    -p 127.0.0.1::4318 --user 10001:10001 --cap-drop ALL \
-    --security-opt no-new-privileges \
+    --user 10001:10001 --cap-drop ALL --security-opt no-new-privileges \
     -v "$work/fixture:/fixture:rw" -v "$work/server:/secrets:ro" \
     --entrypoint /otelcol-contrib "$R03_COLLECTOR_IMAGE" \
     --config=/fixture/config.yaml >/dev/null
-  published="$(docker port "$container" 4318/tcp | head -n1)"
-  port="${published##*:}"
-  [[ "$port" =~ ^[0-9]+$ ]]
 }
 post_otlp() {
-  curl -fsS --connect-timeout 3 --max-time 8 \
-    --cacert "$work/ca.crt" --cert "$work/client/client.crt" \
-    --key "$work/client/client.key" \
-    -H 'Content-Type: application/json' \
-    --data-binary @"$work/client/otlp.json" \
-    "https://localhost:$port/v1/logs" -o /dev/null 2>/dev/null
+  local mode="${1:-with-cert}"
+  # Disposable unprivileged Python client shares ONLY the network namespace.
+  # The TLS CA and private client key stay on read-only bind mounts.
+  docker run --rm --network "container:$container" \
+    --user "$(id -u):$(id -g)" --cap-drop ALL --security-opt no-new-privileges \
+    -v "$work/client:/client:ro" -v "$work/ca.crt:/ca.crt:ro" \
+    --entrypoint python \
+    python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422 \
+    -c '
+import ssl,sys,urllib.request
+ctx=ssl.create_default_context(cafile="/ca.crt")
+if sys.argv[1] == "with-cert":
+    ctx.load_cert_chain("/client/client.crt","/client/client.key")
+body=open("/client/otlp.json","rb").read()
+req=urllib.request.Request("https://localhost:4318/v1/logs", data=body, headers={"Content-Type":"application/json"}, method="POST")
+try:
+    with urllib.request.urlopen(req, context=ctx, timeout=5) as response:
+        assert response.status in (200,202), response.status
+except Exception as error:
+    print("OTLP TLS client error:",type(error).__name__,file=sys.stderr)
+    sys.exit(1)
+' "$mode"
 }
 await_log() {
   local marker="$1" found=false
@@ -116,9 +129,7 @@ for _ in $(seq 1 40); do
 done
 [[ "$ready" = true ]] || { docker logs "$container" | tail -50; exit 1; }
 # Missing client identity must be rejected, not forwarded to the pipeline.
-if curl -fsS --connect-timeout 3 --max-time 8 --cacert "$work/ca.crt" \
-  -H 'Content-Type: application/json' --data-binary @"$work/client/otlp.json" \
-  "https://localhost:$port/v1/logs" -o /dev/null 2>/dev/null; then
+if post_otlp without-cert; then
   echo "FAIL: collector accepted OTLP without client certificate" >&2; exit 1
 fi
 await_log SEC001_R03_MTLS_DELIVERED
