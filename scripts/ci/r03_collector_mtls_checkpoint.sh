@@ -10,7 +10,11 @@ container="r03-collector-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-1}"
 cleanup() {
   docker rm -f "$container" >/dev/null 2>&1 || true
   docker network rm "$network" >/dev/null 2>&1 || true
-  rm -rf "$work"
+  # The container creates state files as UID 10001. Remove only the exact
+  # mktemp-owned CI directory after destroying the isolated container/network.
+  if [[ "$work" == "$RUNNER_TEMP"/r03-collector-private.* ]]; then
+    sudo rm -rf -- "$work"
+  fi
 }
 trap cleanup EXIT
 mkdir -p "$work/server" "$work/client" "$work/fixture/state"
