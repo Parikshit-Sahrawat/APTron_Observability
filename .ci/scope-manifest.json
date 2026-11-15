@@ -3399,6 +3399,31 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_supplier_evidence.py::test_missing_supplier_evidence_blocks_without_installing": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_missing_apk_and_signer_blocks": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_mismatched_apk_digest_is_rejected": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_all_four_cves_and_architecture_are_mandatory": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_even_matching_synthetic_bytes_never_sign_off_a_vendor": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
     }
   }
 }
