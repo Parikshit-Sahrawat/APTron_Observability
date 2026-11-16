@@ -454,6 +454,9 @@ jobs:
           name: sec001-r03-rebuilt-collector-binary-for-uat
           path: ${{ runner.temp }}/r03-patched-collector/
           if-no-files-found: error
+          # Compiled-module legal material includes checksummed .github files.
+          # Only this generated binary/legal bundle is in scope, not the checkout.
+          include-hidden-files: true
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -500,6 +503,7 @@ jobs:
           assert hashlib.sha256((root/"r03-patched-collector"/"collector-legal"/"SHA256SUMS").read_bytes()).hexdigest()==manifest["legal_checksums_sha256"]
           print("PASS: image source binding + independently rehashed same-run patched Collector")
           PY
+          (cd "$RUNNER_TEMP/r03-patched-collector/collector-legal" && sha256sum -c SHA256SUMS)
       - name: Install exact scanner tools
         run: python scripts/ci/install_scanners.py "$RUNNER_TEMP/scanners"
       - name: Build patched UAT candidate using only verified named binary context
