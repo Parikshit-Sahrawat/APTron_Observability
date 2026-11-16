@@ -6,7 +6,7 @@ import { writeFile } from 'node:fs/promises';
 export async function checkFoundation(page, fixture, out) {
   const checks = [];
   const nav = page.getByRole('navigation', { name: 'Primary navigation' });
-  const ui = process.env.V16_UI_URL;
+  const ui = fixture.ui_url || process.env.V16_UI_URL;
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   assert.equal(await page.title(), 'APTron Observability');
@@ -29,7 +29,7 @@ export async function checkFoundation(page, fixture, out) {
   await page.goto(ui + '/#/pipelines/incidents');
   // Resource Management has independent filters; Operations requires an explicit customer.
   await page.locator('.org-context-button').click();
-  await page.locator('.org-menu').getByRole('checkbox', { name: /Controlled HTTP A/ }).check();
+  await page.locator('.org-menu').getByRole('checkbox', { name: fixture.customer_name || /Controlled HTTP A/ }).check();
   await page.locator('.org-context-button').click();
   await page.getByRole('heading', { name: 'Pipeline Inventory', exact: true }).waitFor();
   assert.equal(await page.getByRole('link', { name: 'Incident Correlation', exact: true }).count(), 0);
@@ -73,7 +73,7 @@ export async function checkFoundation(page, fixture, out) {
   await page.setViewportSize({ width: 1366, height: 900 });
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await page.getByRole('heading', { name: 'APTron Observability', exact: true }).waitFor();
-  await page.getByLabel('Username', { exact: true }).fill('v16-api-viewer');
+  await page.getByLabel('Username', { exact: true }).fill(fixture.viewer_username || 'v16-api-viewer');
   await page.getByLabel('Password', { exact: true }).fill(fixture.viewer_password);
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await nav.waitFor();
@@ -82,6 +82,10 @@ export async function checkFoundation(page, fixture, out) {
     if (!response.ok) throw new Error('Cannot read authenticated viewer authority');
     return response.json();
   }, fixture.base_url);
+  if (fixture.viewer_username) {
+    assert.equal(principal.username, fixture.viewer_username);
+    assert.equal(principal.permissions.includes('access.view'), false);
+  }
   if (!principal.permissions.includes('access.view'))
     assert.equal(await nav.getByRole('group', { name: 'Access Management', exact: true }).count(), 0);
   assert.equal(await nav.getByRole('button', { name: 'Incidents', exact: true }).count(), 0);

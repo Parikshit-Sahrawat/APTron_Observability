@@ -191,7 +191,7 @@ def main(decision, evidence):
                     if not network["Internal"] or network["Labels"].get("com.docker.compose.project") != project:
                         raise ValueError("Running network is not isolated staging")
             result["checks"].append("running-image-and-network-isolation")
-            browser = run("node", str(root / "scripts/staging/browser.mjs"))
+            browser = run("node", str(root / "scripts/staging/browser.mjs"), str(evidence.resolve()))
             (evidence / "browser.json").write_text(browser)
             result["checks"].append("authenticated-browser")
             run(*compose, "restart", "api", "worker")
