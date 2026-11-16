@@ -3584,6 +3584,21 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
+    },
+    "tests/test_r03_uat_release_selection.py::test_build_source_matches_previously_qualified_legacy_compat_uat": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
+    },
+    "tests/test_r03_uat_release_selection.py::test_legacy_otel_pin_not_silently_upgraded": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
+    },
+    "tests/test_r03_uat_release_selection.py::test_migration_and_runtime_remain_nonroot_and_installer_free": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
     }
   }
 }
