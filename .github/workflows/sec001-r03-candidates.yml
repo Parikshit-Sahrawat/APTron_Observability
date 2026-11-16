@@ -60,6 +60,7 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_r03_ha_lab_blueprint.py' -v
           python -m unittest discover -s tests -p 'test_r03_legal_owner_evidence.py' -v
+          python -m unittest discover -s tests -p 'test_r03_independent_acceptance_templates.py' -v
           python docs/verification/sec001-r03/ha-lab/render_node.py \
             --inventory docs/verification/sec001-r03/ha-lab/inventory.example.json \
             > "$RUNNER_TEMP/r03-ha-blueprint-readiness.json"

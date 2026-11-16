@@ -3519,6 +3519,21 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
+    },
+    "tests/test_r03_independent_acceptance_templates.py::test_three_real_hosts_not_fabricated": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
+    },
+    "tests/test_r03_independent_acceptance_templates.py::test_physical_faults_are_not_marked_executed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
+    },
+    "tests/test_r03_independent_acceptance_templates.py::test_all_eight_final_oci_signoffs_are_unsigned": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
     }
   }
 }

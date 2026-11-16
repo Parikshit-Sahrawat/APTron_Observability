@@ -59,6 +59,11 @@ class HALabBlueprintTests(TestCase):
             self.assertTrue(cfg["bootstrap"]["dcs"]["synchronous_mode_strict"])
             self.assertEqual(cfg["bootstrap"]["dcs"]["synchronous_node_count"],1)
             self.assertEqual(cfg["etcd3"]["protocol"],"https")
+            self.assertEqual(cfg["restapi"]["verify_client"],"required")
+            self.assertEqual(cfg["ctl"]["certfile"],"/run/lab-patroni-tls/client.crt")
+            self.assertEqual(cfg["ctl"]["keyfile"],"/run/lab-patroni-tls/client.key")
+            self.assertTrue(cfg["restapi"]["allowlist_include_members"])
+            self.assertEqual(cfg["bootstrap"]["dcs"]["postgresql"]["parameters"]["ssl_min_protocol_version"],"TLSv1.2")
             with self.assertRaises(ValueError):
                 renderer.render(data,"aptron-ha-01",out)
 
