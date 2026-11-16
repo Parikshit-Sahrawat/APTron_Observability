@@ -3,7 +3,7 @@
 **Owner scope:** isolated side-by-side upgrade/rollback tests only, NO Collector pin
 change, deployment, integration merge, security/legal approval, or final release.
 **Current direct-rollback verdict:** **INCOMPATIBLE / BLOCKED**, based on
-[CI run 43762882492, job 132961394195](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43762882492/job/132961394195).
+[CI run 43762882492, job 132961394195](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43762882492/job/132961394195).
 
 ## Reproduced failure
 

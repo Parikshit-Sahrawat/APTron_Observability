@@ -9,8 +9,8 @@
 
 | Isolated candidate | Actual Docker config image ID | Severe Grype matches | CI evidence | Disposition |
 |---|---|---:|---|---|
-| PostgreSQL17 Alpine, gosu 1.19 recompiled with Go 1.27.4 | `sha256:7a4895a3b3f4e3f8013584fd9bb71ba5cc4767d15c039425de3334bae5215b3b` | **0** | [Run 43603098025, artifact 14117555195](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43603098025/artifacts/14117555195) | Image scan clean; DBA, HA/DR, platform, supply-chain and legal review OPEN |
-| Upstream OTel contrib 0.165.0 AMD64 | `sha256:1080afcdde7624998314ebd6cc707c401436f00dfbd778eb9d0466f7a2501c40` | **2 Unknown** | [Run 43603098025, artifact 14117660147](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43603098025/artifacts/14117660147) | Scan incomplete: GO-2026-6859, GO-2026-5932; original Collector runtime 0.123.0 unchanged |
+| PostgreSQL17 Alpine, gosu 1.19 recompiled with Go 1.27.4 | `sha256:7a4895a3b3f4e3f8013584fd9bb71ba5cc4767d15c039425de3334bae5215b3b` | **0** | [Run 43603098025, artifact 14117555195](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43603098025/artifacts/14117555195) | Image scan clean; DBA, HA/DR, platform, supply-chain and legal review OPEN |
+| Upstream OTel contrib 0.165.0 AMD64 | `sha256:1080afcdde7624998314ebd6cc707c401436f00dfbd778eb9d0466f7a2501c40` | **2 Unknown** | [Run 43603098025, artifact 14117660147](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43603098025/artifacts/14117660147) | Scan incomplete: GO-2026-6859, GO-2026-5932; original Collector runtime 0.123.0 unchanged |
 
 The PostgreSQL candidate compiled **upstream gosu tag 1.19** whose commit was compared exactly to `6456aaa0f3c854d199d0f037f068eb97515b7513`, using `golang:1.27.4-alpine3.23@sha256:7a93747afee80359e81dbe39c8a65037b147cada0262bf86f5b96dd06842b368`; PostgreSQL base pinned to `postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac`. The candidate replaces only the gosu executable, retains official PostgreSQL entrypoint, adds `gosu` Apache-2.0 source licence and Go build metadata. Disposable test validated `gosu nobody`, `gosu postgres`, PostgreSQL startup, a SQL insert and persistence across a clean container restart. **This is not** an HA/failover, populated database migration or recovery certification.
 
@@ -35,7 +35,7 @@ These are **config image IDs**, not release registry manifest digests; source is
 | otel-contrib | `sha256:f0eaa24275f0eac77186cf0c9b1d1c72c9edde884a7c6bf9e5332ca8b5939d97` | PENDING |
 | production-frontend | `sha256:64da4855daedf6b185cd6a1f0f377922c59d671f22932d23610ba4d76f6f0aa5` | PENDING |
 
-[Parent eight-image scan and coverage artifacts](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43565082918).
+[Parent eight-image scan and coverage artifacts](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43565082918).
 
 ## Accountable decisions requested — NOT RECEIVED
 

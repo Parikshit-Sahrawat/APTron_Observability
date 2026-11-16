@@ -24,16 +24,16 @@ NOTICE/source-offer decisions are **independent required gates**.
 | otel-contrib | pinned 0.123 image until separately certified | OTel0.165 rebuild Go dependencies and upstream NOTICE; native Collector transition boundary |
 | production-frontend | frontend/Dockerfile.runtime | Runtime and bundled UI fonts/assets/JS license/source offer |
 
-At [latest existing eight-image Tier C](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43759834693)
+At [latest existing eight-image Tier C](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43759834693)
 all eight evidence jobs are independent of the policy decision.
 **Do not confuse config image SHA-256 with OCI registry manifest SHA-256.**
 Current candidate proof is not final shipping identity, and any rebuild invalidates
 prior digest-specific approval.
 
 ### Source evidence for legal reviewer (not itself signed)
-- [Issue #97 — accountable legal review docket](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/issues/97).
-- [PR #105 — source for active product roles](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/105).
-- [PR #108 — candidate-only source, Syft/Grype artifacts](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/108).
+- [Issue #97 — accountable legal review docket](https://github.com/Parikshit-Sahrawat/APTron_Observability/issues/97).
+- [PR #105 — source for active product roles](https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/105).
+- [PR #108 — candidate-only source, Syft/Grype artifacts](https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/108).
 - `image-evidence-ROLE` artifacts: `sbom.syft.json`, `sbom.cdx.json`,
   `grype.json`, `licenses.json`, `image-binding.json` and archive SHA.
 - `docs/verification/sec001-r03/SQLITE_VENDOR_PATCH_REVIEW.md`: Root.io
