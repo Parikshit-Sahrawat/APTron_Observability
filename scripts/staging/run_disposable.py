@@ -131,6 +131,16 @@ def main(decision, evidence):
             run(*compose, "run", "--rm", "--no-deps", "--pull", "never", "migration")
             result["checks"].append("postgres-migration")
             run(*compose, "up", "-d", "--no-build", "--pull", "never", "api", "worker", "frontend")
+            for attempt in range(30):
+                try:
+                    run(*compose, "exec", "-T", "api", "python", "-c",
+                        "import urllib.request; assert urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=2).status==200")
+                    break
+                except RuntimeError:
+                    if attempt == 29:
+                        raise
+                    time.sleep(1)
+            result["checks"].append("api-container-health")
             ready("http://127.0.0.1:8000/health")
             ready("http://127.0.0.1:5173")
             for module in ("auth_tenant_probe", "deep_tenant_security_probe"):
@@ -173,6 +183,14 @@ def main(decision, evidence):
                     time.sleep(1)
             result["checks"].append("api-worker-restart-and-persisted-auth")
             result["status"] = "DISPOSABLE_STAGING_VALIDATED_WITH_EXCEPTIONS"
+        except Exception as error:
+            result["error"] = str(error).replace(password, "[REDACTED]")
+            for service in ("api", "worker", "postgres", "frontend"):
+                logs = subprocess.run([*compose, "logs", "--no-color", "--tail", "100", service],
+                                      text=True, capture_output=True, timeout=30)
+                (evidence / (service + "-startup.log")).write_text(
+                    (logs.stdout + logs.stderr).replace(password, "[REDACTED]"))
+            raise
         finally:
             run(*compose, "down", "--volumes", "--remove-orphans")
             result["cleanup_completed"] = not run("docker", "ps", "-aq", "--filter", "label=com.docker.compose.project=" + project).strip()
