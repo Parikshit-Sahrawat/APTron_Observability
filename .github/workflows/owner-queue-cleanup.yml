@@ -1,0 +1,106 @@
+name: "Owner-authorized archived branch cleanup 2026-11-16"
+on:
+  push:
+    branches: [maintenance/queue-cleanup-20261116]
+permissions:
+  contents: read
+concurrency:
+  group: owner-queue-cleanup-20261116
+  cancel-in-progress: false
+jobs:
+  archived-ref-cleanup:
+    if: github.repository == 'Parikshit-Sahrawat/APTron_Observability' && github.ref == 'refs/heads/maintenance/queue-cleanup-20261116' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Preserve history and delete only unchanged archived refs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import datetime, json, os, pathlib, subprocess, urllib.error, urllib.parse, urllib.request
+          repo = 'Parikshit-Sahrawat/APTron_Observability'
+          maintenance = 'maintenance/queue-cleanup-20261116'
+          anchor = '774854a210866573b0ad6fcdcfd8bd2b3e022b60'
+          archive = 'archive/pre-cleanup-20261116'
+          keep = {'main', 'feat/staging-first-disposable-20261116', archive, maintenance}
+          assert os.environ['GITHUB_REPOSITORY'] == repo
+          assert os.environ['GITHUB_REF'] == 'refs/heads/' + maintenance
+          assert os.environ['GITHUB_RUN_ATTEMPT'] == '1'
+          assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime(2026, 11, 17, tzinfo=datetime.timezone.utc), 'One-day cleanup authorization expired'
+          ledger = json.loads(pathlib.Path('docs/verification/queue-cleanup/2026-11-16/BRANCH_SNAPSHOT.json').read_text())
+          assert ledger['repository'] == repo and len(ledger['branches']) == 61
+          def api(method, path, body=None):
+              data = None if body is None else json.dumps(body).encode()
+              request = urllib.request.Request('https://api.github.com/repos/' + repo + path, data=data, method=method,
+                  headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  raw = response.read()
+                  return json.loads(raw) if raw else None
+          def ancestor(base, head):
+              subprocess.run(['git', 'merge-base', '--is-ancestor', base, head], check=True)
+          def ref_path(name):
+              return '/git/refs/heads/' + urllib.parse.quote(name, safe='')
+          # Preserve this exact maintenance commit too, with a fast-forward only.
+          ancestor(anchor, os.environ['GITHUB_SHA'])
+          current_archive = api('GET', ref_path(archive))['object']['sha']
+          if current_archive != os.environ['GITHUB_SHA']:
+              assert current_archive == anchor, 'Archive moved: retain refs for reassessment'
+              api('PATCH', ref_path(archive), {'sha': os.environ['GITHUB_SHA'], 'force': False})
+          assert api('GET', ref_path(archive))['object']['sha'] == os.environ['GITHUB_SHA']
+          targets = [row for row in ledger['branches'] if row['name'] not in keep]
+          assert len(targets) == 59
+          for row in targets:
+              assert not row['protected']
+              ancestor(row['sha'], anchor)
+          results = {'archive_anchor': anchor, 'archive_head': os.environ['GITHUB_SHA'], 'deleted': [], 'already_absent': [], 'retained': [], 'production_modified': False}
+          # A moved or protected branch is never deleted. Preserve all outcomes.
+          for row in targets:
+              name = row['name']
+              try:
+                  try:
+                      current = api('GET', ref_path(name))['object']['sha']
+                  except urllib.error.HTTPError as error:
+                      if error.code == 404:
+                          results['already_absent'].append(name)
+                          continue
+                      raise
+                  if current != row['sha']:
+                      results['retained'].append({'name': name, 'reason': 'Head changed since snapshot'})
+                      continue
+                  api('DELETE', ref_path(name))
+                  results['deleted'].append(name)
+              except urllib.error.HTTPError as error:
+                  results['retained'].append({'name': name, 'http_status': error.code})
+          pathlib.Path(os.environ['RUNNER_TEMP'], 'branch-cleanup-result.json').write_text(json.dumps(results, indent=2))
+          print(json.dumps({'deleted': len(results['deleted']), 'already_absent': len(results['already_absent']), 'retained': results['retained']}))
+          assert not results['retained'], 'Changed or inaccessible refs retained'
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: archived-branch-cleanup-result
+          path: ${{ runner.temp }}/branch-cleanup-result.json
+          if-no-files-found: warn
+      - name: Remove this one-time maintenance ref after preserving its commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          base = 'https://api.github.com/repos/Parikshit-Sahrawat/APTron_Observability/git/refs/heads/'
+          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'}
+          def read(name):
+              with urllib.request.urlopen(urllib.request.Request(base + name, headers=headers), timeout=30) as response:
+                  return json.load(response)['object']['sha']
+          assert read('archive/pre-cleanup-20261116') == os.environ['GITHUB_SHA']
+          assert read('maintenance/queue-cleanup-20261116') == os.environ['GITHUB_SHA']
+          with urllib.request.urlopen(urllib.request.Request(base + 'maintenance/queue-cleanup-20261116', method='DELETE', headers=headers), timeout=30) as response:
+              assert response.status == 204
+          PY
