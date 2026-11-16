@@ -3534,6 +3534,26 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_exact_postgres17_source_digest_and_build_toolchain": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_original_entrypoint_and_uid_are_preserved": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_copyright_and_build_info_carried_into_runtime": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_all_eight_release_scan_roles_remain_unchanged": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
     }
   }
 }
