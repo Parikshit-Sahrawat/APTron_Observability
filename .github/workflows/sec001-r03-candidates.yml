@@ -568,8 +568,8 @@ jobs:
         run: |
           set -euo pipefail
           docker run --rm --network none --entrypoint python \
-            -v "$PWD/scripts/ci/r03_uat_version_probe.py:/probe.py:ro" \
-            sec001-r03-uat-patched:scan /probe.py \
+            -v "$PWD/scripts/ci/r03_uat_version_probe.py:/app/scripts/r03_uat_version_probe.py:ro" \
+            sec001-r03-uat-patched:scan -m scripts.r03_uat_version_probe \
             > "$RUNNER_TEMP/sec001-r03-uat-patched/application-compatibility.json"
           cat "$RUNNER_TEMP/sec001-r03-uat-patched/application-compatibility.json"
       - name: Capture exact Syft/CycloneDX/Grype scan and compare with legacy UAT
