@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "disclaimer": "UNSIGNED TEMPLATE; never fill PASS without independently captured evidence",
+  "lab_type": "NOT_EXECUTED",
+  "pg_image_id": null,
+  "patroni_image_id": null,
+  "etcd_image_id": null,
+  "physical_hosts": [],
+  "durability": {
+    "acknowledged_critical_events": null,
+    "acknowledged_event_loss": null,
+    "critical_identity_duplicates": null
+  },
+  "scenarios": [
+    {
+      "name": "etcd_three_voters_and_quorum",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "synchronous_pg_replication",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "primary_host_loss",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "standby_host_loss",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "partition_and_fencing",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "stale_leader_rejoin",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "acknowledged_events_preserved",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "populated_backup_restore",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    },
+    {
+      "name": "post_failover_recovery_and_rejoin",
+      "result": "NOT_EXECUTED",
+      "artifact_sha256": null
+    }
+  ]
+}

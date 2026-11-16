@@ -1,0 +1,56 @@
+# Inert by default: only operator --profile approved-certification can select services.
+# No host startup, PKI provisioning, watchdog device, or fencing is authorized.
+services:
+  etcd:
+    profiles: [approved-certification]
+    image: ${ETCD_IMAGE:?independently scanned and pinned OCI digest required}
+    network_mode: host
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+    volumes:
+      - ./state/etcd:/var/lib/etcd
+      - ./tls/etcd:/run/lab-etcd-tls:ro
+    command:
+      - etcd
+      - --name=${NODE_NAME}
+      - --data-dir=/var/lib/etcd
+      - --listen-client-urls=https://${NODE_IP}:2379
+      - --advertise-client-urls=https://${NODE_IP}:2379
+      - --listen-peer-urls=https://${NODE_IP}:2380
+      - --initial-advertise-peer-urls=https://${NODE_IP}:2380
+      - --initial-cluster=${INITIAL_CLUSTER}
+      - --initial-cluster-token=${CLUSTER_NAME}
+      - --initial-cluster-state=new
+      - --cert-file=/run/lab-etcd-tls/client-server.crt
+      - --key-file=/run/lab-etcd-tls/client-server.key
+      - --trusted-ca-file=/run/lab-etcd-tls/ca.crt
+      - --client-cert-auth=true
+      - --peer-cert-file=/run/lab-etcd-tls/peer.crt
+      - --peer-key-file=/run/lab-etcd-tls/peer.key
+      - --peer-trusted-ca-file=/run/lab-etcd-tls/ca.crt
+      - --peer-client-cert-auth=true
+      - --tls-min-version=TLS1.2
+    restart: "no"
+  postgres-patroni:
+    profiles: [approved-certification]
+    image: ${PATRONI_IMAGE:?independently scanned PostgreSQL17 and Patroni immutable OCI digest required}
+    network_mode: host
+    user: "70:70"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp, /run/postgresql]
+    volumes:
+      - ./rendered/patroni.yaml:/etc/aptron/patroni.yaml:ro
+      - ./start_patroni.sh:/usr/local/bin/start_aptron_patroni.sh:ro
+      - ./state/postgres:/var/lib/postgresql/data
+      - ./tls/patroni:/run/lab-patroni-tls:ro
+      - ./secrets:/run/lab-secrets:ro
+    entrypoint: ["/bin/sh", "/usr/local/bin/start_aptron_patroni.sh"]
+    command: ["/etc/aptron/patroni.yaml"]
+    depends_on: [etcd]
+    restart: "no"
+# No HAProxy/VRRP, external network or watchdog/fencing enabled.
