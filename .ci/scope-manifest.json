@@ -3554,6 +3554,21 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_patched_uat_boundary.py::test_legacy_uat_target_retains_old_collector_for_comparison": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
+    },
+    "tests/test_r03_patched_uat_boundary.py::test_patched_uat_requires_external_named_build_context": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
+    },
+    "tests/test_r03_patched_uat_boundary.py::test_patched_uat_retains_real_api_and_schema_migration_workload": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
     }
   }
 }
