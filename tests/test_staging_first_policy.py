@@ -10,6 +10,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts/ci"))
+sys.path.insert(0, str(ROOT / "scripts/staging"))
 import staging_image_gate as gate
 spec = importlib.util.spec_from_file_location("staging_run", ROOT / "scripts/staging/run_disposable.py")
 runner = importlib.util.module_from_spec(spec)
@@ -77,3 +78,15 @@ class StagingPolicyTests(unittest.TestCase):
             config["services"]["api"].update(patch)
             with self.subTest(patch=patch), self.assertRaises(ValueError):
                 runner.isolation(config, images)
+
+    def test_loopback_forwarding_rejects_outside_targets_and_unapproved_ports(self):
+        from loopback_proxy import validate_target
+        self.assertEqual(validate_target("172.20.0.3", "172.20.0.0/16", 8000, 8000), "172.20.0.3")
+        for address, subnet, listen, target in (
+            ("8.8.8.8", "8.8.8.0/24", 8000, 8000),
+            ("127.0.0.1", "127.0.0.0/8", 8000, 8000),
+            ("172.21.0.3", "172.20.0.0/16", 8000, 8000),
+            ("172.20.0.3", "172.20.0.0/16", 22, 22),
+        ):
+            with self.subTest(address=address, listen=listen), self.assertRaises(ValueError):
+                validate_target(address, subnet, listen, target)

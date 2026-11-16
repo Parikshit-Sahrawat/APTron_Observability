@@ -3649,6 +3649,11 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_loopback_forwarding_rejects_outside_targets_and_unapproved_ports": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Staging loopback forwarders reject targets outside the verified Docker network and non-staging ports"
     }
   }
 }

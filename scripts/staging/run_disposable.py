@@ -11,6 +11,7 @@ import tempfile
 import time
 from urllib.request import urlopen
 import uuid
+from loopback_proxy import start as start_loopback_proxy
 
 
 def isolation(config, images):
@@ -80,11 +81,11 @@ def main(decision, evidence):
                      "environment": {"POSTGRES_USER": "staging", "POSTGRES_PASSWORD": password, "POSTGRES_DB": "aptron_staging"},
                      "volumes": ["pgdata:/var/lib/postgresql/data"]},
         "migration": {**app, "command": ["python", "-m", "alembic", "upgrade", "head"]},
-        "api": {**app, "ports": ["127.0.0.1:8000:8000"]},
+        "api": {**app},
         "worker": {**app, "command": ["python", "-m", "scripts.run_collector_worker"],
                    "environment": {**env, "OPSCONTROL_WORKER_HEARTBEAT": "/tmp/staging-worker-heartbeat"}},
         "frontend": {**secure, "image": images["frontend"], "read_only": True,
-                     "tmpfs": ["/tmp", "/var/run", "/var/cache/nginx"], "ports": ["127.0.0.1:5173:80"]}},
+                     "tmpfs": ["/tmp", "/var/run", "/var/cache/nginx"]}},
         "volumes": {"pgdata": {}}, "networks": {"staging": {"internal": True}}}
     result = {"schema": 1, "source_sha": sha, "scope": "disposable-ci-staging", "project": project,
               "status": "STAGING_VALIDATION_FAILED", "images": images, "checks": [],
@@ -95,6 +96,7 @@ def main(decision, evidence):
         compose_file.write_text(json.dumps(config))
         compose_file.chmod(0o600)
         compose = ["docker", "compose", "--project-name", project, "--file", str(compose_file)]
+        proxies = []
 
         def run(*args):
             p = subprocess.run(args, text=True, capture_output=True, timeout=180)
@@ -141,6 +143,31 @@ def main(decision, evidence):
                         raise
                     time.sleep(1)
             result["checks"].append("api-container-health")
+            # Internal-network port publication is not reachable on this runner.
+            # Verify live container ownership and image/network identity before
+            # binding runner-only forwarders to the actual private addresses.
+            ids = run(*compose, "ps", "-q").split()
+            inspected = json.loads(run("docker", "inspect", *ids))
+            if len(inspected) != 4:
+                raise ValueError("Expected four running staging services")
+            targets = {}
+            for container in inspected:
+                name = container["Config"]["Labels"]["com.docker.compose.service"]
+                if container["Image"] != images[name] or container["HostConfig"]["Privileged"]:
+                    raise ValueError("Running image or privilege mismatch")
+                if any(container["NetworkSettings"]["Ports"].values()):
+                    raise ValueError("Unexpected Docker-published port on private staging network")
+                for network_name, attachment in container["NetworkSettings"]["Networks"].items():
+                    network = json.loads(run("docker", "network", "inspect", network_name))[0]
+                    if not network["Internal"] or network["Labels"].get("com.docker.compose.project") != project:
+                        raise ValueError("Running network is not isolated staging")
+                    if name in {"api", "frontend"}:
+                        subnet = next(c["Subnet"] for c in network["IPAM"]["Config"] if ":" not in c["Subnet"])
+                        targets[name] = (attachment["IPAddress"], subnet)
+            for name, listen_port, target_port in (("api", 8000, 8000), ("frontend", 5173, 80)):
+                address, subnet = targets[name]
+                proxies.append(start_loopback_proxy(address, subnet, listen_port, target_port))
+            result["checks"].append("verified-runner-loopback-forwarding")
             ready("http://127.0.0.1:8000/health")
             ready("http://127.0.0.1:5173")
             for module in ("auth_tenant_probe", "deep_tenant_security_probe"):
@@ -192,6 +219,9 @@ def main(decision, evidence):
                     (logs.stdout + logs.stderr).replace(password, "[REDACTED]"))
             raise
         finally:
+            for proxy in proxies:
+                proxy.shutdown()
+                proxy.server_close()
             run(*compose, "down", "--volumes", "--remove-orphans")
             result["cleanup_completed"] = not run("docker", "ps", "-aq", "--filter", "label=com.docker.compose.project=" + project).strip()
             (evidence / "staging-validation.json").write_text(json.dumps(result, indent=2) + "\n")
