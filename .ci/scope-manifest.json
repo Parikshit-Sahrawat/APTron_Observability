@@ -3599,6 +3599,16 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
+    },
+    "tests/test_r03_buildx_ca_contract.py::test_hosted_runner_supplies_trusted_public_ca_bundle_to_backend_build": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Hosted UAT image validation must supply the standard root CA via Buildx for required secure package install; never weaken CA requirement or TLS verification"
+    },
+    "tests/test_r03_buildx_ca_contract.py::test_release_uat_still_requires_ca_for_pip_and_apk": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Hosted UAT image validation must supply the standard root CA via Buildx for required secure package install; never weaken CA requirement or TLS verification"
     }
   }
 }
