@@ -170,7 +170,7 @@ def main(decision, evidence):
             result["checks"].append("verified-runner-loopback-forwarding")
             ready("http://127.0.0.1:8000/health")
             ready("http://127.0.0.1:5173")
-            for module in ("auth_tenant_probe", "deep_tenant_security_probe"):
+            for module in ("auth_tenant_probe", "deep_tenant_security_probe", "critical_event_schema_probe"):
                 output = run(*compose, "exec", "-T", "api", "python", "-m", "scripts." + module)
                 (evidence / (module + ".txt")).write_text(output.replace(password, "[REDACTED]"))
                 result["checks"].append(module)

@@ -3694,6 +3694,21 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "S02-ID-01 authoritative registration and immutable event retry negative contracts"
+    },
+    "backend/tests/test_critical_event_schema.py::test_frozen_migration_matches_nine_models_without_mutating_legacy_tables": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Sprint03 frozen additive PostgreSQL evidence schema and retention constraints"
+    },
+    "backend/tests/test_critical_event_schema.py::test_historical_evidence_is_immutable_and_destructive_downgrade_is_refused": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Sprint03 frozen additive PostgreSQL evidence schema and retention constraints"
+    },
+    "backend/tests/test_critical_event_schema.py::test_identity_hash_receipt_and_side_effect_uniqueness_are_database_constraints": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Sprint03 frozen additive PostgreSQL evidence schema and retention constraints"
     }
   }
 }

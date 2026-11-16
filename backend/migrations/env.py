@@ -7,6 +7,7 @@ from app.core.config import settings
 import app.security.models
 import app.worker.remote_models
 import app.telemetry.models
+import app.critical_events.models
 import app.unified.models
 import app.unified.pentaho_models
 import app.registry.models
