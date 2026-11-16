@@ -13,3 +13,7 @@ The compiled-legal-material regression now captures nested `.github` license fil
 `security-sbom` remains a separate, genuine production policy failure: four backend and four migration SQLite High matches, 112 UAT and 108 pinned Collector severe image-scoped matches, and pending independent License/NOTICE decisions for all eight roles at the recorded baseline. The staging inventory decision passed under the owner's bounded exceptions. Independent legal and physical HA checks remain DEFERRED_NOT_PASSED until production readiness. This transport fix neither clears those findings nor authorizes promotion.
 
 Organizations lifecycle work continues in its own stacked draft. CI is triggered by the pushes/PR; the owner monitors new results and controls merging. No waiting/polling, automatic merge, production deployment or publication.
+
+## Subsequent harness import-path correction
+
+At exact head `ff26451423d9cd3369aba66548d8e8c927c403f1`, run `43830040527` completed the patched UAT build, migration and mTLS/checkpoint work, then failed in job `133182375738`: `ModuleNotFoundError: app.telemetry`. Invoking the mounted file as `/probe.py` made `/` the script import root instead of the image's `/app` package root. The workflow now mounts it as `/app/scripts/r03_uat_version_probe.py` and invokes `python -m scripts.r03_uat_version_probe` from the existing `/app` WORKDIR. No application import hack, pin relaxation or image/license gate change.

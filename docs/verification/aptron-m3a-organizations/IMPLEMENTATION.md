@@ -50,3 +50,9 @@ Baseline #110 at `bf0f77e`: 17 of 19 workflows succeeded. The production eight-i
 The four backend SQLite High matches (also four migration matches), UAT/pinned Collector findings, eight digest-bound independent legal approvals and physical HA/fencing certification remain open production requirements. Exceptions retain their 30 November 2026 23:59:59 IST expiry. No merge, production deployment, image publication, branch-protection change or certification claim.
 
 Next bounded work: owner Organizations UAT, then Compute identity/draft/edit/reload and collector association reconciliation. Full eight-step native onboarding, installers, enrollment, activation, telemetry health, performance under ingestion and broader identity/settings contracts are not completed by this increment.
+
+## PR #111 stabilization
+
+At head `f2428bd1d939deefc9796a8dcf56bc22472e9c82`, run `43830509609` / job `133174443869` failed before completing `combined-status-search-pagination`. The captured browser showed an empty global customer scope and no organization rows. The fixture now verifies the real platform administrator's ALL capability and explicitly selects it through the existing customer selector before creating synthetic rows. Viewer checks retain their separate, restricted session and direct read/write denials. Search/status controls now have explicit accessible labels; substep failure diagnostics identify search versus status. Counts, real PostgreSQL requests, duplicate-save and tenant assertions are retained. New exact-stack CI is pending; no accepted-runtime claim from local checks.
+
+PR #110 content was statically reviewed at its recorded baseline and its harness correction is documented in `FOUNDATION_REVIEW.md`. The stack is updated by adding its exact reviewed base as a parent, preserving all published #111 commits. Neither PR is merged or retargeted. Production image/licensing enforcement remains unchanged.

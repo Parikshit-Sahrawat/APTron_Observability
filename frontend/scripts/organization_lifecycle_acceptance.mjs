@@ -31,6 +31,17 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
   try {
     await page.goto(ui.href);
     await login('test-admin');
+    // This fixture deliberately manages inactive and newly registered customers.
+    // Select the existing elevated ALL capability explicitly, through the UI.
+    const principal = await page.evaluate(async base => {
+      const response = await fetch(base + '/api/v1/auth/me', { headers: { Authorization: 'Bearer ' + sessionStorage.getItem('opscontrol.sessionToken') } });
+      if (!response.ok) throw Error('Fixture authority unavailable');
+      return response.json();
+    }, api.origin);
+    assert.equal(principal.all_customers_authorized, true);
+    await page.locator('.org-context-button').click();
+    await page.locator('.org-menu').getByRole('checkbox', { name: /^ALL customers/ }).check();
+    await page.locator('.org-context-button').click();
     const token = await page.evaluate(() => sessionStorage.getItem('opscontrol.sessionToken'));
     const headers = { Authorization: 'Bearer ' + token };
     phase = 'seed-real-pagination';
@@ -43,8 +54,9 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     let region = await organizations();
     const search = region.getByLabel('Search organizations', { exact: true });
     const status = region.getByLabel('Organization status', { exact: true });
-    phase = 'combined-status-search-pagination';
+    phase = 'organization-search-fill';
     await search.fill('APTron lifecycle seed');
+    phase = 'organization-status-active';
     await status.selectOption('active');
     assert.equal(await region.getByRole('row').count(), 14);
     await status.selectOption('inactive');
