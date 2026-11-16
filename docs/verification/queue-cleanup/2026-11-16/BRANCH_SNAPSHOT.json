@@ -1,0 +1,659 @@
+{
+  "schema": 1,
+  "created_at": "2026-11-16",
+  "repository": "Parikshit-Sahrawat/APTron_Observability",
+  "purpose": "Recoverable snapshot before owner-authorized PR/branch queue cleanup; ancestry archive only, not a product merge or release approval",
+  "main_sha": "2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a",
+  "validated_staging_head": "8ca9a7753c0c5f16574629873d2a57a86d518185",
+  "branches": [
+    {
+      "name": "audit/main-development-20261022",
+      "sha": "2b1ade567dd4c0ad4967f3d603e3fdd84cffb782",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "audit/oc-dev-001-full-product-reconciliation",
+      "sha": "af6d2c8243c49d60019c8fb75770a459342626d4",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "ci/oc-dev-comp-all-pr-verification-20261108",
+      "sha": "58c65352c3c94c20345e98b85945d63159c8eac9",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "ci/standards-baseline-2026",
+      "sha": "f0a8f30f46bddea2000f68608cd893a13c23f9c1",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "design/typography-system-v1-issue90",
+      "sha": "a65e26246873bfcbf26ffba7478ab12bbe2e6498",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "dev/architecture-reconciliation-closure-20261105",
+      "sha": "325e09bb1f243e2734f573b1c3724e6ce0086e7d",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "dev/oc-dev-002-secure-resource-preservation",
+      "sha": "1ebe07fb6adb2d1bc5c3c885d9923e6afc7d25b2",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        82
+      ]
+    },
+    {
+      "name": "dev/oc-dev-comp-000-baseline",
+      "sha": "f9cdc8d9204c40d66c1d956166bb6125eaec7581",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "dev/oc-dev-comp-001-resource-workspace",
+      "sha": "c6c21dea79e24fe44d083a113879c1442db57163",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        84
+      ]
+    },
+    {
+      "name": "dev/oc-dev-comp-ui-design-v1",
+      "sha": "b7b80b171db2831c15aff755ecae3114ba429b6c",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "dev/post-pr78-architecture-closure-20261105",
+      "sha": "958193f266c89302b2f1919e3703faece591e0af",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        80
+      ]
+    },
+    {
+      "name": "dev/sprint1-integrated-80-82-84-20261108",
+      "sha": "4e1bbf24d4b286b15a1c3a02d5874e81e4327d02",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "disposable",
+      "sha": "2bb41a03684ade15f98a3faeb7985c428e4dc96d",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "docs/aptron-self-hosted-help-20261114",
+      "sha": "90a97485d2588f522f9736265015d570cbb96652",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        104
+      ]
+    },
+    {
+      "name": "docs/development-completion-register-v1",
+      "sha": "955917474672df8c964e63f384513a2f373661d0",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "docs/oc-dev-comp-ci-modernization-v1",
+      "sha": "b8c1615340828d1d3031c635fb319565dd9f222a",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "docs/oc-dev-comp-program-20261108",
+      "sha": "8a09bd142fb6dbf7a79b131c0490e67e8de3fde0",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "docs/oc-overview-visual-guidance-20261108",
+      "sha": "3e7fb9d2ede79c44e3fbc9481a172da422f73eef",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "docs/product-readme",
+      "sha": "230361fca24df5b1ba0c302328b2ed1bf026be6b",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "docs/stage-02-development-reconciliation",
+      "sha": "6438f6d5ca6ec97d0ab8bad68a467f1e30aa6ff1",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/aptron-product-foundation-20261114",
+      "sha": "360f659d357c3a7a1840c5586cf66a717379b80f",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        105
+      ]
+    },
+    {
+      "name": "feat/arch-etl-001-v16-r1",
+      "sha": "ef2fc1fcdf6007b71884f1ab384604e096404293",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/auto-uat-deploy-on-main-merge",
+      "sha": "b7d00b58a353336e765ae2a97dd2ff70ac3f8752",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/dev-05-2a-3e-durable-telemetry",
+      "sha": "68ccabb7b47e285fa5710442e92eb7f147ed2b0d",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "feat/iuat-s14-ui-003",
+      "sha": "e592e9f5c11ffe8d05f48fbdf5f3fccbea56df5a",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/simple-local-uat-main-poll-no-sec06",
+      "sha": "5d360ca34ffb8aa0af040500f895066eb4f0aab2",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/sprint14r-foundations",
+      "sha": "eb7fb17dfae40fe580fc49e2dadeb3e7f0ad5167",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/sprint-15-baseline-evidence-integrity",
+      "sha": "4ebd8d8a64dff75ef7577c169c76e651e435dcc7",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/stage-2a-full-development-closure",
+      "sha": "5433412d4c3807ea21c6fb42deccb1abdb957ddd",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feat/staging-first-disposable-20261116",
+      "sha": "8ca9a7753c0c5f16574629873d2a57a86d518185",
+      "protected": false,
+      "in_active": true,
+      "in_main": false,
+      "open_prs": [
+        110
+      ]
+    },
+    {
+      "name": "feat/uat-register-resource-management-20261028",
+      "sha": "f898f3dd1ef02fbf144814e70252beec5e1d2109",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feature/arch-001-v16-data-pipelines",
+      "sha": "d72e04dbb4e7ee50fd46321b451c2f4888e9c871",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feature/consolidated-manual-uat",
+      "sha": "a903f3841e307f2f2d58f931396e12b4786570e5",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feature/customer-department-rbac",
+      "sha": "d96eb77145466b6ab1d5d8f2c56dc19ddfceb160",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feature/dev-04-3-hybrid-api-monitoring",
+      "sha": "1da56a02acce9ff6c9fff257f56e04ef043ecca2",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "feature/kubernetes-monitoring-retirement-scope",
+      "sha": "88bbf5dc68780dc114d262df9a628f5a42abbef4",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "fix/audit-p0-p1-remediation",
+      "sha": "59344c97401340e222627063f7c89bb5e2e89ead",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "fix/ci003-excluded-incidents-ui",
+      "sha": "6cc4dfc168db8df95be11503c483177c4747421e",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "fix/dev-04-2-top-perf-01",
+      "sha": "293cded8958621b9b9810c4cc6492beea7f43655",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "fix/dev-05-1-saved-api-settings-rehydration",
+      "sha": "1d04f3c6d29b3b0d3238e7bf8723238d3b2e23be",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "fix/issue-45-coverage-policy",
+      "sha": "5f611ce9ca50b953a991f8d2a769ea2246a4f054",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "fix/oc-s01-ui-001-resource-navigation",
+      "sha": "83e935eaa492ea83597e6daaa75f152006bd907f",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "fix/uat-agent-install-onboarding-20261028",
+      "sha": "712d405de92d3c87fe39606ce6fd5a706cddd236",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "fix/uat-resource-management-org-compute-20261028",
+      "sha": "62a4eb4643c09594569aa61f0a60ae64035e6ede",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "integration/issue-44-45",
+      "sha": "a5592d1d8d8c39d6d1d167afdd3b4cbf29d9d524",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "integration/pr35-pr36-validation",
+      "sha": "b7e6e45b8ac9864fd76e7407efa8d39c3cdfdf34",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "integration/sprint1-pr80-81-82-83-84-86",
+      "sha": "ecfdff2cf3f9d1a7b7b284e79a7f708d1baea8ce",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        89
+      ]
+    },
+    {
+      "name": "main",
+      "sha": "2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a",
+      "protected": true,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "refactor/remove-kubernetes-platform-support",
+      "sha": "ec9c712a22db9bc46e101edafcc2f5e09b165025",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "release/dev-05-2-hardening",
+      "sha": "2c3d9b8e4f447cf70b0ed318e7462795e9ec115b",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "review/oc-s01-close-20261110",
+      "sha": "506d24356a205bbddb82c74924f4e84a5e54d441",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        101
+      ]
+    },
+    {
+      "name": "review/oc-s01-close-r02-20261110",
+      "sha": "d036f7f7b1611cb0d12a99f486984b20934e157a",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": [
+        102
+      ]
+    },
+    {
+      "name": "review/sec001-r03-frozen-base-20261116",
+      "sha": "63cd004327bf22559320745c12bf030576a17aa6",
+      "protected": false,
+      "in_active": true,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "review/stage-2a-development-acceptance-closure",
+      "sha": "8ca14f3e795d7b7039067d7025dbed3d6531fb3e",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "sec/sec001-r01-exact-image-coverage",
+      "sha": "d443fef32786508f4df1f36897cebd39c61f8530",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "sec/sec001-r02-postgres-gosu-qualification",
+      "sha": "4ad8eba671be383d635ec191f729519b8e2feeac",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "sec/sec001-r03-qualified-candidates-20261114",
+      "sha": "3b366bc8fd640da2cb035571e12f24fc2a2ab843",
+      "protected": false,
+      "in_active": true,
+      "in_main": false,
+      "open_prs": [
+        108
+      ]
+    },
+    {
+      "name": "sec/sec001-r04-release-image-hardening-20261116",
+      "sha": "366cd9f4c57dd13c245a160d02662b99cf0568d6",
+      "protected": false,
+      "in_active": true,
+      "in_main": false,
+      "open_prs": [
+        109
+      ]
+    },
+    {
+      "name": "test/dev-05-0-disposable-product-verification",
+      "sha": "0e237026c7f1f293d2b0d0e8c94255ed4597c0dc",
+      "protected": false,
+      "in_active": true,
+      "in_main": true,
+      "open_prs": []
+    },
+    {
+      "name": "test/pentaho-native-evidence",
+      "sha": "03a43a006b6a747e80390462a438eabeb11a67a5",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    },
+    {
+      "name": "verify/issue-46-onboarding-authorization",
+      "sha": "365a1202314c8a744f3cb0cef60cec45976dac54",
+      "protected": false,
+      "in_active": false,
+      "in_main": false,
+      "open_prs": []
+    }
+  ],
+  "open_pull_requests": [
+    {
+      "number": 110,
+      "title": "feat(staging): validated isolated deployment under owner-approved temporary exceptions",
+      "head": "feat/staging-first-disposable-20261116",
+      "head_sha": "8ca9a7753c0c5f16574629873d2a57a86d518185",
+      "base": "sec/sec001-r03-qualified-candidates-20261114",
+      "base_sha": "3b366bc8fd640da2cb035571e12f24fc2a2ab843",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/110",
+      "body": "The owner-approved staging-first policy is implemented, and **disposable CI staging was deployed and validated successfully**. Final production certification remains separate.\n\n**Code head:** `8ca9a7753c0c5f16574629873d2a57a86d518185`  \n**Tested PR merge:** `766bddb54d8e6668bc45587359b0abf9788d0da3`  \n**Verified tree:** `279e5b185a2b67ae505819de11b535fc95959b79` — identical to the tested local tree.\n\n[Successful staging run 43806123729](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43806123729) · [Verified evidence artifact 14198248917](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43806123729/artifacts/14198248917)  \nArtifact ZIP SHA-256: `64f10f7278311a6d2a88ab6351e503290aa4d72378c59240c0924f7130800114`.\n\nThe actual migration, API, worker, PostgreSQL and frontend services used the scanned immutable local image IDs. Synthetic data, a project-owned internal Docker network and volumes, and runner-loopback forwarding to verified private container addresses preserve deployment isolation. The API and worker remain on the compatible Collector 0.123.0 boundary. The stack and its synthetic volumes were removed after validation; no image publication or production deployment occurred.\n\n| Validation | Actual result |\n|---|---|\n| Blocking gitleaks, controller tests, frontend tests, lint/build | PASS |\n| Exact image builds, Syft/CycloneDX/Grype and source/image binding | PASS |\n| Staging-only exception evaluation | STAGING_ELIGIBLE_WITH_EXCEPTIONS |\n| Real PostgreSQL migration and API container health | PASS |\n| Authenticated tenant and nested authorization probes | PASS |\n| Live container image/network/privilege verification | PASS |\n| Browser sign-in, APTron title, authenticated reload, no page errors | PASS |\n| API/worker restart, retained authentication and worker heartbeat | PASS |\n| Cleanup | PASS |\n\nLocal controller suite: **158 PASS**. CI policy passes with **29 workflows, 726 registered test identities and all 13 required contexts retained**. Workflow/shell/Python/JS syntax and whitespace checks passed. Archived staging evidence was downloaded, hash-verified, and its three actual deployed image IDs matched to their SBOM/scan/provenance records.\n\nSix owner staging exceptions record scope, owner, risk, expiry and exit criteria. They expire **30 November 2026, 23:59:59 IST**. Exact current advisory/package/version/type/namespace/severity sets are bounded; new or changed severe findings, expired exceptions, missing evidence, secret leaks, failed functionality or unsafe isolation remain blocking. Legal/physical HA use **DEFERRED_NOT_PASSED**, never approval or remediation.\n\n**Explicit post-staging production reassessment:** the same-head [eight-image production scan 43806123753](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43806123753) collected all eight image artifacts successfully. Its separate staging-inventory decision passed; the original production `security-sbom` correctly remains **BLOCKED for 8/8 roles**. Both decision ZIPs were independently downloaded and hash-verified.\n\n| Current release image | Unresolved Critical/High/Unknown matches |\n|---|---:|\n| backend-runtime | 4 |\n| backend-migration | 4 |\n| uat-backend | 112 |\n| pinned otel-contrib | 108 |\n| frontend / PostgreSQL / ingestion-gateway / production-frontend | 0 each |\n\nThese are image-scoped counts. All eight final-image legal decisions remain pending. SQLite fixes, full Collector replacement compatibility/durability, independent legal License/NOTICE/source-offer decisions and formal physical HA/fencing certification remain production requirements. Staging success closes the disposable deployment/validation step; it does not close production release requirements or authorize promotion. The separate rebuilt Collector qualification workflow may continue; no blanket claim that every CI workflow passed.\n\nPreserved failure evidence: [first run 43803935587](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803935587) correctly rejected gitleaks' generated SARIF in the clean source checkout; it is now retained outside source. [Second run 43804330251](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43804330251) and [diagnostic run 43805151965](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43805151965) retained scans and cleanup, and proved healthy in-container API startup with failed host port reachability. The final fix uses restricted loopback forwarders while preserving internal-network isolation.\n\nProduction image enforcement, eight-role coverage, release authorization and publication controls remain unchanged. No automatic merge, no production promotion. This draft is stacked on PR #108; policy and initial evidence are under `docs/verification/staging-first/`."
+    },
+    {
+      "number": 109,
+      "title": "SEC001-R04 (draft): validate Alpine backend/UAT release-image hardening with mandatory Tier C unchanged",
+      "head": "sec/sec001-r04-release-image-hardening-20261116",
+      "head_sha": "366cd9f4c57dd13c245a160d02662b99cf0568d6",
+      "base": "review/sec001-r03-frozen-base-20261116",
+      "base_sha": "63cd004327bf22559320745c12bf030576a17aa6",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/109",
+      "body": "## SEC001-R04 — bounded final release-image hardening validation (DRAFT / NO RELEASE)\n\n**Purpose:** force a fresh independent pull-request CI run over the actual draft\nrelease-image selections, without merging or changing the original Tier C policy.\n\n**Review ancestry:** parent draft [SEC001-R03 #108](https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/108),\nultimately stacked on unmerged [APTron foundation #105](https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/105).\nThis review PR's base is the immutable pre-release-image SEC001-R03 snapshot\n`63cd004327bf22559320745c12bf030576a17aa6`; the head\n`366cd9f4c57dd13c245a160d02662b99cf0568d6` is frozen to bounded\nrelease-image Dockerfile selections. **Not intended to bypass #108 or merge independently.**\n\n### Changed code\n- `backend/Dockerfile.runtime`: previously qualified Alpine 3.23 Python 3.12.16 nonroot runtime/migration, musl psutil wheel pinned; four SQLite High remain. Source exact-equivalence tests.\n- `backend/Dockerfile.uat`: qualified Alpine legacy-parity UAT retaining exactly pinned Contrib 0.123 executable; 112 severe in isolated candidate; does not auto-promote rebuilt 0.165.\n- Docs + six source/pin/migration/static security tests registered in original scope manifest.\n\n### Verified precursor results (not a claim for this head)\n- Actual PostgreSQL release image source already selected into the base and\n  freshly scanned in original Tier C [run 43800567508](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43800567508): **0 severe**, legal/NOTICE pending.\n- Same-run isolated patched UAT experiment [run 43800966135](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43800966135):\n  **112 severe in legacy Alpine UAT → 4 High SQLite in rebuilt 0.165 UAT**;\n  mTLS, nonroot API and real disposable PG17 Alembic (100 tables) passed.\n  The patched variant remains non-release and active Collector pin is unchanged.\n- Original mandatory Tier C release image policy must remain FAILED until all\n  eight final shipping images are **zero Critical/High/Unknown** and approved\n  by qualified independent legal/NOTICE reviewer, bound to final OCI manifests.\n\n### Unresolved external gates\nNo authenticated Root.io patched SQLite APK or signer key/source rights; no\nthree individually attested physical HA nodes/fencing/9 witnessed tests;\nno final eight OCI digests and independent qualified signed legal decisions;\nno eligible independent writer review after tech/legal acceptance.\n\n**Safety:** NO production deployment, cloud provisioning, purchases, host fault\ninjection, upstream Collector pin change, release-gate edits, branch-rule change,\nautomatic PR merge or legal signatures. `NO-GO` until genuine evidence exists.\n\nSee [remediation register on #108](https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/108#issuecomment-6907093143).\n"
+    },
+    {
+      "number": 108,
+      "title": "SEC001-R03: digest-pinned gosu and Collector candidate qualification (no release)",
+      "head": "sec/sec001-r03-qualified-candidates-20261114",
+      "head_sha": "3b366bc8fd640da2cb035571e12f24fc2a2ab843",
+      "base": "feat/aptron-product-foundation-20261114",
+      "base_sha": "974c46b1e80eda9c80b52a23e36a7ec055af780d",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/108",
+      "body": "## Scope and owner boundaries\nStacked on PR #105 **for isolated qualification only**, not for automatic merge or release. No production environment or database is touched. The active Collector remains pinned at `0.123.0`; the production PostgreSQL Dockerfile is unchanged. This PR must not be promoted until security, DBA/platform, and accountable license reviewers validate evidence.\n\n### Changes\n- `deploy/release/Dockerfile.postgres-gosu-r03-candidate`: isolated PostgreSQL 17 Alpine candidate pinned to `sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac`; only replace the `gosu` executable with a static build of the **official gosu 1.19 source**, full commit `6456aaa0f3c854d199d0f037f068eb97515b7513`, using patched Go 1.27.4 official digest `sha256:7a93747afee80359e81dbe39c8a65037b147cada0262bf86f5b96dd06842b368`. Preserve PG17 entrypoint, UID and local-data semantics; copy license/buildinfo.\n- `otel/opentelemetry-collector-contrib:0.165.0@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea` candidate, **read-only scan/runtime smoke**. Do NOT replace current pinned 0.123.0 or claim native Collector compatibility.\n- `.github/workflows/sec001-r03-candidates.yml` runs disposable non-production tests, immutable image SBOM and Grype scans; machine-readable qualification report explicitly `release_eligible=false`, `license_status=PENDING_ACCOUNTABLE_REVIEW`.\n- Pin UAT Python base to the already verified official Python 3.12.16 slim Trixie digest without changing the OTel binary or test contracts.\n\n### Mandatory next gates\n1. Successful candidate builds, exact image-ID-bound Syft/Grype evidence and actual severity diff.\n2. PostgreSQL DBA compatibility (restore, locale, extensions, HA/failover and populated database) and signing/provenance qualification; disposable smoke alone is insufficient.\n3. OTel full config, agent transport, identity, replay and migration-boundary compatibility; do not change current 0.123.0 runtime pin without explicit acceptance.\n4. Debian Trixie unfixed vulnerabilities must remain unresolved until supported fixes or accountable reviewed decisions.\n5. Per-image accountable License/NOTICE/source-offer review bound to final image digest, plus the required independent GitHub write-access review.\n6. Full original eight-image mandatory security policy and CI on a later promoted head; no severity suppression, gate weakening, deployment or unconditional merge.\n\n[SEC001-R03 issue #106](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/issues/106) | [Parent PR #105](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/105)\n"
+    },
+    {
+      "number": 105,
+      "title": "feat(aptron): product foundation branding, role-aware navigation and self-hosted Help",
+      "head": "feat/aptron-product-foundation-20261114",
+      "head_sha": "360f659d357c3a7a1840c5586cf66a717379b80f",
+      "base": "main",
+      "base_sha": "2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/105",
+      "body": "APTron product foundation from main `2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a`. Adds APTron branding, role-filtered resource navigation and customer-self-hosted Help; removes dedicated Incidents UI while retaining historical records, APIs, tenant isolation and RBAC.\n\n- APTron Observability sign-in/title and APTron / OBSERVABILITY header using the existing visual system.\n- Guarded Compute Instances / Data Pipelines / APIs entries reuse existing inventories, selectors and tabs; legacy resource hashes remain supported.\n- Dedicated Incidents pages and pipeline incident tabs removed. Alerts, execution audit/recovery, historical correlation identifiers, server schemas and incident APIs remain.\n- Help provides Documentation / Learning / Training with same-origin guides shipped in the frontend. FAQ summaries participate in keyboard focus wrapping; Escape restores focus.\n- No backend, migration, wire contract, Collector runtime/pin, infrastructure, workflow or release-threshold changes. Three scope-manifest records align renamed/new mandatory tests; every disposition stays RUN.\n\nSelective reconciliation only: #89 `ecfdff2cf3f9d1a7b7b284e79a7f708d1baea8ce`, #103 `83e935eaa492ea83597e6daaa75f152006bd907f`, #104 `90a97485d2588f522f9736265015d570cbb96652`. No whole-branch merge, PR closure or import of parent backend/template/search work.\n\nTested code: `c9a584b617a4f614e5a25e7485f3e0b45375f85c`.\nEvidence-only head: `6e742c16d81af165e6ed6519e1230d0d35bd871f`.\n\nValidation:\n- Local frontend 39 PASS; lint/build PASS with existing >500 kB chunk warning.\n- Backend discovery 332 PASS / 220 SKIP; separate real PostgreSQL 16.2 ownership/RBAC/history 118 PASS, migration/schema PASS; HTTP workflow 9 groups and authorization 14 groups PASS. Counts overlap.\n- Hosted PostgreSQL 17 + authenticated foundation/browser run [43549232174](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43549232174) PASS, including domain routing/reload, retired bookmark, real viewer filtering, three local guides, 390/768/1366 light/dark containment and keyboard/Escape/focus checks.\n- Aligned legacy native/tenant suite [43549232317](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/43549232317) PASS. This does not certify the future native Collector.\n- Dependency audits: npm 0 advisories; Python runtime 41 dependencies / 0 advisories. Hosted secret/dependency scan PASS.\n- Tested-code CI snapshot: 15 workflows success, image SBOM/license workflow FAIL, Integrated Quality Regression still running. The evidence-only commit triggers fresh CI; do not interpret the source snapshot as all checks passing on final head.\n- Retained failures: obsolete six-page expectation, scope inventory mismatch, local Unix-socket/Chromium restriction, reverted standalone Event Parameters selector, browser render timing and explicit tenant fixture setup, and contradictory legacy Incidents-positive browser assertions. Exact commands, source hashes, corrections, raw results and artifact references are in the report.\n\n[Report and exact commands](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/blob/6e742c16d81af165e6ed6519e1230d0d35bd871f/docs/verification/aptron-foundation/REPORT.md) · [CI snapshot](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/blob/6e742c16d81af165e6ed6519e1230d0d35bd871f/docs/verification/aptron-foundation/CI_RESULTS.json) · [Evidence hashes](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/blob/6e742c16d81af165e6ed6519e1230d0d35bd871f/docs/verification/aptron-foundation/EVIDENCE_SHA256.json)\n\nOwner visual/UAT acceptance pending; targeted accessibility checks are not comprehensive WCAG certification. License selection, SOS/JS7, Synthetic/RUM and native Collector migration are outside this slice.\n\n**DRAFT · No merge or deployment. SECURITY BLOCKED · CHK-001 FAIL · CHK-002 BLOCKED · RELEASE NO-GO remain unchanged.**"
+    },
+    {
+      "number": 104,
+      "title": "docs(help): self-hosted responsibility, deployment choices and learning paths",
+      "head": "docs/aptron-self-hosted-help-20261114",
+      "head_sha": "90a97485d2588f522f9736265015d570cbb96652",
+      "base": "main",
+      "base_sha": "2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/104",
+      "body": "## Scope (owner-approved bounded change)\n- Add three public, versioned help guides: self-hosted deployment, customer infrastructure costs, learning/training.\n- Change only the existing Help dialog to expose **Documentation / Learning / Training** and FAQs clarifying that AWS/Azure/GCP/on-premise are customer choices, not APTron-hosted subscriptions.\n- Replace the obsolete Pentaho Help FAQ assertion with a customer-managed cloud FAQ assertion.\n- Preserve the three external-doc links for the existing UI acceptance contract; preserve profile and non-Help logic.\n\n## Governance\n- Draft PR **only**. No merge, deployment, account provisioning, tests, HSM, P1/P2, or release approval.\n- Current repo retains older OpsControl branding and many legacy features; this is **not** full APTron migration or certification.\n- Examples and cost values are illustrative, **not** live cloud prices or software license charges.\n- Customer pays provider infrastructure; product remains responsible for secure defaults/software fixes.\n- Production and separate POC-DR-001 readiness gates remain unchanged.\n\n## Verification needed before merge\n1. Existing browser Help and profile acceptance at desktop/tablet/mobile.\n2. Verify all three links and no regression in keyboard focus, Escape, RBAC or tenant behavior.\n3. Link/docs copy review, accessibility and owner visual acceptance.\n4. Product migration consistency / legacy Pentaho removal tracked separately.\n"
+    },
+    {
+      "number": 102,
+      "title": "docs: OC-S01-CLOSE-R02 acceptance boundaries and exact-SHA decisions",
+      "head": "review/oc-s01-close-r02-20261110",
+      "head_sha": "d036f7f7b1611cb0d12a99f486984b20934e157a",
+      "base": "review/oc-s01-close-20261110",
+      "base_sha": "506d24356a205bbddb82c74924f4e84a5e54d441",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/102",
+      "body": "Completes the bounded OC-S01-CLOSE-R02 evidence/decision follow-up in the existing closure package. Based on PR101 `506d24356a205bbddb82c74924f4e84a5e54d441`; product PR89 remains `ecfdff2cf3f9d1a7b7b284e79a7f708d1baea8ce`, main `2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a`. All moving assessment references, including PR99/100, were unchanged at preflight. This draft targets PR101's review branch; it does not modify PR89 product implementation.\n\nCommits: `3c3db190559196ac05e9bf2fdc46ad1a4e69f204`, final `d036f7f7b1611cb0d12a99f486984b20934e157a`.\n\n| Dimension | Recommendation |\n|---|---|\n| Sprint0 | ACCEPTABLE_BASELINE_WITH_EXPLICIT_QUARANTINE |\n| Sprint1 | CORRECTIONS_REQUIRED — evidence/decision completion, not a newly established product defect |\n| Sprint2 entry | CONDITIONAL_PENDING_OWNER_DECISIONS — no authorization to start |\n\nChanges are documentation/evidence only:\n\n- Every one of the 144 unresolved rows in the existing 158-ID register now has separate source, scope, approval, Sprint1/Sprint2 sequencing, independent-gate and decision-timing fields. Original 14/25/39/80 dispositions remain intact. Quarantine CSV contains62 historical IMP definitions and30 numbered journey definitions; no reconstruction. AUTH694 stays approved/current, without requesting approval again.\n- Eighteen writer/consumer/historical-denial boundaries distinguish current revisioned HTTP operations, tested legacy adapters, creation/disable exceptions, declared Agent1.5.0/runtime0.123.0 and worker protocols, and older ETL denial probes. Source constants are not deployed-version support approval. **Affected installed-version qualification STOPPED: roster not established.** No compatibility commitment expanded.\n- Current configuration PASS evidence stays intact. Genuine provider activation is separate later-sprint qualification. Desktop acceptance packet preserves accepted54f26e5 baseline and identifies CAS/context/keyboard changes; history panel is not falsely presented as a new redesign. Owner acceptance remains pending.\n- **INDEPENDENT_REVIEW_PENDING**: no independent reviewer supplied or submitted review; self-approval prohibited. Source-level risk/reproduction handoff is provided, not a fabricated independent signoff.\n- Exact hosted snapshot: PR89 25success/8failure; PR101 24success/8failure/1in-progress (`verification`,run42687537596). All66 job identities/URLs/SHAs/conclusions retained. No waiting, polling or rerunning these checks. Seven image jobs and security-sbom remain failed. All13 required checks/strictness/review policy unchanged. Six completed workflow types have job logs but no standalone artifact-upload contract; per-test hosted skip accounting remains explicitly incomplete.\n\nRequired nine deliverables, complete CSV/JSON tables, validation and updated hash manifest are under `docs/verification/oc-s01-close/2026-11-10/`; begin with `INTEGRATION_READINESS_DECISION.md` and `SPRINT2_ENTRY_DECISION_REQUEST.md`. Manifest SHA256: `dc756239ed57252a63653d268cc5f7a5053b1321274ad060538f8ff190a0381b` (379 hashed files, manifest self-excluded).\n\nValidation: original closure validator PASS; focused R02 validator PASS; JSON/CSV/links, prior controlled evidence preservation, required-policy equality, and final full staged whitespace check PASS. Initial document-generation/transport/CRLF failures are retained with resolution. Exact uploaded task bytes and source diff are preserved compressed; generated CSV/text uses LF. No new runtime tests or CI reruns: prior real PG/FastAPI/Playwright executions are retained, not relabelled as new results.\n\nOutstanding: approve the bounded support/target set and Sprint1 checkpoint; review latest interactions; assign independent reviewer; obtain completed exact-PR101verification evidence. Retention/hold/erasure decisions apply before new deletion/real-data promises, not as invented prerequisites for safe saved configuration. Future implementation needs separate bounded authorization.\n\n**Sprint1 NOT COMPLETE · SECURITY BLOCKED · CHK-001 FAIL · CHK-002 BLOCKED · RELEASE NO-GO · collector0.123.0 unchanged.**\n\nNo merge, deployment, publication, PR closure, branch deletion, security exception, production/UAT access or Sprint2 work. New draft CI will be TRIGGERED — RESULT PENDING; Trigger-and-Exit, no completion monitoring.\n"
+    },
+    {
+      "number": 101,
+      "title": "docs: Sprint 0 and Sprint 1 closure and PR cleanup assessment",
+      "head": "review/oc-s01-close-20261110",
+      "head_sha": "506d24356a205bbddb82c74924f4e84a5e54d441",
+      "base": "integration/sprint1-pr80-81-82-83-84-86",
+      "base_sha": "ecfdff2cf3f9d1a7b7b284e79a7f708d1baea8ce",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/101",
+      "body": "Prepares the combined Sprint0/Sprint1 owner-review packet without changing product behavior, migrations, workflows, release gates or any source PR. Stacked on authoritative draft #89 at `ecfdff2cf3f9d1a7b7b284e79a7f708d1baea8ce`; main remains `2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a`. This review PR targets the integration branch to keep its documentation/evidence diff isolated, not to replace PR89.\n\nReview commits: `eb7693acc776847c329caca4b69790c40daa235c`, final `506d24356a205bbddb82c74924f4e84a5e54d441`. Tested application source is PR89ecfdff2; final commit changes review documentation only.\n\nEvidence package: `docs/verification/oc-s01-close/2026-11-10/README.md` plus all seven requested reports, machine-readable registers, new redacted runtime logs, desktop screenshots, source references and SHA256 inventory. Manifest SHA256: `2d488ced5e324d12434b72c3b7b8c17b28e1ff6534d4c6ff98f30ba77181c775` (257 hashed artifacts; manifest self-excluded).\n\n- Sprint0: 158 unique IDs retained: 14 resolved bounded reconciliations,25 approved later-sprint sequencing deferrals,39 awaiting owner decision,80 blocked (includes62 historical definitions). AUTH694 approved/current; original provenance and30 included numbered journey definitions remain unrecovered.31included/14steps preserved;20excluded/32skipped. No fabricated approvals or canonical register replacement.\n- Integration: all six current source tips are PR89 ancestors; no changed source path absent;37 original model classes retained;41 original migrations byte-identical. Changed-path hashes/conflict resolutions remain input to independent semantic review,not proof from ancestry alone.\n- Executed local checks:46 configuration cases,66 resource/backend cases,117 ETL cases all PASS with0FAIL/0SKIP on final attempts. These include26 unit/helper cases; correct deduplication yields177 distinct PG-contract identities and138 distinct unit/helper identities (315 Python identities total). Frontend55PASS;actual HTTP15groups/resource-security browser9groups/workspace browser15groups;actual ETL Workflow browser;lint/build/actionlint28/authority/CI-policy/E2E-register/document-integrity PASS. Initial incorrect-module runner attempt2errors retained; corrected selection without weakening assertions.\n- PG17.11: fresh/populated migrations,supported empty downgrade,refused unsafe populated downgrade,108-table backup/restore and selected SIGKILL/replay cuts verified. Test image/storage are separate from reviewed production candidates;tmpfs does not certify disk/power-loss durability.\n- Hosted baseline:25SUCCESS/8FAILURE;13required contexts succeed but seven security-image roles plussecurity-sbomFAIL remain. Completed exact-head scan artifacts use merge6d0057de with tree identical to PR89;all7ZIP hashes/catalogue IDs verified.984 unchanged scanner matches,41Critical/371High/4Unknown;all licence approvals pending. R01#99/R02#100 stay separate active drafts,not imported or cleared here.\n- Cleanup assessment: conditional later closure list #80/#81/#82/#83/#84/#86/#88 only after approved integration,archival/re-fetch and explicit owner cleanup approval. No PR closed or remote branch deleted. All four task fixture containers stopped/removed by exact identity;no broad cleanup/customer/UAT access.\n\nCurrent controlled contracts are verified only within stated boundaries. No newly reproduced product failure in final scoped runs; supported writer/consumer inventory, latest interaction acceptance and independent review remain pending. Do not impose arbitrary universal old-binary support as a new requirement. Preserve accepted54f26e5 visual baseline;new screenshots are for current interaction review,not new owner signoff. Typography remains separate. All nine owner selections Pending,D07/D08 Pending,genuine provider qualification BLOCKED,formal UAT PENDING.\n\n**SPRINT1 NOT COMPLETE · SECURITY BLOCKED · CHK-001 FAIL · CHK-002 BLOCKED · RELEASE NO-GO · collector0.123.0 unchanged.**\n\nCI triggered on this draft: RESULT PENDING; Trigger-and-Exit, no completion polling. No merge/deployment/publication/Sprint2 authorization. Stop for owner review and independent technical approval.\n"
+    },
+    {
+      "number": 89,
+      "title": "draft: Sprint 1 six-PR integration (#80 #81 #82 #83 #84 #86)",
+      "head": "integration/sprint1-pr80-81-82-83-84-86",
+      "head_sha": "ecfdff2cf3f9d1a7b7b284e79a7f708d1baea8ce",
+      "base": "main",
+      "base_sha": "2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/89",
+      "body": "## OC-S1-CI-003 handoff — 2026-11-09\n\nFinal HEAD `874c481a2446022b693e6660c59af15f03c5476c`. **DRAFT · PARTIAL/BLOCKED · Sprint1 NOT COMPLETE.** Main and the13 required check identities are unchanged.\n\n### Implemented / observed\n\n- Corrected Black formatting. Baseline coverage failure was “No data to combine” after formatting prevented test execution; current reporting succeeds with62.94% measured configured subset. No quality/coverage thresholds changed.\n- Provisioned runtime-only proxy_ca file secrets in required build actions and owned Compose override; required=true and TLS verification remain. Actual tiny BuildKit test fails without secret and passes with CERT_REQUIRED/check_hostname enabled. Full application/Compose builds remain locally BLOCKED by0–350MiB Docker backing storage. The historical Access private failure log was not uploaded; do not claim its sole cause is proven. New redacted log retention/cleanup fixes that evidence gap.\n- Coordinated revisioned parent/child source updates reuse one authoritative ledger and transaction; expected source/resource revisions, same-tenant checks, stale rollback and UI snapshot-loading safety verified.\n- Catalogue PATCH/retirement use mandatory version CAS, immutable publication/retirement history and server-derived actor. Real browser stale conflict preserves edits until explicit review/adoption/retry. Existing source pins remain.\n- Exported actual six collector-method and HTTPS template schemas; controlled negative tests pass. Genuine provider certification remains BLOCKED; no authorized target was accessed.\n\n### Local results — overlap, do not sum\n\n| Suite | Actual result |\n|---|---|\n|Broad PostgreSQL backend discovery|594 PASS,76 SKIPPED,0 FAIL among670; later obsolete retirement assertion failed and is retained|\n|Source/ETL PostgreSQL + HTTP + faults|46 PASS,0 FAIL/SKIP; migration0043 and108-table restore|\n|ETL regression|117 PASS,0 FAIL/SKIP|\n|Integrated final HTTP/browser|98 backend cases PASS;15 pipeline HTTP groups; RBAC14; resource-browser9 and workspace15; other browser17/5/3; archive/recovery checks PASS|\n|Access|25 PostgreSQL/HTTP groups +8 authenticated browser groups PASS; not a Compose packaging PASS|\n|Frontend / CI policy / quality|55 frontend PASS;30 CI PASS;28 workflows valid;48 Black files, Ruff, pinned Prettier, lint/build PASS|\n|Security|7+10+4 unit groups PASS; strict pip-audit0/npm0 on retry; seven image policies still FAIL|\n\n[Report](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/REPORT.md) · [source/test identities](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/SOURCE_IDENTITIES.json) · [exact commands and failures](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/TEST_EXECUTIONS.json) · [984 scan matches](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/CVE_REMEDIATION.csv) · [2,451 licence records](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/LICENCE_NOTICE_REVIEW.csv) · [remaining blockers](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/REMAINING_BLOCKERS.md).\n\nEvidence inventory2,513 files. Parent manifest SHA256 `1469a7efdc5e9ea3f7e919e7078a6e6563fa66ff08048694a1cc396b28033163`. Original scan provenance/checksums unchanged; failed attempts/screenshots/database receipts/cleanup retained. Synthetic private archives removed; no broad Docker cleanup.\n\n### Image/licence outcome — no waiver\n\n- Runtime/migration:59 High each. Frontend/gateway:3 Medium each and still pending accountable licence review. PostgreSQL:3 Critical/32 High. Collector:19 Critical/81 High/2 Unknown. UAT:19 Critical/140 High/2 Unknown. These belong to the examined54f26e5 hosted candidates, not new final-HEAD clearance.\n- All984 original matches retained. Collector0.123.0 and immutable pin unchanged. Vendor-wont-fix, supported gosu/collector rebuild/transition and older-binary compatibility remain unresolved. No findings excluded/reclassified or severity threshold weakened.\n- Accountable legal/distribution reviewer is NOT ASSIGNED; authoritative application licence and component NOTICE/source-offer evidence need recovery/review. Automated inventory is not a legal signature. Licence gates remain enforced.\n\n### Visual authority / separate typography task\n\n[Issue90](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/issues/90) explicitly accepts Resource Management visual baseline54f26e5; this does not approve new interactions, typography or release. New [catalogue conflict screenshot](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/raw/browser-snapshot/catalogue-cas-retry.png) and [browser assertions](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/874c481a2446022b693e6660c59af15f03c5476c/docs/verification/sprint1-integration/ci003-2026-11-09/raw/browser-snapshot/workspace-ui.json) are reviewable.\nTypography proposal is separate commit `a65e26246873bfcbf26ffba7478ab12bbe2e6498`, branch `design/typography-system-v1-issue90`: [specimens/tokens/licences/audit](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/a65e26246873bfcbf26ffba7478ab12bbe2e6498/docs/design/typography-v1).384 declarations audited, Inter/Plex/Source Sans3 compared,32 desktop/theme/CSS-zoom cases pass. Native browser zoom remains BLOCKED. No product font replacement or font binaries committed. Owner font/scale approval pending.\n\n### CI TRIGGERED — RESULT PENDING\n\nSingle final-head trigger snapshot only; no polling/waiting/monitoring. Conclusions below are only those already present in that snapshot. Required integrated/build/image outcomes remain pending. Owner/reviewer monitors completion and uploads.\n\n- [OC Dev - Tier C - Application Image and Worker Validation - No Deploy — 42588850820](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850820) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Disposable Reliability and Recovery — 42588850746](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850746) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - PostgreSQL API and Browser Integration — 42588850890](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850890) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Native Monitoring Contracts — 42588850703](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850703) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Customer Ownership and Access — 42588850838](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850838) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - ETL Ownership and Monitoring Contracts — 42588850870](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850870) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - PostgreSQL Migration and Authorization — 42588850673](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850673) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Controlled HTTPS Alert Recovery — 42588850677](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850677) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Operational Dashboard Integration — 42588850697](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850697) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Integrated Quality Regression — 42588850733](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850733) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier C - Image SBOM Vulnerabilities and Licenses — 42588850637](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850637) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier A - Source Tests Lint and Build — 42588850640](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850640) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier C - Secrets and Dependency Security — 42588850722](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850722) — success (completed at trigger snapshot).\n- [OC Dev - Tier A - UAT Controller Safety Contracts - No Deploy — 42588850821](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850821) — success (completed at trigger snapshot).\n- [OC Dev - Tier A - Scope and Workflow Integrity — 42588850526](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850526) — success (completed at trigger snapshot).\n- [OC Dev - Tier B - Sprint 1 Resource Workspace — 42588850810](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850810) — RESULT PENDING (in_progress at trigger snapshot).\n- [OC Dev - Tier B - Private HTTPS Monitoring — 42588850768](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850768) — success (completed at trigger snapshot).\n- [OC Dev - Tier C - Network Egress Isolation — 42588850743](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42588850743) — success (completed at trigger snapshot).\n\nIndependent PR review, new-interaction owner acceptance, nine selections/D07/D08, formal UAT and genuine-provider qualification remain separate. No merge, deployment, image publication, collector upgrade or Sprint2. No branch-protection change.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n\n<details>\n<summary>Previous descriptions and handoffs — historical evidence</summary>\n\n## Sprint 1 closure follow-up — 2026-11-08\n\nPushed final HEAD `54f26e51106469e285dd747dd6b8afd09ca43ce6` on the existing integration branch. **Draft; PARTIAL/BLOCKED; Sprint1 NOT COMPLETE.** Main and other PR branches were not modified.\n\n### Implemented and tested\n\n- NOC harness lets Docker exclusively claim the owned interface on TLS443; unprivileged Python does not pre-bind a privileged port. No worker443/TLS/egress-policy relaxation. Local corrected target172.26.91.251:443 passed real API/PostgreSQL/React/Playwright. Historical hosted numeric address was not recorded; raw EACCES and failed high-port422 attempt retained.\n- Real occupied TCP and deterministic EACCES-injection negatives preserve exact endpoint/errno; injection is explicitly distinct from genuine kernel policy.\n- Source-context updates reuse the existing atomic expected-revision/idempotency command. Legacy PATCH adapters, primary Compute Instance source/resource atomicity, applicability revalidation and fresh authorization are covered.\n- Additive migration0043 fences raw name/description/auth-mode writers. Applied migrations unchanged. Populated rollback refused before DDL; whole normalized dump hash identical before/after: `260fad554f844e35f848c5405cbb9db4f2488f45ee103007112ce532cc2ff5af`.\n- History pagination/detail/diff, explicit detach, new-revision restore, non-operational staged preview/discard and conflict refresh preserving input pass authenticated browser tests.\n- Actual API SIGKILL before ledger persistence leaves head/history/projection0; restart/retry creates exactly one revision/projection; post-commit kill/restart/idempotent replay retains one. Not an exactly-once telemetry or disk/power-loss certification.\n\n### Results — overlapping suites, not additive\n\n| Suite | Actual result |\n|---|---|\n|Final source/ETL PostgreSQL/auth HTTP|44 PASS,0 FAIL/SKIP; migration0043, API crash/restart cases,108-table restore|\n|Broad backend discovery|594 PASS,73 SKIPPED,0 FAIL among667; later obsolete HTTP expectation failed and is preserved|\n|ETL regression|117 PASS,0 FAIL/SKIP|\n|Final PostgreSQL/HTTP/browser rerun on0043|98 backend cases PASS;15 pipeline HTTP groups; Pentaho4/5/4/5; RBAC14; resource browser8, workspace14, other browser17/5/3; archive/recovery checks PASS|\n|Frontend|55 PASS; lint/build PASS; npm audit0|\n|CI/static/configuration|28 CI tests PASS;28 workflows valid;795 scope records,782 UNKNOWN still RUN; Compose/static checks PASS|\n|NOC/theme|PASS;13 theme checks,6 contrast measures; task resources cleaned|\n|Original seven image-policy roles|7 FAIL; all1,890 matches retained, no suppression/waiver|\n\n[Report](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/54f26e51106469e285dd747dd6b8afd09ca43ce6/docs/verification/sprint1-integration/closure-followup-2026-11-08/REPORT.md) · [exact commands/results/source commits](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/54f26e51106469e285dd747dd6b8afd09ca43ce6/docs/verification/sprint1-integration/closure-followup-2026-11-08/TEST_EXECUTIONS.json) · [source hashes](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/54f26e51106469e285dd747dd6b8afd09ca43ce6/docs/verification/sprint1-integration/closure-followup-2026-11-08/SOURCE_IDENTITIES.json) · [changed files](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/54f26e51106469e285dd747dd6b8afd09ca43ce6/docs/verification/sprint1-integration/closure-followup-2026-11-08/CHANGED_FILES.txt) · [image remediation](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/54f26e51106469e285dd747dd6b8afd09ca43ce6/docs/verification/sprint1-integration/closure-followup-2026-11-08/IMAGE_REMEDIATION.md) · [remaining blockers](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/54f26e51106469e285dd747dd6b8afd09ca43ce6/docs/verification/sprint1-integration/closure-followup-2026-11-08/REMAINING_BLOCKERS.md).\n\nParent artifact inventory covers1,933 files. Manifest SHA256: `f248fae0a7a938d0ac8f1a434e1dff03351b619c51308e5b135f17ed11bfc27b`. All seven original archive digests and raw scan manifests verified. Failed attempts, redacted screenshots, receipts, backup hashes and scoped cleanup retained; synthetic private archives and scanner caches removed.\n\n### CI TRIGGERED — RESULT PENDING\n\nAll18 workflows below identify the final HEAD. Single trigger snapshot only; no polling/waiting/monitoring. Owner/reviewer must inspect actual final results and uploaded evidence. No older successful run is substituted for final-head checks.\n\n- [OC Dev - Tier B - Sprint 1 Resource Workspace — 42532627386](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627386) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Image SBOM Vulnerabilities and Licenses — 42532627047](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627047) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier A - Scope and Workflow Integrity — 42532627055](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627055) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - PostgreSQL API and Browser Integration — 42532627151](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627151) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Integrated Quality Regression — 42532627097](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627097) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Secrets and Dependency Security — 42532627089](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627089) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - PostgreSQL Migration and Authorization — 42532627275](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627275) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Network Egress Isolation — 42532627265](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627265) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Controlled HTTPS Alert Recovery — 42532627108](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627108) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Customer Ownership and Access — 42532627147](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627147) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Private HTTPS Monitoring — 42532627035](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627035) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - ETL Ownership and Monitoring Contracts — 42532627156](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627156) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier A - Source Tests Lint and Build — 42532627234](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627234) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Native Monitoring Contracts — 42532627034](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627034) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Disposable Reliability and Recovery — 42532627202](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627202) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier A - UAT Controller Safety Contracts - No Deploy — 42532627092](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627092) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Operational Dashboard Integration — 42532627212](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627212) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Application Image and Worker Validation - No Deploy — 42532627312](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42532627312) — in_progress at trigger snapshot; result PENDING.\n\n### Explicit remaining blockers\n\n- All13 existing required checks are preserved. No ruleset/check removal or weakening. Prior Administration-write403 remains a prerequisite for any future authorized equivalent-check transition.\n- Seven-role final image builds/scans pending hosted evidence; local Docker backing storage observed0 free. Official patched Python/nginx/PostgreSQL candidate recipes prepared. Fresh **base-only** registry scans remain failures: nginx1 Critical; PostgreSQL4 Critical/32 High. These are not final application deltas or clearance.\n- OTel0.123.0 immutable binary/pin is unchanged and retains compiled-in findings, including in UAT. Supported transition/compatibility approval is required; no unapproved fork or binary upgrade. Debian vendor-wont-fix findings and licence/NOTICE/source-offer signoff remain unresolved.\n- Coordinated child API-source environment cutover still fails closed409; multi-source revision UI/command work remains. Catalogue publication CAS and provider-specific applicability/qualification remain separate gaps. Drafts are browser-memory only.\n- **Owner visual acceptance and independent engineering PR review requested**. Newly tested functionality is not owner acceptance, formal UAT, genuine-provider certification, release approval or permission to merge.\n- No merge, deployment, publication, collector upgrade, security waiver or Sprint2 work. Nine owner selections/D07/D08 remain pending.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n\n<details>\n<summary>Prior PR description and evidence handoff (historical)</summary>\n\n## Consolidated implementation handoff — 2026-11-08\n\nFinal HEAD: `4081fc75117afbd43e1fc4489925a2d65d744551`. Main baseline: `2e4fe5d8cb0f39170b0d789fdd7e07be4ac0219a`. PR remains **draft; PARTIAL/BLOCKED; Sprint 1 NOT COMPLETE**.\n\nAll six pinned source heads (#80, #81, #82, #83, #84, #86) are ancestors through proper three-way merges; main already contains #85. Source branches and main were not modified. Semantic conflicts preserve ETL, ownership/RBAC, migration guards, policy, workspace/theme and Incidents UI retirement.\n\n### Changes and evidence\n\n- Additive migration 0042, immutable tenant-scoped source revision ledger, actor/time/hash/provenance, source expected-revision/idempotency commands and transactional legacy attachment adapters.\n- Typed host OS/method and explicit HTTPS applicability; unverified/incompatible/excluded configurations fail closed. New-revision rollback revalidates and never activates collectors or restores secrets/checkpoints.\n- Approved single-panel three-level navigation, tenant/session reload safeguards, actual API/browser configuration tests and desktop captures.\n- Preserve all 28 workflows and 13 required checks; no retired coverage. Source configuration acceptance and tamper-resistant evidence checks added.\n- [Report and commands](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/REPORT.md), [merge decisions](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/MERGE_RESOLUTIONS.md), [changed files](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/CONSOLIDATED_CHANGED_FILES.txt), [source identities](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/TESTED_SOURCE_SHA256.json).\n- [1,273 artifact checksums](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/ARTIFACT_SHA256.json), manifest SHA-256 `37c06b2fda5a6e8fc67fde957334a80c0badee2f121947b430b0209c503ccc88`.\n\n### Actual local results — overlapping suites, not additive\n\n| Suite | Result |\n|---|---|\n|Broad PostgreSQL discovery|662 executions: 594 PASS, 0 FAIL, 68 SKIPPED|\n|Owned ETL PostgreSQL/HTTP/browser|117 PASS, 0 FAIL/SKIP|\n|Final source configuration/ETL subset|38 PASS, 0 FAIL/SKIP|\n|Frontend|55 PASS; lint and production build PASS|\n|CI regression and workflow validation|24 PASS; all 28 workflows valid|\n|Full controlled HTTP/browser/restore/TLS|13 top-level groups PASS; 67 scope HTTP checks, 17 scope-browser groups, 7 closure-browser groups|\n|Operational/theme|PASS; 13 theme checks, 6 contrast measurements, no page/server errors|\n|Historical image policy|7 roles FAIL; unresolved vulnerabilities and pending licence review|\n\n642 unique backend unittest identities have PASS execution evidence after deduplication; 68 discovery skips remain skips and have separate owned execution evidence. Full suites tested 89f8a55; operational/release harness 76c53e9; final product follow-up 917da63; CI implementation 25cd3bf. Exact per-suite SHAs, failed attempts, raw logs, restore comparisons and scoped cleanup are retained. Documentation-only final commits do not relabel older hosted runs as final passes.\n\n### CI TRIGGERED — RESULT PENDING\n\nOne trigger snapshot only; no polling or completion monitoring. All runs below identify this exact final HEAD. Owner/reviewer must inspect actual final conclusions and uploaded evidence.\n\n- [OC Dev - Tier C - Network Egress Isolation — 42513541951](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541951) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier A - Scope and Workflow Integrity — 42513541968](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541968) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Integrated Quality Regression — 42513541735](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541735) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Application Image and Worker Validation - No Deploy — 42513541704](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541704) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Image SBOM Vulnerabilities and Licenses — 42513541762](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541762) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Disposable Reliability and Recovery — 42513541886](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541886) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Operational Dashboard Integration — 42513541861](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541861) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier A - Source Tests Lint and Build — 42513541860](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541860) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Controlled HTTPS Alert Recovery — 42513541794](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541794) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Native Monitoring Contracts — 42513541869](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541869) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Sprint 1 Resource Workspace — 42513541827](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541827) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier C - Secrets and Dependency Security — 42513541772](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541772) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier A - UAT Controller Safety Contracts - No Deploy — 42513541795](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541795) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - PostgreSQL Migration and Authorization — 42513541856](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541856) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Customer Ownership and Access — 42513541838](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541838) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - PostgreSQL API and Browser Integration — 42513541859](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541859) — in_progress at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - ETL Ownership and Monitoring Contracts — 42513541771](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541771) — queued at trigger snapshot; result PENDING.\n- [OC Dev - Tier B - Private HTTPS Monitoring — 42513541866](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/actions/runs/42513541866) — queued at trigger snapshot; result PENDING.\n\n### Remaining blockers / decisions\n\n- Ruleset 26082467 additive update refused HTTP 403 “Resource not accessible by integration”; reread confirms original 13 checks, strictness, approvals and bypass actors unchanged. Minimum prerequisite: authorised GitHub App/token with repository Administration write, followed by drift and exact check-identity validation. No bypass or required-check removal.\n- All seven historical image roles retain security policy failures and pending accountable per-component licence/NOTICE/source-offer review. No suppression, threshold reduction, digest replacement or waiver. Fresh final images/scans await hosted evidence; local Docker build backing storage is insufficient.\n- [Open configuration gaps](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/OPEN_BLOCKERS.md): atomic resource-context/legacy writer cutover, full history/diff/detach/staged-draft UI, catalogue publication concurrency, exact command crash/revocation/application-provenance cases and provider-specific qualification.\n- **Owner visual acceptance requested** for [admin/operator desktop captures and deviations](https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/tree/4081fc75117afbd43e1fc4489925a2d65d744551/docs/verification/sprint1-integration/VISUAL_ACCEPTANCE.md); prior rejected candidate is not treated as approved. **Independent engineering PR approval requested** before any merge decision.\n- Nine owner-acceptance selections, D07/D08, independent UAT and genuine-provider certification remain pending. No Sprint 2, merge, deployment, release approval, collector upgrade or changes to unrelated durability work.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n\n<details>\n<summary>Previous PR description (historical context)</summary>\n\nOwner-approved consolidation against post-#85 main. Initial commit is an integration ledger only; **NO source branches merged yet**. Preserve ETL, resource lifecycle, tenant/RBAC, PostgreSQL, scope and security gates. Pending semantic conflict resolution, template contracts, full authenticated/PostgreSQL CI, owner visual acceptance, and independent review. Do not merge this draft until all gates pass. See docs/verification/sprint1-integration/INTEGRATION_LEDGER.md.\n</details>\n\n</details>\n\n</details>\n"
+    },
+    {
+      "number": 84,
+      "title": "feat: Sprint 1 desktop resource workspace and remaining-blocker review",
+      "head": "dev/oc-dev-comp-001-resource-workspace",
+      "head_sha": "c6c21dea79e24fe44d083a113879c1442db57163",
+      "base": "main",
+      "base_sha": "ffe5ac285ab8aef33a1139bce6f3da79be3d6d33",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/84",
+      "body": "## Sprint1 status: NOT COMPLETE — prior owner visual acceptance REJECTED\n\nThis updates the same draft candidate with the owner-authorized desktop visual correction and a separate assessment-only review of remaining backend/database blockers. Revised visual acceptance is **PENDING OWNER REVIEW**, never inferred from automated results.\n\nFinal HEAD: `cbbaec54ea74139f51b1d75a26ce91378f89a298`\nFinal role/browser tested source: `c09e3184a5d84c86b4f78f1da4fe37ad39ee45ff`\nMain68-test regression source: `c460426` (later changes are test fixtures/accessibility coverage and documentation; no backend changes).\n\n### Desktop correction\n\n- Shared navy/light Feature Directory with expandable existing permission-filtered categories and accessible right-side flyout; keyboard arrows/Home/End/Escape, focus restoration and outside dismissal.\n- Compact horizontal primary filters/expandable advanced panel; inline real inventory summary; deliberate table columns, accessible truncated labels, compact operational actions and visible pagination.\n- Actual administrator and actual customer `operator` membership screenshots at1920×1080,1440×900,1366×768. Viewer negative cases retained separately. Ordinary operator fixture uses an existing-required Department plus separate customer membership; no authorization rule changed.\n- Existing APIs, persistence, tenant/RBAC, collectors and migrations unchanged from the prior PR84 candidate. Kubernetes/Windows/Linux Server are deployment targets, not authorization for Kubernetes workload monitoring.\n\n[Revised visual report and screenshots](docs/verification/oc-dev-comp-001-visual-correction/REPORT.md) · [tests](docs/verification/oc-dev-comp-001-visual-correction/TEST_RESULTS.json) · [hashes](docs/verification/oc-dev-comp-001-visual-correction/ARTIFACT_SHA256.json).\n\n### Remaining development blockers — assessment only\n\n[Detailed answers/report](docs/verification/oc-dev-comp-001-blocker-review/REPORT.md) · [23-item consolidated register](docs/verification/oc-dev-comp-001-blocker-review/REMAINING_WORK_REGISTER.md) · [CSV](docs/verification/oc-dev-comp-001-blocker-review/REMAINING_WORK_REGISTER.csv) · [owner decisions](docs/verification/oc-dev-comp-001-blocker-review/OWNER_DECISIONS.md) · [missing integration tests](docs/verification/oc-dev-comp-001-blocker-review/MISSING_INTEGRATION_TESTS.md) · [severity/dependencies](docs/verification/oc-dev-comp-001-blocker-review/SEVERITY_AND_DEPENDENCIES.md).\n\nCurrent pins/overrides/saved resolution and opt-in PATCH CAS work. Typed OS/method applicability, complete immutable attachment/override/effective history, authoritative preview/application provenance and all-writer revision/partial-save compatibility remain incomplete. Existing collector/parameter version stores are reusable but do not prove a complete template history ledger. No additional backend/schema implementation was made for this assessment.\n\nFour decision requests: exact applicability/legacy behavior; canonical history/provenance/retention boundary; mandatory revision/atomic-versus-staged writer contract; history/rollback-as-new-revision scope. AUTH694 is approved/registered with unrecovered original provenance; D07/D08 are later ETL policies, not blockers to ordinary VM resource UI. Missing numbered journeys remain unrecovered. No silent Sprint1 deferral or new business semantics.\n\n### Actual local checks\n\n- Frontend46 PASS, lint/build PASS.\n- Main regression68 PASS,0 FAIL/SKIP. Final focused12 PASS. Separate legacy56 PASS. These overlap and are not additive.\n- Core authenticated HTTP15 groups, authorization14 HTTP/5 browser, resource-security7 browser, final workspace12 browser (including operator403 and targeted accessibility), legacy Pentaho17 browser groups PASS.\n- Real disposable PostgreSQL17.11/migrations, FastAPI/React/Vite/Playwright;100-table content/schema/FK restores; exact allocated containers/processes/fixture secrets cleaned. Failed lint/flyout/navigation/fixture attempts retained.\n- Documentation JSON/link/status/source/hash/image-dimension/cleanup checks PASS. Targeted accessibility is not full WCAG/assistive-technology certification.\n- Prior broad562PASS/2 actual-Contrib runtime skips and release13 groups remain historical, not rerun/recertified here. Python10 installed-toolchain advisory records and npm4 moderate graph entries, baseline unrestricted Ruff19 findings and image/license/security/provider gaps remain unresolved. No waiver.\n\nPR83 remains an unmerged Sprint0 parent; PR80/81/82 untouched. No merge/deploy/formal UAT/Sprint2. All9 owner selections Pending; controlled-scope approvals preserved; D07/D08 Pending.\n\n**CI TRIGGERED — RESULT PENDING.** Automatic PR synchronize checks; Trigger-and-Exit, no polling/monitoring or success claim.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.** Stop for owner visual review and explicit architecture decisions before additional backend/schema implementation.\n"
+    },
+    {
+      "number": 82,
+      "title": "fix: Sprint 1 resource lifecycle and PostgreSQL preservation (OC-DEV-002)",
+      "head": "dev/oc-dev-002-secure-resource-preservation",
+      "head_sha": "1ebe07fb6adb2d1bc5c3c885d9923e6afc7d25b2",
+      "base": "main",
+      "base_sha": "ffe5ac285ab8aef33a1139bce6f3da79be3d6d33",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/82",
+      "body": "Sprint1 bounded implementation and evidence, using approved planning PR #81 af9bad0428dd4023829e210cb923d32fa0adba3c. Main baseline ffe5ac285ab8aef33a1139bce6f3da79be3d6d33. PR #80 and #81 remain draft and unmerged; this branch starts from main.\n\n**PARTIAL sprint scope:** reject protected/unknown ownership PATCH fields instead of silently ignoring them; refuse enabling collectors on disabled sources through both PATCH APIs; preserve current authorization hooks and migration guards. Add actual authenticated HTTP lifecycle negatives, complete synthetic PostgreSQL backup/restore comparison and bounded concurrent sample-write/read latency evidence.\n\nImplementation078d477053e23facfd8bfbd4b5df066c606bd6bf; final tested code a4aea63ce07c24a9431aba121804df59e35de00d; final evidence HEAD6adc4f0680f785fe9d7478c15367bf41e8049eee. Report: docs/verification/oc-dev-002/REPORT.md. Actual5 unit tests,56 PostgreSQL regressions,11 HTTP groups and existing actual pipeline browser flow PASS;38 frontend helper tests PASS;100 restored tables match data/columns/FKs. Bounded load200/200 IDs,0missing/duplicates,20 authenticated reads,p95 90.147ms; not OTLP/global performance certification.\n\nBroader cross-resource stale-session/revocation, full Compute Resource UI browser journey, complete monitoring-template lifecycle and all-module representative load remain incomplete/NOT TESTED. Global RM-DEF-036 not reproduced; no speculative bottleneck fix. No blanket sprint-complete or UAT claim.\n\n201: reviewable centralized PostgreSQL spool contract, accountable review pending;101 not started.501: PR80 temporal writer guards untouched/unmerged.503: empty trusted workflow mapping deterministically refuses publication; protection read403 remains a permission blocker; no guard bypass.123: security/image/license requirements analyzed, no waiver or clearance.\n\n**CI TRIGGERED — RESULT PENDING.** Pull-request creation triggers standard required CI. Owner requested trigger-and-exit: no polling, waiting or monitoring CI completion. No publication or deployment workflow dispatched.\n\nNo formal UAT, genuine provider, production/UAT deployment, merge, collector-version change or OC-DEV-003. All nine owner selections Pending; historical controlled approvals preserved.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n\n\n\n## OC-DEV-002B handoff — PARTIAL/BLOCKED\n\nFinal commit: `2fbb959d5653f9a325651212f9c3555e9ccc5efe`. Exact final harness-tested source: `c4c773601c53d0c8f44fdcb51b447c7664fb6eb8`; broad release/RBAC runs used application-identical `5b5e55c84594baa23ead14498c1b0ade4b651e69` (only later harness cleanup changed).\n\nPreserve resource template version pins, fail closed on attachment reads, clear editors on scope/auth changes, reject malformed/null configuration, serialize template commits/attachment writes, and reject enabled collectors on disabled parents. Add authenticated PostgreSQL revocation races and real OTLP admission/browser measurements. No migration, permission catalog or collector pin changes.\n\nLocal results (overlapping groups, not an additive unique total): 9 backend unit PASS (4 new/5 retained); 41 frontend helper PASS (3 new/38 retained); 56 pipeline and 42 focused Sprint08 PostgreSQL cases PASS; 14 core HTTP groups (3 new) and 14 retained Sprint08 HTTP groups PASS; 5 retained Sprint08 browser groups, extended Resource browser flow and 13 broad release checks PASS. Lint/build/targeted Ruff PASS. No skips in the enumerated unit/PostgreSQL suites. Earlier failures and unexecuted acceptance cases remain recorded.\n\nRestore comparison: 100 tables and 499 constraints preserved, hashes/relationships verified. Actual bounded OTLP: 200 expected/distinct/physical samples, 0 missing/duplicates; 20 receipts; 21 accepted payload responses including replay and 1 expected unauthorized rejection. Concurrent read p50/p95/p99 before 47.723/142.428/481.643 ms, after 51.913/115.830/470.315 ms. RM-DEF-036 NOT REPRODUCED; no improvement or full throughput claim.\n\nEvidence: `docs/verification/oc-dev-002b/REPORT.md`, nine workstream documents, VALIDATION.json, ARTIFACT_SHA256.json, raw logs/screenshots/restore exports. Both normal and injected browser failure cleanup removed exact task containers/processes/private fixture inputs; failed attempts retained with redaction. Raw log whitespace and malformed legacy export limitations explicitly recorded.\n\nRemaining blockers: structured template applicability/immutable attachment history contract and schema; full template editing browser and delayed tenant-modal/keyboard cases; global sustained performance/query counts; reviewed PR80 convergence (3 textual conflicts; no migrations copied); spool/old-writer/publication/security review dependencies. All nine owner selections Pending; D07/D08 Pending; genuine-provider qualification not performed.\n\n**CI TRIGGERED — RESULT PENDING.** Push and PR synchronization trigger existing CI; mandatory trigger-and-exit applies, no monitoring or completion claim. Keep PR draft. No merge, deployment or OC-DEV-003.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n\n\n\n## OC-DEV-002C + supplemental inventory handoff — PARTIAL/BLOCKED\n\nFinal commit: `1ebe07fb6adb2d1bc5c3c885d9923e6afc7d25b2`. Exact tested code: `80835f0065de24ebf271fc621b6d1e5e83d73bd2`. Evidence-only final commit. Main remains `ffe5ac285ab8aef33a1139bce6f3da79be3d6d33`; PR80/81 remain draft/unmerged and untouched. Same PR82 branch retained; independent task clone in /tmp preserves all prior changes after shared /workspace filled.\n\nAdd template pin/override editing to the canonical Compute configuration workspace, explicit version selection, save/reload validation and unsaved-edit preservation on stale conflicts. Serialize attachment mutation paths, add optional expected_updated_at fencing and deny inactive/unavailable template enabling. Existing RBAC, tenant fences, migration guards, collector pin and monitoring-only boundary remain unchanged. No production schema or new migration.\n\nLocal verification at tested source:\n- Full57-module backend selection:564 executions,562 PASS,0 FAIL/ERROR,2 SKIP. Skips are actual pinned Contrib binary tests (binary not configured), not successful qualification.\n- Focused combined backend110 PASS and separate focused units12 PASS overlap the full suite. Three focused cases are new since002B.\n- Frontend41 PASS; lint/build/targeted Ruff PASS. New component verified through actual PostgreSQL-backed browser, not fabricated component mocks.\n- Core HTTP15 groups, Sprint08 HTTP14 groups, new resource/template/security browser7 groups, retained Sprint08 browser5 groups and pipeline browser PASS. Broad release13 grouped checks PASS. Counts overlap.\n- Five exact resource reload repetitions and keyboard-only edit/save pass. Original intermittent timeout remains NOT REPRODUCED; cause unknown. Separate accessible-label, native option synchronization and redacted-error assertion failures preserved/corrected.\n- Final restore:100 tables,1197 fixture rows,499 constraints; content hashes/relationships/audit/migration state preserved. Both guards and supported empty downgrade paths pass.\n- Matched bounded load:88 resources/82 collector configurations;750 expected/distinct/physical samples,75 receipts,0 missing/duplicates on each app. Higher-load API p50/p95/p99 before172.0/882.3/929.5ms, after150.8/1048.0/1093.0ms. CPU/RSS/SQL counts/DB size and request traces retained. RM-DEF-036 NOT REPRODUCED, no performance fix claimed.\n- Exact16 task-owned container identities absent; no orphan task servers; no broad cleanup/shared UAT operation.\n\nEvidence: `docs/verification/oc-dev-002c/` —12 original reports,3 supplemental legacy reports, authoritative14-step checklist +JSON, raw failures/logs/screenshots, source hashes and300-artifact SHA256 manifest.107 JSON files validate.\n\nRemaining: exact structured applicability and immutable attachment/override/effective-history contracts/schema; full global-tenant save interleavings/keyboard-only creation; original timeout disposition; representative all-module/fleet/long-duration performance; PR80 convergence (3 textual conflicts, no approved integrated candidate). Current overrides are persisted but not an immutable history implementation. New optimistic fencing remains optional for older clients.\n\nLegacy review:31 included journeys preserved;30 numbered definitions SOURCE_NOT_RECOVERED;20 excluded,32 skipped. No additional deletion qualified both authority and dependency safety.0 new removals; existing Kubernetes/container-monitoring exclusions, data, guards and historical migrations retained. Kubernetes deployment of OpsControl itself remains permitted.\n\nAuthoritative sequential checklist:1 PARTIAL;2–12 PENDING (not advanced);13–14 BLOCKED. No VERIFIED_COMPLETE claims. All nine owner selections and D07/D08 Pending; historical controlled approvals unchanged. No formal UAT/provider qualification or automatic OC-RPM-001/OC-DEV-003/OC-DEV-101.\n\n**Merge recommendation: NOT READY; keep PR draft.**\n\n**CI TRIGGERED — RESULT PENDING.** Push/PR synchronization triggers existing required workflows. Mandatory Trigger-and-Exit: no polling, waiting or completion claim; no publication/deployment dispatch. Owner monitors CI.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n"
+    },
+    {
+      "number": 80,
+      "title": "feat: integrate ETL workflow scope and establish unified architecture baseline",
+      "head": "dev/post-pr78-architecture-closure-20261105",
+      "head_sha": "958193f266c89302b2f1919e3703faece591e0af",
+      "base": "main",
+      "base_sha": "ffe5ac285ab8aef33a1139bce6f3da79be3d6d33",
+      "url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/pull/80",
+      "body": "Preserves and continues the existing PR #80 ETL workflow-first foundation, migration 0039, job/dependency APIs, monitoring projection and filter fix. Adds the OC-ARCH-001 architecture baseline and repairs the OC-ETL-002 request-scope integration blocker.\n\n## Scope repair\n\nThe new ETLWorkflow and ETLWorkflowDependency models were absent from the shared scope registry. Route-level permission mocks passed, but the actual request before_flush hook rejected writes even for administrators. Register both models through existing ownership traversal; enforce immutable parent/customer/endpoint IDs, same-workflow/customer/environment references and complete child-resource visibility. Existing deny-by-default hooks, RBAC and transactional audit remain enabled. No migration rewrite or security allowlist bypass.\n\n## Verification\n\nExact tested product commit: a590f426ff6ed679968688ea9486c70456cf6cc2.\n- 77 real PostgreSQL regressions PASS, zero failures/skips: 19 new scope tests, 16 foundation, 22 existing RBAC and 20 existing incident tests.\n- 21 authenticated HTTP assertions within those tests: authorized workflow/job/dependency writes and existing updates, viewer reads, unauthorized/cross-tenant/invalid relationship rejection and inactive workflow safeguards.\n- Fresh migrations through 0039 and alembic check PASS.\n- Workflow syntax validation, compile and final focused lint PASS. Dedicated disposable scope harness is now included in pipeline-v16 CI with artifact retention; hosted final-head CI remains separately assessed.\n- Earlier fixture uniqueness/expectation failures are retained. Four runs removed their owned containers and stopped APIs. No production/UAT access or broad Docker cleanup.\n\nReport, raw logs, commands, failures, source hashes and manifests: docs/verification/oc-etl-002/REPORT.md.\n\n## Architecture baseline\n\nSix requested documents under docs/architecture/unified-implementation-baseline trace all 33 journey slots (31 included, Journey 20 excluded, Journey 32 skipped), 16 ETL requirements, eight licensing design statements and the inherited approved Pentaho contract. Thirty exact numbered journey definitions remain unrecovered; no inferred journey mappings or fabricated approvals. Existing PR80 milestones remain preserved. Missing source decisions are distinct from implementation defects.\n\nCommits: 092ed0711f4fbc60a90fe814518df8e3a0707bc9 (baseline); a590f426ff6ed679968688ea9486c70456cf6cc2 (scope repair); a9fe107816fb91583b4262746a5c0a2c244c0e15 (evidence/CI wiring).\n\n## Remaining boundaries\n\nCF-01 repaired for scoped persistence. Populated migration rollback (CF-02) and concurrent DAG-cycle acceptance (CF-03) remain open; neither is implied by fresh migration or sequential-cycle tests. Resource-limited creation of empty/unbound workflows remains fail-closed; no authority expansion. Legacy reassignment and dependency endpoint mutation remain prohibited. Genuine providers, event-policy detail, licensing and retired-channel authority remain unresolved.\n\nMonitoring-only: no ETL execution, scheduling or retry controls; no Service Catalog/Kubernetes reintroduction. No merge, deployment, collector upgrade, branch-protection change or waiver. Keep draft.\n\nCHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.\n\n\n## OC-ETL-003: rollback safety and concurrent DAG integrity\n\nPopulated Workflow rollback previously dropped foundation data, and graph validation had no per-workflow transaction lock. The guarded migration runner now refuses unsafe populated downgrade before DDL without changing applied revisions. Dependency creation uses an authorized workflow row lock and a complete graph read. Only this route uses a shared authorization advisory lock; revocation/access mutations retain the exclusive lock and unchanged principal/session validation.\n\nImplementation tested at `f57153836615fb07d748ede6b49af6a11dba96fe`; evidence commits `2b2bff1` and final HEAD `a420dbc12e66196e00832f450d46a739b7cd0e99`.\n\nValidation: 84 PostgreSQL-backed regression tests PASS, 0 failures/errors/skips; six preservation groups PASS, including fresh/populated upgrade, safe empty/unassigned downgrade, refused populated rollback with unchanged table hashes, native identity/evidence guards, and actual pg_dump/pg_restore equivalence. Seven new authenticated HTTP concurrency cases include cycle/duplicate rejection, nonconflicting writes, independent workflows, timeout rollback and authorization-lock exclusion. All failed attempts and scoped cleanup retained. Applied migration hashes unchanged. Hosted final-head CI is pending, not claimed PASS.\n\nEvidence: [report](docs/verification/oc-etl-003/REPORT.md), [rollback contract](docs/verification/oc-etl-003/ROLLBACK_COMPATIBILITY.md), [concurrency tests](docs/verification/oc-etl-003/CONCURRENCY.md), [artifact checksums](docs/verification/oc-etl-003/ARTIFACT_SHA256.json). Unified architecture traceability updated without inventing journey authority.\n\nLimits: no guarantee for privileged SQL bypass, unsupported transaction isolation, every old populated downgrade chain, older runner checkouts, customer recovery or provider certification. Review remains required. CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO. Keep draft; no merge or deployment.\n\n\n## OC-ETL-003A.1 — CI compatibility and approved roadmap scope\n\nFinal source/evidence HEAD: `ed4c011dddd8de7a5f5d8c816d391608c1597f5f`. Implementation: `64098b0`; execution-log retention: `3a9726b`.\n\nCorrects all four identified migration CI regressions: central populated-refusal contract checks now retain data/schema/revision comparisons and recovery guidance; staging uses the explicit 0023 predecessor; NOC preserves populated incident history while retaining empty rollback and repeat-upgrade checks; restored Pentaho refusal recognizes the central guard. Production guard, RBAC, DAG locks and historical migrations are byte-identical to baseline.\n\nLocal verification: 84/84 owned PostgreSQL/HTTP regressions; six migration/backup/restore groups; 18/18 focused tests; V1.5 PostgreSQL suite 595 cases (569 pass, 26 explicit owned-scope skips covered by the separate 84-test run), full HTTP/browser suite PASS; full local staging and synthetic NOC/theme/recovery browser runs PASS. Exact logs, failure attempts, versions, hashes and cleanup are under `docs/verification/oc-etl-003a/REPORT.md`.\n\nCI roadmap matrix covers 56 recovered requirement/design IDs and all 33 journey slots: 31 included, Journey20 excluded, Journey32 skipped, 30 exact definitions SOURCE_NOT_RECOVERED. Nine owner decisions supplied in the conversation use OWNER_APPROVED_CONTROLLED_SCOPE — INDEPENDENT_UAT_PENDING. No independent UAT/provider certification is inferred. Existing backend-validation now validates this traceability; actionlint covers modified workflows.\n\nHosted final-HEAD CI: all 18 checks completed SUCCESS, including all four previously failing workflows. Exact conclusions and machine-readable check evidence: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6680327152. OC-ETL-004 UI work is a separate subsequent task. Keep draft. No merge/deploy. CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.\n\n\n## OC-ETL-004 — Workflow/Job configuration and bounded readiness\n\nImplementation `1d3004d24c67279746b6225e8951c9bf2b534075`; read-only expectations and exact clean tested source `6a9c7a2cc2eafbac76b6e7b48a54d35c9d115f19`; final evidence HEAD `9c021bbb94de3017bdc9f41b6a774d7b378ae9a7`.\n\nResource Management now provides Workflow list/create/edit/details, supported calendar/windows/duration/SLA, child Job name/host/runtime configuration, directed dependencies, and read-only expectations/receipts for viewer roles. Organization/environment selection, save/reload, invalid/failed-save preservation and stale tenant-response guards are covered. The existing secured mutation handlers, DAG locks, scope/audit hooks, protected migrations, collector pin and OC-ETL-003A CI corrections are unchanged.\n\nControlled verification: 85/85 real PostgreSQL/API regression tests (84 retained + one Chromium integration case), 19 actual authenticated browser groups, independent database reconciliation, six migration/backup/restore groups, 21 retained HTTP status assertions, and 45/45 frontend tests. Lint/build/static/workflow checks pass; task container/API/UI cleanup confirmed. Earlier failed attempts remain preserved. All 18 final-HEAD hosted checks completed SUCCESS. Exact conclusions and bounded-scope delivery evidence: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6681949516. Contract-dependent gaps remain BLOCKED; new ETL owner acceptance remains pending.\n\n**Explicit incomplete contracts:** frequency/recurrence/calendar details, a separate Job long-running threshold, native PipelineJob→Workflow Job binding, authoritative Workflow activation and full operational readiness remain BLOCKED. Backend readiness only describes supported child runtime fields; activation is BLOCKED and provider connectivity UNVERIFIED. A saved configuration never claims healthy/active monitoring. No workload Run/Retry/Stop/Terminate actions exist.\n\nEvidence: `docs/verification/oc-etl-004/2026-11-06/REPORT.md`, `OPEN_GAPS.md`, raw logs, screenshots, source hashes and artifact manifest. ETL-02/03/15/16 traceability updated; 31 journeys and 30 unrecovered numbered definitions retained; Journey20 excluded, Journey32 skipped. Nine prior approvals remain OWNER_APPROVED_CONTROLLED_SCOPE — INDEPENDENT_UAT_PENDING; new ETL functionality is pending owner acceptance.\n\nKeep draft. No merge/deployment or release waiver. CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.\n\n\n## OC-ETL-005 — Native binding and authoritative readiness contracts\n\nTest-only implementation: `3852c8d81f6fad4628c30f3cd0f8adaea6dc52f7`; final contracts/evidence HEAD: `a915322b5c5c80b0d37dea71f6b7f70237082340`. No production handlers, models, migrations, permissions or collector configuration changed.\n\nExisting staged FK chain is verified: PipelineJob.resource_id → MonitoringResource.job_order_id → JobOrder.workflow_id. Registration remains quarantined/unselected. The proposed temporal binding and six-dimensional readiness contracts require accountable D01–D10 decisions; no new Workflow activation or provider certification is claimed. Current association DELETE removes the link row; preserved receipts do not establish complete historical binding provenance.\n\nControlled PostgreSQL 17.11 verification: 86 tests PASS, 0 failures/errors/skips; includes 36 new authenticated HTTP status assertions, retained 19 browser groups and six migration/backup/restore groups. Counts overlap. Failed attempts, screenshots, raw logs, hashes and scoped cleanup retained under `docs/verification/oc-etl-005/`. All 18 final-HEAD hosted checks completed SUCCESS. Exact conclusions: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6683755842.\n\nContracts: `docs/architecture/etl/OC_ETL_005_NATIVE_BINDING_CONTRACT.md`, `OC_ETL_005_READINESS_CONTRACT.md`, `OC_ETL_005_DECISION_REGISTER.md`. Report: `docs/verification/oc-etl-005/REPORT.md`. Technical source/negative-case security review completed; independent accountable approvals remain pending. Next task: approve D01–D06 before additive implementation.\n\nKeep draft. No merge/deploy. CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.\n\n## OC-ETL-006 — approved temporal binding/readiness implementation, bounded subset\n\nOwner D01–D06 design/implementation/additive-migration/non-production authorization is recorded in `docs/verification/oc-etl-006/APPROVAL_AND_SCOPE.md`. Independent security/DBA/provider/UAT signatures are not inferred.\n\nInitial implementation `b94f7ed45209d7bd856193ee4da45da64097b241`; exact final product/test source `8e7cdf91d70f19a19c1cdf8d763818446b1c179f`; initial evidence HEAD `b3fe328809ee0a219cd9371a6bf73fe9e956380c`; corrected final HEAD `a061bdbabe7e250fe7141861c193ca837ef14dbe`. New migration `0040_etl_native_bindings` adds immutable scoped native **claim** versions, one current owner/Job uniqueness, validity periods, method/source/proof snapshots, receipt constraints and populated-downgrade protection. Secured stage/staged reader replacement/retire lifecycle retains existing authorization/revocation locks; opt-in routing and legacy activation paths fail closed. Resource Management shows history and six authoritative readiness dimensions with a versioned policy/evaluation timestamp. No workload controls, collector changes or applied migration edits.\n\nControlled PostgreSQL17.11 lab: **104 PASS, 0 failures/errors/skips**, including 18 new cases, 66 ordinary HTTP assertions plus concurrent outcomes, 9 new +19 retained actual browser groups and six retained migration groups (counts overlap). Actual temporal pg_dump/pg_restore compares all104 tables, columns and foreign keys; populated downgrade refuses with unchanged state. Terminated DB transaction rollback and task-owned API SIGKILL after acknowledged commit/same-version restart preserve history. Frontend46/46, lint/build and focused static checks PASS. All596 current artifact hashes validate; 36 local documentation links were checked; failed attempts and cleanup retained.\n\n**Definition of Done remains INCOMPLETE / BLOCKED.** No successful confirmed-native binding/positive qualified receipt routing or aggregate Workflow ACTIVE/HEALTHY is implemented: D09 exact authority attestation/provider evidence is missing. Current reader proof is insufficient to invent cross-method native aliases. Active-reader cutover refuses and requires reviewed handoff. Separate containerized deployment is BLOCKED pending immutable app candidates, old-writer version fencing and rollback rehearsal; no owner UAT/production deployment occurred. D07/D08 and independent UAT remain open. D01–D06 owner approval need not be repeated.\n\nReport: `docs/verification/oc-etl-006/REPORT.md`; migration/recovery and readiness matrices, raw logs/screenshots, TEST_MATRIX.json, VALIDATION.json and ARTIFACT_SHA256.json under that package. 31 journeys/30 unrecovered exact definitions, exclusions and nine prior controlled owner approvals unchanged.\n\nAll18 corrected final-HEAD hosted checks completed SUCCESS. Exact conclusions and remaining blockers: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6688016237. Keep draft; no merge/deployment. CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.\n\nOC-ETL-006 CI correction: initial pipeline/V1.5 failures were Black formatting in the changed service and readiness engine. Both files now match Black; AST identity proves no behavioral change from tested8e7cdf9. Exact local quality step exit0 and pipeline14 transport +56 PostgreSQL cases /9 HTTP groups PASS; failed hosted logs retained under `docs/verification/oc-etl-006/ci-remediation/`. Final corrected HEAD a061bdb: all18 hosted checks SUCCESS; exact results: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6688016237. No assertions, migration behavior or release policy changed.\n\n## OC-ETL-007 — PARTIAL/BLOCKED (2026-11-06)\n\nFinal evidence/CI HEAD: `c12db2764f6d581850b9d3ac5a89d6771a2fc002`; exact tested application/test source: `2b8eada577d0a56358d599c2f3a5e02d687b30a1`. Initial implementation: `882e7b7cf354666ae5dfa3d7213efb193ff855b9`; final production safeguard: `4b19aa1bffb2ed4da42f0fd21c0d63fc8cb72a6d`.\n\nProvider-independent signed authority envelopes, conditional proof-backed confirmation/provenance, and additive migration0041 enforce current-writer ownership across23 tables. Both current and old APIs refuse initial opt-in over an enabled shared reader. Genuine authority is never inferred from contract fixtures.\n\nActual local verification:117 PostgreSQL-backed tests PASS (104 retained +13 new),0 failures/errors/skips;46 frontend tests PASS,lint/build PASS;4 new +28 retained authenticated Chromium groups PASS (overlap with Python cases). Existing quality suite PASS; pipeline14 transport +56 PostgreSQL +9 HTTP groups PASS (overlap). All107 restored table hashes/schema relationships match. Two exact older source processes are fenced; accepted unaffected legacy IDs2/2 persisted,0missing/duplicates,6 opted-in old attempts rejected with0rows. This is data-preserving refusal, not operational old-image rollback certification.\n\nEvidence: [REPORT](docs/verification/oc-etl-007/REPORT.md), [test matrix](docs/verification/oc-etl-007/TEST_MATRIX.json), [older-writer contract](docs/verification/oc-etl-007/OLDER_WRITER_COMPATIBILITY.md), [SHA256 manifest](docs/verification/oc-etl-007/ARTIFACT_SHA256.json). Failed attempts retained. Task-owned containers/processes/private fixtures cleaned up.\n\nHosted final-HEAD CI: all18 checks SUCCESS at `c12db2764f6d581850b9d3ac5a89d6771a2fc002`. Exact conclusions and residual blockers: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6692539251. Previous pipeline run failed two archive setup cases because checkout omitted pinned historical commits; CI-only full-history/object checks added, assertions unchanged. Raw failed evidence retained.\n\nStill BLOCKED/NOT RUN: genuine exact-build provider attestation, positive qualified confirmation/receipt lifecycle, active/stale-generation cutover, operational older-image rollback, independent UAT and isolated immutable deployment. No qualified provider receipt was manufactured. No deployment, merge, production/UAT access or collector version change.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n\n## OC-ETL-008A — offline Pentaho qualification preparation\n\nFinal evidence HEAD `958193f266c89302b2f1919e3703faece591e0af`; exact final offline source `80de546078d773c0a07f88c8ebd99ce920666447`; baseline c12db2764f6d581850b9d3ac5a89d6771a2fc002.\n\n[Preparation report](docs/verification/oc-etl-008/REPORT.md), [read-only plan](docs/verification/oc-etl-008/READ_ONLY_QUALIFICATION_PLAN.md), [identity matrix](docs/verification/oc-etl-008/PENTAHO_NATIVE_IDENTITY_MATRIX.md), [endpoint safety](docs/verification/oc-etl-008/ENDPOINT_SAFETY_REVIEW.md), [authority mapping](docs/verification/oc-etl-008/AUTHORITY_EVIDENCE_MAPPING.md), [test matrix](docs/verification/oc-etl-008/OFFLINE_TEST_MATRIX.md), [authorization checklist](docs/verification/oc-etl-008/PROVIDER_AUTHORIZATION_CHECKLIST.md).\n\nActual local bounded offline tests: **60 PASS,0 failures/errors/skips**, including10 new preparation cases and50 retained; forbidden I/O attempts0. Black/Ruff/traceability PASS;27-artifact manifest;44 prior migration files unchanged. No runtime application, migration, provider adapter or writer-fence changes. All five endpoint candidates UNVERIFIED; two Server paths are review hypotheses only.\n\nQualified confirmation/receipt Q01–Q08 prepared, not executed or certified. No real endpoint, provider credential, discovery, workload execution, shared-data migration, deployment or qualified trust store used. D07/D08 policy decisions Pending. All nine current owner-acceptance selections Pending; historical controlled-scope approvals preserved. Genuine exact-build authority, active cutover, safe operational older-image rollback and release qualification remain BLOCKED.\n\nOC-ETL-008A hosted final-HEAD CI: **18/18 SUCCESS** at `958193f266c89302b2f1919e3703faece591e0af`. Exact source identities, conclusions and remaining blockers: https://github.com/Parikshit-Sahrawat/OpsControl_Dashboard/pull/80#issuecomment-6706845664.\n\n**CHK-001 FAIL · CHK-002 BLOCKED · SECURITY BLOCKED · RELEASE NO-GO.**\n"
+    }
+  ],
+  "archive_parent_heads": [
+    "8ca9a7753c0c5f16574629873d2a57a86d518185",
+    "2b1ade567dd4c0ad4967f3d603e3fdd84cffb782",
+    "a65e26246873bfcbf26ffba7478ab12bbe2e6498",
+    "325e09bb1f243e2734f573b1c3724e6ce0086e7d",
+    "4e1bbf24d4b286b15a1c3a02d5874e81e4327d02",
+    "90a97485d2588f522f9736265015d570cbb96652",
+    "955917474672df8c964e63f384513a2f373661d0",
+    "b8c1615340828d1d3031c635fb319565dd9f222a",
+    "8a09bd142fb6dbf7a79b131c0490e67e8de3fde0",
+    "3e7fb9d2ede79c44e3fbc9481a172da422f73eef",
+    "360f659d357c3a7a1840c5586cf66a717379b80f",
+    "68ccabb7b47e285fa5710442e92eb7f147ed2b0d",
+    "83e935eaa492ea83597e6daaa75f152006bd907f",
+    "712d405de92d3c87fe39606ce6fd5a706cddd236",
+    "d036f7f7b1611cb0d12a99f486984b20934e157a",
+    "d443fef32786508f4df1f36897cebd39c61f8530",
+    "4ad8eba671be383d635ec191f729519b8e2feeac",
+    "03a43a006b6a747e80390462a438eabeb11a67a5",
+    "365a1202314c8a744f3cb0cef60cec45976dac54"
+  ],
+  "planned_active_refs": [
+    "main",
+    "feat/staging-first-disposable-20261116",
+    "archive/pre-cleanup-20261116"
+  ],
+  "legacy_work_status": "Archived for selective reconciliation; unique historical code, unresolved acceptance and design records are not marked implemented or complete."
+}
