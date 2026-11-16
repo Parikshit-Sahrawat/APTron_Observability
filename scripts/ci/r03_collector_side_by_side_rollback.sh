@@ -2,7 +2,9 @@
 # SEC001-R03: isolated 0.123 -> patched 0.165 -> 0.163.2 JSON-bridge
 # -> 0.123 rollback experiment. OpenTelemetry v0.164+ writes protobuf-only
 # checkpoints, so direct downgrade to 0.123 is NOT safe. The 0.163.2
-# bridge is evaluation-only and MUST NOT be promoted based on this test.
+# bridge MUST explicitly disable its beta protobufCheckpointEncoding gate
+# (enabled by default since 0.156) to write JSON for legacy 0.123.
+# Bridge is evaluation-only, never a production/release promotion.
 # Never claim central ACK, physical HA, prod upgrade or legal approval.
 set -euo pipefail
 : "${RUNNER_TEMP:?An isolated CI-owned temporary root is required}"
@@ -61,11 +63,12 @@ YAML
 chmod 0644 "$work/collector.yaml"
 start_phase() {
   local image="$1"
+  shift
   docker run -d --name "$container" --network none \
     --user 10001:10001 --cap-drop ALL --security-opt no-new-privileges \
     -v "$work:/fixture:rw" \
     --entrypoint /otelcol-contrib "$image" \
-    --config=/fixture/collector.yaml >/dev/null
+    --config=/fixture/collector.yaml "$@" >/dev/null
 }
 await_marker() {
   local marker="$1"
@@ -99,11 +102,15 @@ if docker logs "$container" 2>&1 | grep -Fq SEC001_R03_LEGACY_0_123; then
   exit 1
 fi
 stop_phase "phase-patched.log"
-# 0.163.2 reads protobuf checkpoints from v0.165 and, with the default
-# disabled Alpha encoding flag, persists the updated offset in JSON. Do not
-# delete/reset checkpoint files: the bridge must preserve offsets exactly.
+# 0.163.2 reads protobuf checkpoints from v0.165, but the
+# filelog.protobufCheckpointEncoding gate became BETA/ON by default in
+# v0.156.0. EXPLICITLY DISABLE IT on the intermediate bridge only so a
+# newly processed event saves the cursor checkpoint in legacy JSON.
+# Do NOT disable it on v0.165 (stable/immutable), delete state or reset offsets.
+# Source: https://pkg.go.dev/github.com/open-telemetry/opentelemetry-collector-contrib/receiver/filelogreceiver
+# Source: https://github.com/open-telemetry/opentelemetry-collector/blob/main/featuregate/README.md
 printf '%s\n' SEC001_R03_BRIDGE_0_163 >> "$work/events.log"
-start_phase "$bridge"
+start_phase "$bridge" '--feature-gates=-filelog.protobufCheckpointEncoding'
 await_marker SEC001_R03_BRIDGE_0_163
 if docker logs "$container" 2>&1 | grep -Eq 'SEC001_R03_(LEGACY_0_123|NEW_0_165)'; then
   echo "FAIL: bridge replayed an already checkpointed log" >&2
@@ -120,5 +127,5 @@ if docker logs "$container" 2>&1 | grep -Eq 'SEC001_R03_(LEGACY_0_123|NEW_0_165|
   exit 1
 fi
 stop_phase "phase-rollback.log"
-echo "PASS: isolated 0.123 -> patched 0.165 -> 0.163.2 JSON bridge -> 0.123 with retained filelog offsets"
+echo "PASS: isolated 0.123 -> patched 0.165 -> 0.163.2 JSON bridge (protobuf encoding explicitly disabled) -> 0.123 with retained filelog offsets"
 echo "REVIEW_ONLY: 0.163.2 bridge is NOT a qualified final image; central receipt durability, tenant identity, HA, TLS rotation and production rollback are NOT certified"

@@ -42,7 +42,9 @@ performs a four-stage test using exact pinned OCI image identities:
 2. **patched v0.165.0**: accept legacy JSON, process next synthetic event,
    persist protobuf checkpoint, and verify no prior marker replay.
 3. **v0.163.2, EVALUATION ONLY**: read protobuf checkpoint and write back JSON
-   after processing a new event, with default-disabled protobuf encoding.
+   after processing a new event with **`--feature-gates=-filelog.protobufCheckpointEncoding`**.
+   The gate became **beta and enabled by default in v0.156**, so omitting this
+   explicit disable caused the previous bridge attempt to keep writing protobuf.
    Verify no replay, no checkpoint deletion, and identity continuity.
 4. **v0.123.0**: read converted JSON, process next marker, reject duplicate
    delivery of all prior markers; allow clean shutdown.
@@ -75,6 +77,15 @@ native Collector migration.
   host/Collector restarts and PostgreSQL promotion.
 - Independent Collector Architecture and Security review, plus actual
   image-bound legal approval and the unchanged mandatory Tier C security gate.
+
+**Evidence update 16 Nov 2026:** [run 43790632287](https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43790632287)
+failed at the last v0.123 restart (`invalid character 'G'`). That run had
+accepted the 0.163.2 bridge version but **never disabled its beta default-on
+protobuf feature gate**. The next isolated trial explicitly disables encoding on
+the bridge. This is a **hypothesis pending CI**, NOT proven rollback.
+
+Source: [Collector upstream filelog docs](https://pkg.go.dev/github.com/open-telemetry/opentelemetry-collector-contrib/receiver/filelogreceiver)
+and [feature gate CLI semantics](https://github.com/open-telemetry/opentelemetry-collector/blob/main/featuregate/README.md).
 
 **Decision until independently accepted:** active v0.123.0 pin unchanged,
 native migration boundary unchanged, rollback **NOT CERTIFIED**, release NO-GO.
