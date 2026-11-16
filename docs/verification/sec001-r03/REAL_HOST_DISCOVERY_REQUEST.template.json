@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "APTRON_R03_REAL_HOST_DISCOVERY_REQUEST",
+  "status": "WAITING_FOR_INDEPENDENT_PHYSICAL_IDENTIFICATION",
+  "owner_approved_design": "3 isolated hosts Ubuntu24.04 amd64 8vCPU 32GiB RAM >=200GiB SSD, 3 etcd voters and PG17 Patroni",
+  "lab_network": {
+    "proposed_cidr": "10.77.30.0/27",
+    "is_proposed_only": true,
+    "real_cidr": null,
+    "network_admin": null,
+    "network_ticket": null,
+    "vlan_id": null,
+    "nonproduction_isolation_attested": false
+  },
+  "mgmt_network": {
+    "proposed_cidr": "10.77.31.0/27",
+    "is_proposed_only": true,
+    "real_cidr": null,
+    "network_admin": null,
+    "bmc_internet_blocked": null,
+    "independent_switch_or_path_verified": false
+  },
+  "hosts": [
+    {
+      "proposed_label": "aptron-ha-01",
+      "actual_asset_id": null,
+      "hardware_serial_or_hypervisor_uuid": null,
+      "bmc_asset_id": null,
+      "rack_or_failure_domain": null,
+      "power_feed_id": null,
+      "physical_host_or_distinct_hypervisor_proof": null,
+      "actual_private_ip": null,
+      "actual_bmc_private_ip": null,
+      "os_cpu_ram_disk_readonly_report_sha256": null,
+      "tls_san_cert_fingerprint": null,
+      "independent_platform_witness": null,
+      "owner_authorized_for_readonly_checks": false,
+      "owner_authorized_for_fault_injection": false
+    },
+    {
+      "proposed_label": "aptron-ha-02",
+      "actual_asset_id": null,
+      "hardware_serial_or_hypervisor_uuid": null,
+      "bmc_asset_id": null,
+      "rack_or_failure_domain": null,
+      "power_feed_id": null,
+      "physical_host_or_distinct_hypervisor_proof": null,
+      "actual_private_ip": null,
+      "actual_bmc_private_ip": null,
+      "os_cpu_ram_disk_readonly_report_sha256": null,
+      "tls_san_cert_fingerprint": null,
+      "independent_platform_witness": null,
+      "owner_authorized_for_readonly_checks": false,
+      "owner_authorized_for_fault_injection": false
+    },
+    {
+      "proposed_label": "aptron-ha-03",
+      "actual_asset_id": null,
+      "hardware_serial_or_hypervisor_uuid": null,
+      "bmc_asset_id": null,
+      "rack_or_failure_domain": null,
+      "power_feed_id": null,
+      "physical_host_or_distinct_hypervisor_proof": null,
+      "actual_private_ip": null,
+      "actual_bmc_private_ip": null,
+      "os_cpu_ram_disk_readonly_report_sha256": null,
+      "tls_san_cert_fingerprint": null,
+      "independent_platform_witness": null,
+      "owner_authorized_for_readonly_checks": false,
+      "owner_authorized_for_fault_injection": false
+    }
+  ],
+  "fencing": {
+    "patroni_watchdog_required": true,
+    "approved_hardware_watchdog_model": null,
+    "actual_watchdog_device": null,
+    "separate_bmc_redfish_or_ipmi_control": null,
+    "fence_controller_identity": null,
+    "independent_safety_operator": null,
+    "fault_change_ticket": null,
+    "explicit_host_fault_authorization": false
+  },
+  "checks": {
+    "no_identical_hypervisor_or_physical_host": true,
+    "no_shared_single_power_supply": false,
+    "no_production_customer_data": true,
+    "dry_run_only": true
+  },
+  "actual_hosts_identified": false,
+  "ha_certified": false,
+  "release_eligible": false
+}

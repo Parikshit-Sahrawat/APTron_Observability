@@ -1,0 +1,1961 @@
+{
+  "schema": 1,
+  "policy": "APTRON_STAGING_FIRST_V1",
+  "owner": "Project Owner \u2014 Parikshit Sahrawat",
+  "authorization": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+  "scope": "disposable-ci-staging",
+  "created_at": "2026-11-16",
+  "expires_at": "2026-11-30T23:59:59+05:30",
+  "staging_roles": [
+    "uat-backend",
+    "frontend",
+    "postgres"
+  ],
+  "inventory_roles": [
+    "backend-runtime",
+    "backend-migration",
+    "uat-backend",
+    "frontend",
+    "postgres",
+    "ingestion-gateway",
+    "otel-contrib",
+    "production-frontend"
+  ],
+  "production_approved": false,
+  "production_gate": "Existing image_security_gate.py and release_authorization.py remain enforced; staging artifacts cannot be promoted.",
+  "exceptions": [
+    {
+      "owner": "Project Owner \u2014 Parikshit Sahrawat",
+      "approved_at": "2026-11-16",
+      "approval_reference": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+      "expires_at": "2026-11-30T23:59:59+05:30",
+      "scope": "Disposable GitHub-hosted staging only; synthetic data; internal container network; loopback UI/API; no image publication, existing host or production promotion",
+      "status": "APPROVED_TEMPORARY_STAGING_EXCEPTION",
+      "id": "STG-VULN-BACKEND-MIGRATION",
+      "kind": "vulnerability",
+      "roles": [
+        "backend-migration"
+      ],
+      "risk": "Known severe OS or legacy Collector vulnerabilities remain exploitable under their preconditions. Isolation and synthetic data reduce exposure; findings remain unresolved.",
+      "exit_criteria": "Remediate and rescan actual final images; reassess findings after staging and close all production-blocking security requirements before production.",
+      "findings": [
+        {
+          "id": "CVE-2026-119373",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119374",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119379",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119586",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        }
+      ],
+      "evidence_reference": "Exact current release scan run 43803115925; source e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885"
+    },
+    {
+      "owner": "Project Owner \u2014 Parikshit Sahrawat",
+      "approved_at": "2026-11-16",
+      "approval_reference": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+      "expires_at": "2026-11-30T23:59:59+05:30",
+      "scope": "Disposable GitHub-hosted staging only; synthetic data; internal container network; loopback UI/API; no image publication, existing host or production promotion",
+      "status": "APPROVED_TEMPORARY_STAGING_EXCEPTION",
+      "id": "STG-VULN-BACKEND-RUNTIME",
+      "kind": "vulnerability",
+      "roles": [
+        "backend-runtime"
+      ],
+      "risk": "Known severe OS or legacy Collector vulnerabilities remain exploitable under their preconditions. Isolation and synthetic data reduce exposure; findings remain unresolved.",
+      "exit_criteria": "Remediate and rescan actual final images; reassess findings after staging and close all production-blocking security requirements before production.",
+      "findings": [
+        {
+          "id": "CVE-2026-119373",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119374",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119379",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119586",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        }
+      ],
+      "evidence_reference": "Exact current release scan run 43803115925; source e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885"
+    },
+    {
+      "owner": "Project Owner \u2014 Parikshit Sahrawat",
+      "approved_at": "2026-11-16",
+      "approval_reference": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+      "expires_at": "2026-11-30T23:59:59+05:30",
+      "scope": "Disposable GitHub-hosted staging only; synthetic data; internal container network; loopback UI/API; no image publication, existing host or production promotion",
+      "status": "APPROVED_TEMPORARY_STAGING_EXCEPTION",
+      "id": "STG-VULN-OTEL-CONTRIB",
+      "kind": "vulnerability",
+      "roles": [
+        "otel-contrib"
+      ],
+      "risk": "Known severe OS or legacy Collector vulnerabilities remain exploitable under their preconditions. Isolation and synthetic data reduce exposure; findings remain unresolved.",
+      "exit_criteria": "Remediate and rescan actual final images; reassess findings after staging and close all production-blocking security requirements before production.",
+      "findings": [
+        {
+          "id": "CVE-2026-63772",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-66055",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-82458",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-83663",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-94637",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-259r-337f-4rfw",
+          "namespace": "github:language:go",
+          "package": "github.com/klauspost/compress",
+          "version": "v1.18.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-27gv-rfvv-22mv",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-2v4p-qf9q-27wj",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-33mj-cw25-m34h",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-465g-fh3v-9jw4",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-4v58-74mf-rjx3",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-5cgq-3rg8-m6cv",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-65xw-vw82-r86x",
+          "namespace": "github:language:go",
+          "package": "github.com/antchfx/xpath",
+          "version": "v1.3.3",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-6c5v-hqjr-5xxp",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-6g7g-w4f8-9c9x",
+          "namespace": "github:language:go",
+          "package": "github.com/buger/jsonparser",
+          "version": "v1.1.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-78h2-9frx-2jm8",
+          "namespace": "github:language:go",
+          "package": "github.com/go-jose/go-jose/v4",
+          "version": "v4.0.5",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-89gr-r52h-f8rx",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-8rm2-7qqf-34qm",
+          "namespace": "github:language:go",
+          "package": "github.com/prometheus/prometheus",
+          "version": "v0.300.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-8wv5-x4w7-5gww",
+          "namespace": "github:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-9h8m-3fm2-qjrq",
+          "namespace": "github:language:go",
+          "package": "go.opentelemetry.io/otel/sdk",
+          "version": "v1.35.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-9jj7-4m8r-rfcm",
+          "namespace": "github:language:go",
+          "package": "github.com/jackc/pgx/v5",
+          "version": "v5.7.4",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-9mj6-hxhv-w67j",
+          "namespace": "github:language:go",
+          "package": "github.com/dvsekhvalnov/jose2go",
+          "version": "v1.6.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-c5pq-fr2g-9jpf",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-cfpf-hrx2-8rv6",
+          "namespace": "github:language:go",
+          "package": "github.com/expr-lang/expr",
+          "version": "v1.17.2",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-f5wc-c3c7-36mc",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-hfvc-g4fc-pqhx",
+          "namespace": "github:language:go",
+          "package": "go.opentelemetry.io/otel/sdk",
+          "version": "v1.35.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-hrxh-6v49-42gf",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-j497-x9hr-x34x",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-jppx-rxg9-jmrx",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-mgcc-cww5-fp2q",
+          "namespace": "github:language:go",
+          "package": "github.com/go-jose/go-jose/v4",
+          "version": "v4.0.5",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-p77j-4mvh-x3m3",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-q4h4-gmj2-qvw2",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-r9c8-gcjp-xfwh",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-rg2x-37c3-w2rh",
+          "namespace": "github:language:go",
+          "package": "github.com/docker/docker",
+          "version": "v28.0.1+incompatible",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-rm3j-f69w-wqmq",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-rm6m-hrcw-jw33",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-vgwf-h737-ff37",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-vp52-pcj8-j9qc",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-w879-237q-wc7r",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-wf45-q9ch-q8gh",
+          "namespace": "github:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-wg65-39gg-5wfj",
+          "namespace": "github:language:go",
+          "package": "github.com/prometheus/prometheus",
+          "version": "v0.300.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-x527-x647-q7gg",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-x86f-5xw2-fm2r",
+          "namespace": "github:language:go",
+          "package": "github.com/docker/docker",
+          "version": "v28.0.1+incompatible",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-xgrm-4fwx-7qm8",
+          "namespace": "github:language:go",
+          "package": "github.com/jackc/pgx/v5",
+          "version": "v5.7.4",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-xwwf-m8fg-p9q2",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-3563",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2025-3749",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-3849",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4006",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4007",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4009",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4013",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4116",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4155",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4337",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-4341",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4601",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4870",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4887",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/docker/docker",
+          "version": "v28.0.1+incompatible",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4918",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4918",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4946",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4947",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4970",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4971",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4977",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4981",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4986",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5026",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5026",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5037",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5038",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5046",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/hamba/avro/v2",
+          "version": "v2.25.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5047",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/hamba/avro/v2",
+          "version": "v2.25.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5048",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/hamba/avro/v2",
+          "version": "v2.25.1",
+          "type": "go-module",
+          "severity": "Unknown"
+        },
+        {
+          "id": "GO-2026-5932",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Unknown"
+        },
+        {
+          "id": "GO-2026-5942",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5970",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/text",
+          "version": "v0.23.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5972",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6088",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6089",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6090",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6179",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/mod",
+          "version": "v0.24.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6180",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/mod",
+          "version": "v0.24.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6303",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6354",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6355",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6603",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6603",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6604",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-6605",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6607",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6608",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6609",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6610",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6610",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6611",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6611",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6612",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-6612",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-6613",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6617",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6617",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6629",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/text",
+          "version": "v0.23.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6859",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Unknown"
+        },
+        {
+          "id": "GO-2026-6860",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6865",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/klauspost/compress",
+          "version": "v1.18.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6888",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/andybalholm/brotli",
+          "version": "v1.1.1",
+          "type": "go-module",
+          "severity": "Critical"
+        }
+      ],
+      "evidence_reference": "Exact current release scan run 43803115925; source e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885"
+    },
+    {
+      "owner": "Project Owner \u2014 Parikshit Sahrawat",
+      "approved_at": "2026-11-16",
+      "approval_reference": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+      "expires_at": "2026-11-30T23:59:59+05:30",
+      "scope": "Disposable GitHub-hosted staging only; synthetic data; internal container network; loopback UI/API; no image publication, existing host or production promotion",
+      "status": "APPROVED_TEMPORARY_STAGING_EXCEPTION",
+      "id": "STG-VULN-UAT-BACKEND",
+      "kind": "vulnerability",
+      "roles": [
+        "uat-backend"
+      ],
+      "risk": "Known severe OS or legacy Collector vulnerabilities remain exploitable under their preconditions. Isolation and synthetic data reduce exposure; findings remain unresolved.",
+      "exit_criteria": "Remediate and rescan actual final images; reassess findings after staging and close all production-blocking security requirements before production.",
+      "findings": [
+        {
+          "id": "CVE-2026-119373",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119374",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119379",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-119586",
+          "namespace": "nvd:cpe",
+          "package": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "type": "apk",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-63772",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-66055",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-82458",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-83663",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "CVE-2026-94637",
+          "namespace": "nvd:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-259r-337f-4rfw",
+          "namespace": "github:language:go",
+          "package": "github.com/klauspost/compress",
+          "version": "v1.18.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-27gv-rfvv-22mv",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-2v4p-qf9q-27wj",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-33mj-cw25-m34h",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-465g-fh3v-9jw4",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-4v58-74mf-rjx3",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-5cgq-3rg8-m6cv",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-65xw-vw82-r86x",
+          "namespace": "github:language:go",
+          "package": "github.com/antchfx/xpath",
+          "version": "v1.3.3",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-6c5v-hqjr-5xxp",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-6g7g-w4f8-9c9x",
+          "namespace": "github:language:go",
+          "package": "github.com/buger/jsonparser",
+          "version": "v1.1.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-78h2-9frx-2jm8",
+          "namespace": "github:language:go",
+          "package": "github.com/go-jose/go-jose/v4",
+          "version": "v4.0.5",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-89gr-r52h-f8rx",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-8rm2-7qqf-34qm",
+          "namespace": "github:language:go",
+          "package": "github.com/prometheus/prometheus",
+          "version": "v0.300.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-8wv5-x4w7-5gww",
+          "namespace": "github:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-9h8m-3fm2-qjrq",
+          "namespace": "github:language:go",
+          "package": "go.opentelemetry.io/otel/sdk",
+          "version": "v1.35.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-9jj7-4m8r-rfcm",
+          "namespace": "github:language:go",
+          "package": "github.com/jackc/pgx/v5",
+          "version": "v5.7.4",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-9mj6-hxhv-w67j",
+          "namespace": "github:language:go",
+          "package": "github.com/dvsekhvalnov/jose2go",
+          "version": "v1.6.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-c5pq-fr2g-9jpf",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-cfpf-hrx2-8rv6",
+          "namespace": "github:language:go",
+          "package": "github.com/expr-lang/expr",
+          "version": "v1.17.2",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-f5wc-c3c7-36mc",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-hfvc-g4fc-pqhx",
+          "namespace": "github:language:go",
+          "package": "go.opentelemetry.io/otel/sdk",
+          "version": "v1.35.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-hrxh-6v49-42gf",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-j497-x9hr-x34x",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-jppx-rxg9-jmrx",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-mgcc-cww5-fp2q",
+          "namespace": "github:language:go",
+          "package": "github.com/go-jose/go-jose/v4",
+          "version": "v4.0.5",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-p77j-4mvh-x3m3",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-q4h4-gmj2-qvw2",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-r9c8-gcjp-xfwh",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-rg2x-37c3-w2rh",
+          "namespace": "github:language:go",
+          "package": "github.com/docker/docker",
+          "version": "v28.0.1+incompatible",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-rm3j-f69w-wqmq",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-rm6m-hrcw-jw33",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-vgwf-h737-ff37",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-vp52-pcj8-j9qc",
+          "namespace": "github:language:go",
+          "package": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-w879-237q-wc7r",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-wf45-q9ch-q8gh",
+          "namespace": "github:language:go",
+          "package": "github.com/apache/thrift",
+          "version": "v0.21.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-wg65-39gg-5wfj",
+          "namespace": "github:language:go",
+          "package": "github.com/prometheus/prometheus",
+          "version": "v0.300.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-x527-x647-q7gg",
+          "namespace": "github:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-x86f-5xw2-fm2r",
+          "namespace": "github:language:go",
+          "package": "github.com/docker/docker",
+          "version": "v28.0.1+incompatible",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GHSA-xgrm-4fwx-7qm8",
+          "namespace": "github:language:go",
+          "package": "github.com/jackc/pgx/v5",
+          "version": "v5.7.4",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GHSA-xwwf-m8fg-p9q2",
+          "namespace": "github:language:go",
+          "package": "github.com/rabbitmq/amqp091-go",
+          "version": "v1.10.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-3563",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2025-3749",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-3849",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4006",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4007",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4009",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4013",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4116",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2025-4155",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4337",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-4341",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4601",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4870",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4887",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/docker/docker",
+          "version": "v28.0.1+incompatible",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4918",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4918",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4946",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4947",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4970",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4971",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4977",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4981",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-4986",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5026",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5026",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5037",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5038",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5046",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/hamba/avro/v2",
+          "version": "v2.25.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5047",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/hamba/avro/v2",
+          "version": "v2.25.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5048",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/hamba/avro/v2",
+          "version": "v2.25.1",
+          "type": "go-module",
+          "severity": "Unknown"
+        },
+        {
+          "id": "GO-2026-5932",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "Unknown"
+        },
+        {
+          "id": "GO-2026-5942",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5970",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/text",
+          "version": "v0.23.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-5972",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6088",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6089",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6090",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6179",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/mod",
+          "version": "v0.24.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6180",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/mod",
+          "version": "v0.24.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6303",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6354",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6355",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/crypto",
+          "version": "v0.36.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6603",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6603",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6604",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-6605",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6607",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6608",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6609",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6610",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6610",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6611",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6611",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6612",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-6612",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Critical"
+        },
+        {
+          "id": "GO-2026-6613",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6617",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6617",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6629",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/text",
+          "version": "v0.23.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6859",
+          "namespace": "govulndb:language:go",
+          "package": "stdlib",
+          "version": "go1.24.1",
+          "type": "go-module",
+          "severity": "Unknown"
+        },
+        {
+          "id": "GO-2026-6860",
+          "namespace": "govulndb:language:go",
+          "package": "golang.org/x/net",
+          "version": "v0.37.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6865",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/klauspost/compress",
+          "version": "v1.18.0",
+          "type": "go-module",
+          "severity": "High"
+        },
+        {
+          "id": "GO-2026-6888",
+          "namespace": "govulndb:language:go",
+          "package": "github.com/andybalholm/brotli",
+          "version": "v1.1.1",
+          "type": "go-module",
+          "severity": "Critical"
+        }
+      ],
+      "evidence_reference": "Exact current release scan run 43803115925; source e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885"
+    },
+    {
+      "owner": "Project Owner \u2014 Parikshit Sahrawat",
+      "approved_at": "2026-11-16",
+      "approval_reference": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+      "expires_at": "2026-11-30T23:59:59+05:30",
+      "scope": "Disposable GitHub-hosted staging only; synthetic data; internal container network; loopback UI/API; no image publication, existing host or production promotion",
+      "status": "APPROVED_TEMPORARY_STAGING_EXCEPTION",
+      "id": "STG-LEGAL-001",
+      "kind": "legal",
+      "roles": [
+        "backend-runtime",
+        "backend-migration",
+        "uat-backend",
+        "frontend",
+        "postgres",
+        "ingestion-gateway",
+        "otel-contrib",
+        "production-frontend"
+      ],
+      "risk": "Independent License/NOTICE and source-offer review is incomplete; staging is not permission for external redistribution.",
+      "exit_criteria": "Independent accountable License/NOTICE/source-offer decisions bound to each final distribution image digest before production."
+    },
+    {
+      "owner": "Project Owner \u2014 Parikshit Sahrawat",
+      "approved_at": "2026-11-16",
+      "approval_reference": "Owner-approved APTron Observability Staging-First Validation Policy in this session; disposable CI staging selected explicitly",
+      "expires_at": "2026-11-30T23:59:59+05:30",
+      "scope": "Disposable GitHub-hosted staging only; synthetic data; internal container network; loopback UI/API; no image publication, existing host or production promotion",
+      "status": "APPROVED_TEMPORARY_STAGING_EXCEPTION",
+      "id": "STG-HA-001",
+      "kind": "physical_ha",
+      "roles": [
+        "deployment"
+      ],
+      "risk": "Single-runner staging has no certified host-loss tolerance or production durability guarantee.",
+      "exit_criteria": "Complete formal independent physical HA, fencing, recovery and compatibility certification before production."
+    }
+  ]
+}

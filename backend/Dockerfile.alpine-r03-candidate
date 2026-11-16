@@ -1,0 +1,96 @@
+# SEC001-R03A isolated Alpine/musl backend qualification ONLY.
+# DO NOT select for release or deploy without owned-PostgreSQL, tenant/RBAC,
+# migration/rollback, platform/ABI and accountable license acceptance.
+# Exact official Python 3.12.16 Alpine 3.23 linux/amd64 image manifest.
+# UAT parity candidate includes the unchanged pinned 0.123 Collector binary.
+# This inherits its scanner findings and must NEVER be promoted on smoke tests.
+FROM otel/opentelemetry-collector-contrib:0.123.0@sha256:e39311df1f3d941923c00da79ac7ba6269124a870ee87e3c3ad24d60f8aee4d2 AS legacy_telemetry
+
+FROM python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422 AS dependencies
+WORKDIR /build
+COPY requirements*.txt bootstrap_pip.py pip-bootstrap.json ./
+RUN --mount=type=secret,id=proxy_ca,required=true \
+    PIP_CERT=/run/secrets/proxy_ca python bootstrap_pip.py
+# Require verified musllinux/pure-Python wheels. No unqualified source build.
+# psutil 7.1.0 lacks a musllinux wheel in the verified index. Compile
+# exactly that pinned package in this disposable builder, not in runtime.
+RUN --mount=type=secret,id=proxy_ca,required=true \
+    SSL_CERT_FILE=/run/secrets/proxy_ca apk add --no-cache build-base linux-headers
+RUN --mount=type=secret,id=proxy_ca,required=true \
+    PIP_CERT=/run/secrets/proxy_ca python -m pip wheel \
+      --no-deps --no-binary=psutil --wheel-dir=/tmp/qualified-wheels psutil==7.1.0 \
+    && sha256sum /tmp/qualified-wheels/psutil-7.1.0-*.whl
+RUN --mount=type=secret,id=proxy_ca,required=true \
+    PIP_CERT=/run/secrets/proxy_ca python -m pip install \
+      --no-cache-dir --only-binary=:all: --find-links=/tmp/qualified-wheels \
+      --prefix=/install -r requirements-providers.txt -r requirements-hosts.txt
+
+FROM python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422 AS runtime_base
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+RUN --mount=type=secret,id=proxy_ca,required=true \
+    SSL_CERT_FILE=/run/secrets/proxy_ca apk upgrade --no-cache \
+    && rm -rf /usr/local/lib/python3.12/site-packages/pip \
+      /usr/local/lib/python3.12/site-packages/pip-*.dist-info \
+      /usr/local/lib/python3.12/ensurepip /root/.cache/pip \
+    && rm -f /usr/local/bin/pip /usr/local/bin/pip3 /usr/local/bin/pip3.12
+COPY --from=dependencies /install/ /usr/local/
+WORKDIR /app
+COPY app/ app/
+COPY scripts/ scripts/
+RUN chmod -R a+rX /app/app /app/scripts
+USER 10001:10001
+
+FROM runtime_base AS runtime
+EXPOSE 8000
+CMD ["python", "-m", "scripts.run_api"]
+
+FROM runtime_base AS migration
+USER 0
+COPY migrations/ /app/migrations/
+COPY alembic.ini /app/alembic.ini
+RUN chmod -R a+rX /app/migrations /app/alembic.ini
+USER 10001:10001
+CMD ["python", "-m", "alembic", "upgrade", "head"]
+
+# Isolated hardened UAT parity target. Keeps legacy 0.123 binary and migration
+# scripts, but removes runtime pip, compilers and root execution. This is NOT a
+# migration to the patched 0.165 or native Collector and inherits older CVEs.
+FROM runtime_base AS uat
+USER 0
+COPY --from=legacy_telemetry /otelcol-contrib /usr/local/bin/otelcol-contrib
+COPY migrations/ /app/migrations/
+COPY alembic.ini /app/alembic.ini
+RUN chmod -R a+rX /app/migrations /app/alembic.ini \
+    && chmod 0755 /usr/local/bin/otelcol-contrib
+ENV OPSCONTROL_OTEL_BINARY=/usr/local/bin/otelcol-contrib
+USER 10001:10001
+EXPOSE 8000
+CMD ["python", "-m", "scripts.run_api"]
+
+# SEC001-R03D: isolated UAT with a rebuilt, scanned patched 0.165 Collector.
+# This requires a named, exact-hash local BuildKit context "patched_telemetry"
+# from the same trusted CI workflow. It never changes the pinned release image.
+# Missing patch provenance or binary SHA-256 MUST fail build (no fallback).
+FROM runtime_base AS uat_patched
+USER 0
+ARG PATCHED_COLLECTOR_SHA256
+ARG PATCHED_COLLECTOR_LEGAL_SHA256
+COPY --from=patched_telemetry /otelcol-contrib /usr/local/bin/otelcol-contrib
+COPY --from=patched_telemetry /otelcol-buildinfo.txt /usr/share/aptron/collector/otelcol-buildinfo.txt
+COPY --from=patched_telemetry /source-binding.json /usr/share/aptron/collector/source-binding.json
+COPY --from=patched_telemetry /collector-legal/ /usr/share/aptron/collector/legal/
+COPY migrations/ /app/migrations/
+COPY alembic.ini /app/alembic.ini
+RUN test -n "$PATCHED_COLLECTOR_SHA256" \
+    && printf '%s  /usr/local/bin/otelcol-contrib\n' "$PATCHED_COLLECTOR_SHA256" | sha256sum -c - \
+    && test -n "$PATCHED_COLLECTOR_LEGAL_SHA256" \
+    && printf '%s  /usr/share/aptron/collector/legal/SHA256SUMS\n' "$PATCHED_COLLECTOR_LEGAL_SHA256" | sha256sum -c - \
+    && (cd /usr/share/aptron/collector/legal && sha256sum -c SHA256SUMS) \
+    && chmod -R a+rX /usr/share/aptron/collector \
+    && chmod 0755 /usr/local/bin/otelcol-contrib \
+    && /usr/local/bin/otelcol-contrib --version | grep -F '0.165.0' \
+    && chmod -R a+rX /app/migrations /app/alembic.ini
+ENV OPSCONTROL_OTEL_BINARY=/usr/local/bin/otelcol-contrib
+USER 10001:10001
+EXPOSE 8000
+CMD ["python", "-m", "scripts.run_api"]

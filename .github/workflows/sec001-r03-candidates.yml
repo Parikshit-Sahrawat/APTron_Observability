@@ -1,0 +1,617 @@
+name: "SEC001-R03 - Isolated Image Candidate Qualification (No Deploy)"
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sec001-r03-candidates-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sqlite-supplier-preflight:
+    name: sqlite-supplier-preflight (NO APK / NOT APPROVED)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Run vendor trust, offline signature and missing-signer negative tests
+        run: |
+          python -m unittest discover -s tests -p 'test_r03_supplier_evidence.py' -v
+          python -m unittest discover -s tests -p 'test_r03_verify_vendor_apk_offline.py' -v
+      - name: Verify no supplier APK can be installed without authenticated trust and legal review
+        run: |
+          python scripts/ci/r03_supplier_evidence.py --output "$RUNNER_TEMP/r03-supplier.json"
+          python - <<'PY'
+          import json,os,pathlib
+          path=pathlib.Path(os.environ["RUNNER_TEMP"])/"r03-supplier.json"
+          result=json.loads(path.read_text())
+          assert result["status"] == "BLOCKED_INDEPENDENT_REVIEW_REQUIRED"
+          assert not result["apk_present"] and not result["apk_install_authorized"]
+          assert not result["release_eligible"] and not result["supplier_approved"]
+          print("PASS: supplier intake blocked pending authentic signing/entitlement/legal evidence")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sec001-r03-sqlite-supplier-preflight-not-approved
+          path: ${{ runner.temp }}/r03-supplier.json
+          if-no-files-found: error
+  ha-contract-readiness:
+    name: ha-contract-readiness (NOT HA certification)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Run independent failure-domain negative contract tests
+        run: python -m unittest discover -s tests -p 'test_r03_ha_evidence_contract.py' -v
+      - name: Validate owner-approved three-host inert lab blueprint (NO DEPLOY)
+        run: |
+          python -m unittest discover -s tests -p 'test_r03_ha_lab_blueprint.py' -v
+          python -m unittest discover -s tests -p 'test_r03_legal_owner_evidence.py' -v
+          python -m unittest discover -s tests -p 'test_r03_independent_acceptance_templates.py' -v
+          python docs/verification/sec001-r03/ha-lab/render_node.py \
+            --inventory docs/verification/sec001-r03/ha-lab/inventory.example.json \
+            > "$RUNNER_TEMP/r03-ha-blueprint-readiness.json"
+          python - <<'PY'
+          import json, os, pathlib
+          report = json.loads((pathlib.Path(os.environ["RUNNER_TEMP"]) /
+                               "r03-ha-blueprint-readiness.json").read_text())
+          assert report["status"] == "BLOCKED"
+          assert not report["deployment_authorized"] and not report["physical_ha_certified"]
+          print("PASS: no host identity invented or physical lab accidentally approved")
+          PY
+      - name: Record missing independent multi-host evidence as BLOCKED
+        run: |
+          python scripts/ci/r03_ha_evidence_contract.py --output "$RUNNER_TEMP/r03-ha-contract.json"
+          python - <<'PY'
+          import json, os, pathlib
+          result=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r03-ha-contract.json").read_text())
+          assert result["status"]=="BLOCKED" and not result["release_eligible"]
+          assert "three independently attested physical failure domains missing" in result["blocking_reasons"]
+          print("PASS: no false HA certification on single GitHub runner")
+          PY
+      - name: Record read-only three-host plan as BLOCKED until exact owners/hosts are known
+        run: |
+          python -m unittest discover -s tests -p "test_r03_ha_lab_plan.py" -v
+          python scripts/ci/r03_ha_lab_plan.py --output "$RUNNER_TEMP/r03-ha-lab-plan.json"
+          python - <<'PY'
+          import json,os,pathlib
+          data=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r03-ha-lab-plan.json").read_text())
+          assert data["status"]=="BLOCKED" and not data["release_eligible"]
+          assert not data["contains_host_commands"] and not data["physical_fencing_executed"]
+          print("PASS: three-host lab plan never executes physical-host actions or falsely certifies HA")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sec001-r03-multihost-ha-readiness-not-certified
+          path: |
+            ${{ runner.temp }}/r03-ha-contract.json
+            ${{ runner.temp }}/r03-ha-lab-plan.json
+            ${{ runner.temp }}/r03-ha-blueprint-readiness.json
+          if-no-files-found: error
+  candidate-evidence:
+    name: candidate-evidence (${{ matrix.role }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - role: backend-alpine-runtime-r03
+            file: backend/Dockerfile.alpine-r03-candidate
+            context: backend
+            target: runtime
+            image: ''
+            upstream: python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422
+          - role: backend-alpine-migration-r03
+            file: backend/Dockerfile.alpine-r03-candidate
+            context: backend
+            target: migration
+            image: ''
+            upstream: python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422
+          - role: backend-alpine-uat-r03
+            file: backend/Dockerfile.alpine-r03-candidate
+            context: backend
+            target: uat
+            image: ''
+            upstream: python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422
+          - role: postgres-gosu-r03
+            file: deploy/release/Dockerfile.postgres-gosu-r03-candidate
+            context: .
+            target: ''
+            image: ''
+            upstream: postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac
+          - role: otel-contrib-r03
+            file: ''
+            context: .
+            target: ''
+            image: otel/opentelemetry-collector-contrib:0.165.0@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea
+            upstream: otel/opentelemetry-collector-contrib:0.165.0@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea
+          - role: otel-contrib-r03-rebuilt
+            file: deploy/release/Dockerfile.otel-r03-rebuild-candidate
+            context: .
+            target: ''
+            image: ''
+            upstream: otel/opentelemetry-collector-contrib:0.165.0@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Fetch locked Syft and Grype binaries
+        run: python scripts/ci/install_scanners.py "$RUNNER_TEMP/scanners"
+      - name: Build or pull immutable non-release candidate
+        env:
+          ROLE: ${{ matrix.role }}
+          DOCKERFILE: ${{ matrix.file }}
+          CONTEXT: ${{ matrix.context }}
+          TARGET: ${{ matrix.target }}
+          IMAGE: ${{ matrix.image }}
+          UPSTREAM: ${{ matrix.upstream }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/sec001-r03"
+          if [[ -n "$IMAGE" ]]; then
+            docker pull "$IMAGE"
+            docker image inspect --format '{{.Id}}' "$IMAGE" > "$RUNNER_TEMP/candidate.id"
+            docker tag "$IMAGE" "sec001-r03-$ROLE:scan"
+            python - <<'PY'
+          import json, os, subprocess
+          image=os.environ["IMAGE"]
+          actual=json.loads(subprocess.check_output(["docker","image","inspect",image],text=True))[0]["RepoDigests"]
+          expected=image.split("@",1)[1]
+          assert any(item.endswith("@"+expected) for item in actual), (expected,actual)
+          PY
+          else
+            if [[ "$ROLE" == "postgres-gosu-r03" ]]; then
+              grep -Fq 'FROM postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac' "$DOCKERFILE"
+              grep -Fq 'FROM golang:1.27.4-alpine3.23@sha256:7a93747afee80359e81dbe39c8a65037b147cada0262bf86f5b96dd06842b368' "$DOCKERFILE"
+            elif [[ "$ROLE" == backend-alpine-* ]]; then
+              grep -Fq 'FROM python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422' "$DOCKERFILE"
+              test "$CONTEXT" = backend
+              [[ "$TARGET" == runtime || "$TARGET" == migration || "$TARGET" == uat ]]
+              if [[ "$ROLE" == "backend-alpine-uat-r03" ]]; then
+                grep -Fq 'FROM otel/opentelemetry-collector-contrib:0.123.0@sha256:e39311df1f3d941923c00da79ac7ba6269124a870ee87e3c3ad24d60f8aee4d2 AS legacy_telemetry' "$DOCKERFILE"
+              fi
+            else
+              grep -Fq 'FROM otel/opentelemetry-collector-contrib:0.165.0@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea' "$DOCKERFILE"
+              grep -Fq 'FROM golang:1.27.4-alpine3.23@sha256:7a93747afee80359e81dbe39c8a65037b147cada0262bf86f5b96dd06842b368' "$DOCKERFILE"
+            fi
+            target=()
+            if [[ -n "$TARGET" ]]; then target=(--target "$TARGET"); fi
+            docker build --iidfile "$RUNNER_TEMP/candidate.id" \
+              --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt \
+              "${target[@]}" -f "$DOCKERFILE" -t "sec001-r03-$ROLE:scan" "$CONTEXT"
+          fi
+          echo "Candidate config image id: $(cat "$RUNNER_TEMP/candidate.id")"
+      - name: Smoke test isolated candidate (no production resources)
+        env:
+          ROLE: ${{ matrix.role }}
+        run: |
+          set -euo pipefail
+          if [[ "$ROLE" == "postgres-gosu-r03" ]]; then
+            image="sec001-r03-$ROLE:scan"
+            docker run --rm --entrypoint gosu "$image" --version
+            docker run --rm --entrypoint gosu "$image" postgres id -u | grep -qx '70'
+            docker run --rm --entrypoint postgres "$image" --version
+            # Disposable isolated volume; verifies data survives a clean restart.
+            volume="sec001-r03-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+            container="sec001-r03-pg-${GITHUB_RUN_ID}"
+            cleanup() {
+              docker rm -f "$container" >/dev/null 2>&1 || true
+              docker volume rm "$volume" >/dev/null 2>&1 || true
+            }
+            trap cleanup EXIT
+            pg_sql_ready() {
+              for i in $(seq 1 60); do
+                # pg_isready alone can pass during PostgreSQL's temporary init
+                # server before the final post-init restart. Require real SQL.
+                if docker exec "$container" psql -U postgres -d postgres -Atqc 'SELECT 1' 2>/dev/null | grep -qx '1'; then return 0; fi
+                sleep 1
+              done
+              docker logs "$container"
+              return 1
+            }
+            docker volume create "$volume"
+            docker run -d --name "$container" -e POSTGRES_PASSWORD=sec001-disposable-only \
+              -v "$volume:/var/lib/postgresql/data" "$image"
+            pg_sql_ready
+            created=false
+            for i in $(seq 1 30); do
+              if docker exec "$container" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+                -c 'CREATE TABLE IF NOT EXISTS sec001_r03_probe(id integer PRIMARY KEY); INSERT INTO sec001_r03_probe VALUES (42) ON CONFLICT (id) DO NOTHING;' >/dev/null 2>&1; then
+                created=true
+                break
+              fi
+              sleep 1
+            done
+            test "$created" = true
+            docker stop "$container"
+            docker rm "$container"
+            docker run -d --name "$container" -e POSTGRES_PASSWORD=sec001-disposable-only \
+              -v "$volume:/var/lib/postgresql/data" "$image"
+            pg_sql_ready
+            test "$(docker exec "$container" psql -U postgres -d postgres -At -c 'SELECT id FROM sec001_r03_probe')" = "42"
+            # Real logical backup and restore against this job-owned data only.
+            # Do not confuse this with Patroni/etcd failover or production DR.
+            docker exec "$container" pg_dump -U postgres -d postgres -Fc \
+              --no-owner --no-privileges > "$RUNNER_TEMP/sec001-r03-pg.backup"
+            test -s "$RUNNER_TEMP/sec001-r03-pg.backup"
+            docker exec "$container" createdb -U postgres sec001_r03_restored
+            docker exec -i "$container" pg_restore -U postgres \
+              -d sec001_r03_restored --exit-on-error --no-owner --no-privileges \
+              < "$RUNNER_TEMP/sec001-r03-pg.backup"
+            test "$(docker exec "$container" psql -U postgres -d sec001_r03_restored -Atqc 'SELECT id FROM sec001_r03_probe')" = "42"
+            test "$(docker exec "$container" psql -U postgres -d postgres -Atqc "SHOW fsync")" = on
+            docker exec "$container" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+              -c "CREATE EXTENSION IF NOT EXISTS pgcrypto"
+            docker exec "$container" psql -U postgres -d postgres -Atqc \
+              "SELECT extversion FROM pg_extension WHERE extname = 'pgcrypto'" | grep -q .
+            echo "PostgreSQL17 owned-volume restart, logical backup/restore, fsync and pgcrypto PASS"
+          elif [[ "$ROLE" == backend-alpine-* ]]; then
+            image="sec001-r03-$ROLE:scan"
+            docker run --rm --entrypoint python "$image" -c '
+          import os, ssl, sqlite3, psycopg, sqlalchemy, fastapi, uvicorn
+          from app.main import app
+          from app.security.access_control import authorize_route
+          assert os.geteuid() == 10001
+          assert app.title
+          print("Alpine Python/psycopg ABI, non-root and FastAPI imports: PASS")
+          '
+            if [[ "$ROLE" == backend-alpine-migration-r03 || "$ROLE" == backend-alpine-uat-r03 ]]; then
+              docker run --rm --entrypoint python "$image" -c 'import alembic; from alembic.config import Config; assert Config("/app/alembic.ini").get_main_option("script_location")'
+            fi
+            if [[ "$ROLE" == backend-alpine-uat-r03 ]]; then
+              docker run --rm --entrypoint /usr/local/bin/otelcol-contrib "$image" --version | grep -F '0.123.0'
+              docker run --rm --entrypoint sh "$image" -c 'test ! -e /usr/local/bin/pip && test ! -d /usr/local/lib/python3.12/site-packages/pip && test -x /usr/local/bin/otelcol-contrib'
+            fi
+            # Isolated PG17 integration checks the actual psycopg musl runtime.
+            network="sec001-r03-net-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${ROLE}"
+            db="sec001-r03-db-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${ROLE}"
+            cleanup() {
+              docker rm -f "$db" >/dev/null 2>&1 || true
+              docker network rm "$network" >/dev/null 2>&1 || true
+            }
+            trap cleanup EXIT
+            docker network create "$network"
+            docker run -d --name "$db" --network "$network" \
+              -e POSTGRES_PASSWORD=sec001-disposable-only \
+              postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac
+            for i in $(seq 1 40); do
+              if docker exec "$db" pg_isready -U postgres >/dev/null 2>&1; then break; fi
+              sleep 1
+            done
+            docker run --rm --network "$network" --entrypoint python "$image" -c '
+          import psycopg
+          with psycopg.connect("postgresql://postgres:sec001-disposable-only@" + "'$db'" + ":5432/postgres") as conn:
+              assert conn.execute("SELECT 42").fetchone() == (42,)
+          print("Alpine psycopg to isolated PG17: PASS")
+          '
+            if [[ "$ROLE" == "backend-alpine-migration-r03" || "$ROLE" == "backend-alpine-uat-r03" ]]; then
+              # Owned disposable database: real Alembic head upgrade; no customer data.
+              docker run --rm --network "$network" \
+                -e "DATABASE_URL=postgresql+psycopg://postgres:sec001-disposable-only@$db:5432/postgres" \
+                --entrypoint python "$image" -m alembic upgrade head
+              docker exec "$db" psql -U postgres -d postgres -Atqc "SELECT version_num FROM alembic_version" | grep -q .
+              count="$(docker exec "$db" psql -U postgres -d postgres -Atqc "SELECT count(*) FROM information_schema.tables WHERE table_schema='public'")"
+              test "$count" -gt 5
+              echo "Alpine Alembic migration created $count application tables"
+            fi
+          else
+            image="sec001-r03-$ROLE:scan"
+            docker run --rm --entrypoint /otelcol-contrib "$image" --version
+            # Synthetic config validation only: no Agent promotion, secret,
+            # network listener, persisted checkpoint or production endpoint.
+            cat > "$RUNNER_TEMP/sec001-r03/collector-synthetic.yaml" <<'YAML'
+          receivers:
+            otlp:
+              protocols:
+                http:
+                  endpoint: 127.0.0.1:4318
+            filelog:
+              include: [/fixture/events.log]
+              start_at: beginning
+            hostmetrics:
+              collection_interval: 5s
+              scrapers:
+                cpu: {}
+                memory: {}
+          processors:
+            batch: {}
+          exporters:
+            debug:
+              verbosity: detailed
+          service:
+            pipelines:
+              logs:
+                receivers: [filelog, otlp]
+                processors: [batch]
+                exporters: [debug]
+              metrics:
+                receivers: [hostmetrics, otlp]
+                processors: [batch]
+                exporters: [debug]
+          YAML
+            docker run --rm --network none \
+              -v "$RUNNER_TEMP/sec001-r03/collector-synthetic.yaml:/fixture/config.yaml:ro" \
+              --entrypoint /otelcol-contrib "$image" \
+              validate --config=/fixture/config.yaml
+            docker run --rm --network none --entrypoint /otelcol-contrib "$image" \
+              components > "$RUNNER_TEMP/sec001-r03/collector-components.txt"
+            for part in filelog hostmetrics otlp debug; do
+              grep -q "$part" "$RUNNER_TEMP/sec001-r03/collector-components.txt"
+            done
+            # Actual local filelog -> debug exporter evidence. No external
+            # network, privileged identity, management credential, or promotion.
+            echo SEC001_R03_FILELOG_DELIVERED > "$RUNNER_TEMP/sec001-r03/events.log"
+            chmod 0644 "$RUNNER_TEMP/sec001-r03/events.log"
+            collector="sec001-r03-collector-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${ROLE}"
+            cleanup_collector() {
+              docker rm -f "$collector" >/dev/null 2>&1 || true
+            }
+            trap cleanup_collector EXIT
+            docker run -d --name "$collector" --network none \
+              --user 10001:10001 --cap-drop ALL \
+              --security-opt no-new-privileges \
+              -v "$RUNNER_TEMP/sec001-r03:/fixture:ro" \
+              --entrypoint /otelcol-contrib "$image" --config=/fixture/collector-synthetic.yaml
+            delivered=false
+            for i in $(seq 1 40); do
+              if docker logs "$collector" 2>&1 | grep -Fq SEC001_R03_FILELOG_DELIVERED; then
+                delivered=true
+                break
+              fi
+              if ! docker inspect -f '{{.State.Running}}' "$collector" | grep -qx true; then
+                break
+              fi
+              sleep 1
+            done
+            docker logs "$collector" > "$RUNNER_TEMP/sec001-r03/collector-runtime.log" 2>&1
+            test "$delivered" = true
+            docker inspect -f '{{.State.Running}}' "$collector" | grep -qx true
+            docker stop "$collector"
+            docker rm "$collector"
+            trap - EXIT
+          fi
+      - name: Qualify patched Collector local mTLS + checkpoint/replay
+        if: matrix.role == 'otel-contrib-r03-rebuilt'
+        env:
+          R03_COLLECTOR_IMAGE: sec001-r03-otel-contrib-r03-rebuilt:scan
+        run: bash scripts/ci/r03_collector_mtls_checkpoint.sh
+      - name: Qualify 0.123 -> patched 0.165 -> 0.123 checkpoint rollback
+        if: matrix.role == 'otel-contrib-r03-rebuilt'
+        env:
+          R03_COLLECTOR_IMAGE: sec001-r03-otel-contrib-r03-rebuilt:scan
+        run: bash scripts/ci/r03_collector_side_by_side_rollback.sh
+      - name: Generate full exact-image SBOM and Grype evidence
+        env:
+          ROLE: ${{ matrix.role }}
+          UPSTREAM: ${{ matrix.upstream }}
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/sec001-r03"
+          image_id="$(cat "$RUNNER_TEMP/candidate.id")"
+          export GRYPE_DB_CACHE_DIR="$RUNNER_TEMP/sec001-r03/grype-cache"
+          "$RUNNER_TEMP/scanners/syft" "docker:$image_id" \
+            -o "cyclonedx-json=$evidence/sbom.cdx.json" \
+            -o "syft-json=$evidence/sbom.syft.json"
+          "$RUNNER_TEMP/scanners/grype" db update
+          "$RUNNER_TEMP/scanners/grype" db status -o json > "$evidence/grype-db.json"
+          "$RUNNER_TEMP/scanners/grype" "sbom:$evidence/sbom.syft.json" -o json > "$evidence/grype.json"
+          python scripts/ci/r03_candidate_report.py \
+            --role "$ROLE" --image-id-file "$RUNNER_TEMP/candidate.id" \
+            --directory "$evidence" --source "$(git rev-parse HEAD)" \
+            --expected-upstream "$UPSTREAM"
+
+      - name: Export same-run rebuilt Collector bytes for isolated patched UAT
+        if: matrix.role == 'otel-contrib-r03-rebuilt'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/r03-patched-collector"
+          image="sec001-r03-otel-contrib-r03-rebuilt:scan"
+          cid="$(docker create "$image")"
+          trap 'docker rm -f "$cid" >/dev/null 2>&1 || true' EXIT
+          docker cp "$cid:/otelcol-contrib" "$RUNNER_TEMP/r03-patched-collector/otelcol-contrib"
+          docker cp "$cid:/otelcol-buildinfo.txt" "$RUNNER_TEMP/r03-patched-collector/otelcol-buildinfo.txt"
+          docker cp "$cid:/collector-legal" "$RUNNER_TEMP/r03-patched-collector/collector-legal"
+          (cd "$RUNNER_TEMP/r03-patched-collector/collector-legal" && sha256sum -c SHA256SUMS)
+          test -s "$RUNNER_TEMP/r03-patched-collector/otelcol-contrib"
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ["RUNNER_TEMP"])
+          image_id=(root/"candidate.id").read_text().strip()
+          binary=root/"r03-patched-collector"/"otelcol-contrib"
+          manifest={"schema":1,"source_sha":os.environ["GITHUB_SHA"],
+                    "collector_image_config_id":image_id,
+                    "binary_sha256":hashlib.sha256(binary.read_bytes()).hexdigest(),
+                    "legal_checksums_sha256":hashlib.sha256((root/"r03-patched-collector"/"collector-legal"/"SHA256SUMS").read_bytes()).hexdigest(),
+                    "qualification":"SAME_RUN_CANDIDATE_NOT_RELEASE",
+                    "license_notice_review":"PENDING_ACCOUNTABLE_REVIEW",
+                    "release_eligible":False}
+          assert image_id.startswith("sha256:") and len(image_id)==71
+          (root/"r03-patched-collector"/"source-binding.json").write_text(json.dumps(manifest,indent=2)+"\n")
+          print("PASS: rebuilt Collector bytes and exact binary hash bound to same workflow source")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: matrix.role == 'otel-contrib-r03-rebuilt' && success()
+        with:
+          name: sec001-r03-rebuilt-collector-binary-for-uat
+          path: ${{ runner.temp }}/r03-patched-collector/
+          if-no-files-found: error
+          # Compiled-module legal material includes checksummed .github files.
+          # Only this generated binary/legal bundle is in scope, not the checkout.
+          include-hidden-files: true
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sec001-r03-candidate-${{ matrix.role }}
+          path: |
+            ${{ runner.temp }}/sec001-r03
+            !${{ runner.temp }}/sec001-r03/grype-cache/**
+          if-no-files-found: warn
+
+  uat-patched-collector-qualification:
+    name: uat-patched-collector-qualification (NO RELEASE)
+    needs: [candidate-evidence]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: sec001-r03-rebuilt-collector-binary-for-uat
+          path: ${{ runner.temp }}/r03-patched-collector
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: sec001-r03-candidate-backend-alpine-uat-r03
+          path: ${{ runner.temp }}/r03-legacy-uat-scan
+      - name: Verify digest-bound rebuilt binary comes from this exact CI commit
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ["RUNNER_TEMP"])
+          binary=root/"r03-patched-collector"/"otelcol-contrib"
+          manifest=json.loads((root/"r03-patched-collector"/"source-binding.json").read_text())
+          assert manifest["source_sha"]==os.environ["GITHUB_SHA"]
+          assert manifest["qualification"]=="SAME_RUN_CANDIDATE_NOT_RELEASE"
+          assert not manifest["release_eligible"]
+          assert len(manifest["collector_image_config_id"])==71
+          assert hashlib.sha256(binary.read_bytes()).hexdigest()==manifest["binary_sha256"]
+          assert (root/"r03-patched-collector"/"otelcol-buildinfo.txt").is_file()
+          assert hashlib.sha256((root/"r03-patched-collector"/"collector-legal"/"SHA256SUMS").read_bytes()).hexdigest()==manifest["legal_checksums_sha256"]
+          print("PASS: image source binding + independently rehashed same-run patched Collector")
+          PY
+          (cd "$RUNNER_TEMP/r03-patched-collector/collector-legal" && sha256sum -c SHA256SUMS)
+      - name: Install exact scanner tools
+        run: python scripts/ci/install_scanners.py "$RUNNER_TEMP/scanners"
+      - name: Build patched UAT candidate using only verified named binary context
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/sec001-r03-uat-patched"
+          patched_sha="$(sha256sum "$RUNNER_TEMP/r03-patched-collector/otelcol-contrib" | cut -d' ' -f1)"
+          legal_sha="$(sha256sum "$RUNNER_TEMP/r03-patched-collector/collector-legal/SHA256SUMS" | cut -d' ' -f1)"
+          docker build --iidfile "$RUNNER_TEMP/r03-uat-patched.id" \
+            --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt \
+            --build-context "patched_telemetry=$RUNNER_TEMP/r03-patched-collector" \
+            --build-arg "PATCHED_COLLECTOR_SHA256=$patched_sha" \
+            --build-arg "PATCHED_COLLECTOR_LEGAL_SHA256=$legal_sha" \
+            --target uat_patched -f backend/Dockerfile.alpine-r03-candidate \
+            -t sec001-r03-uat-patched:scan backend
+          docker run --rm --entrypoint /usr/local/bin/otelcol-contrib sec001-r03-uat-patched:scan --version | grep -F '0.165.0'
+          docker run --rm --entrypoint python sec001-r03-uat-patched:scan -c '
+          import os,sqlite3,psycopg,sqlalchemy,fastapi,uvicorn
+          from app.main import app
+          from app.security.access_control import authorize_route
+          assert os.geteuid() == 10001 and app.title
+          print("Patched UAT nonroot FastAPI/psycopg/sqlite ABI PASS")
+          '
+          docker run --rm --entrypoint sh sec001-r03-uat-patched:scan -c 'test ! -e /usr/local/bin/pip && test ! -d /usr/local/lib/python3.12/site-packages/pip'
+          docker run --rm --entrypoint python sec001-r03-uat-patched:scan -c 'import alembic; from alembic.config import Config; assert Config("/app/alembic.ini").get_main_option("script_location")'
+      - name: Prove patched UAT can execute real Alembic against disposable PG17
+        run: |
+          set -euo pipefail
+          network="sec001-r03-uat-patched-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          database="sec001-r03-db-uat-patched-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          cleanup() {
+            docker rm -f "$database" >/dev/null 2>&1 || true
+            docker network rm "$network" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+          docker network create "$network"
+          docker run -d --name "$database" --network "$network" \
+            -e POSTGRES_PASSWORD=sec001-disposable-only \
+            postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac
+          ready=false
+          for i in $(seq 1 60); do
+            if docker exec "$database" psql -U postgres -d postgres -Atqc 'SELECT 1' 2>/dev/null | grep -qx 1; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" = true
+          docker run --rm --network "$network" \
+            -e "DATABASE_URL=postgresql+psycopg://postgres:sec001-disposable-only@$database:5432/postgres" \
+            --entrypoint python sec001-r03-uat-patched:scan -m alembic upgrade head
+          docker exec "$database" psql -U postgres -d postgres -Atqc 'SELECT version_num FROM alembic_version' | grep -q .
+          count="$(docker exec "$database" psql -U postgres -d postgres -Atqc "SELECT count(*) FROM information_schema.tables WHERE table_schema='public'")"
+          test "$count" -gt 5
+          echo "Patched UAT PG17 migration PASS: $count tables"
+      - name: Exercise mTLS and restart using the binary inside the patched UAT image
+        env:
+          R03_COLLECTOR_IMAGE: sec001-r03-uat-patched:scan
+          R03_COLLECTOR_BINARY: /usr/local/bin/otelcol-contrib
+        run: bash scripts/ci/r03_collector_mtls_checkpoint.sh
+      - name: Measure application version negotiation without changing the active pin
+        run: |
+          set -euo pipefail
+          docker run --rm --network none --entrypoint python \
+            -v "$PWD/scripts/ci/r03_uat_version_probe.py:/app/scripts/r03_uat_version_probe.py:ro" \
+            sec001-r03-uat-patched:scan -m scripts.r03_uat_version_probe \
+            > "$RUNNER_TEMP/sec001-r03-uat-patched/application-compatibility.json"
+          cat "$RUNNER_TEMP/sec001-r03-uat-patched/application-compatibility.json"
+      - name: Capture exact Syft/CycloneDX/Grype scan and compare with legacy UAT
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/sec001-r03-uat-patched"
+          image_id="$(cat "$RUNNER_TEMP/r03-uat-patched.id")"
+          export GRYPE_DB_CACHE_DIR="$evidence/grype-cache"
+          "$RUNNER_TEMP/scanners/syft" "docker:$image_id" \
+            -o "cyclonedx-json=$evidence/sbom.cdx.json" \
+            -o "syft-json=$evidence/sbom.syft.json"
+          "$RUNNER_TEMP/scanners/grype" db update
+          "$RUNNER_TEMP/scanners/grype" db status -o json > "$evidence/grype-db.json"
+          "$RUNNER_TEMP/scanners/grype" "sbom:$evidence/sbom.syft.json" -o json > "$evidence/grype.json"
+          python scripts/ci/r03_candidate_report.py \
+            --role backend-alpine-uat-patched-r03 \
+            --image-id-file "$RUNNER_TEMP/r03-uat-patched.id" \
+            --directory "$evidence" --source "$(git rev-parse HEAD)" \
+            --expected-upstream "python:3.12.16-alpine3.23@sha256:fe32c943235f1c5748d1106dbdfa25d206355c1be1ae1e167444a7ff9dfa9422"
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ["RUNNER_TEMP"])
+          before=json.loads((root/"r03-legacy-uat-scan"/"qualification.json").read_text())
+          after=json.loads((root/"sec001-r03-uat-patched"/"qualification.json").read_text())
+          assert before["role"]=="backend-alpine-uat-r03"
+          assert after["role"]=="backend-alpine-uat-patched-r03"
+          assert before["source_sha"]==after["source_sha"]==os.environ["GITHUB_SHA"]
+          assert after["severe_matches"] < before["severe_matches"],(before,after)
+          assert not after["release_eligible"] and after["license_status"]=="PENDING_ACCOUNTABLE_REVIEW"
+          report={"schema":1,"status":"SCANNED_IMPROVED_NOT_APPROVED","source_sha":os.environ["GITHUB_SHA"],
+                  "legacy_severe":before["severe_matches"],"patched_severe":after["severe_matches"],
+                  "legacy_image_config_id":before["image_config_id"],
+                  "patched_image_config_id":after["image_config_id"],
+                  "release_eligible":False}
+          (root/"sec001-r03-uat-patched"/"comparison.json").write_text(json.dumps(report,indent=2)+"\n")
+          print("PASS: patched UAT candidate improved in the same Syft/Grype run; NOT release eligible",report)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sec001-r03-uat-patched-collector-image-evidence
+          path: |
+            ${{ runner.temp }}/sec001-r03-uat-patched
+            !${{ runner.temp }}/sec001-r03-uat-patched/grype-cache/**
+          if-no-files-found: warn

@@ -3235,15 +3235,15 @@
       "disposition": "RUN",
       "reason": "Existing Node test remains mandatory"
     },
-    "frontend/scripts/permissions.test.mjs::native incident visibility requires its backend permission": {
-      "classification": "UNKNOWN",
+    "frontend/scripts/permissions.test.mjs::dedicated Incidents UI stays excluded even with legacy permission": {
+      "classification": "EXCLUDED_NEGATIVE",
       "disposition": "RUN",
-      "reason": "Existing Node test remains mandatory"
+      "reason": "APTron dedicated incident UI excluded; retain historical API/state contracts and mandatory execution"
     },
-    "frontend/scripts/pipelines.test.mjs::six pages and seven existing incident states": {
-      "classification": "UNKNOWN",
+    "frontend/scripts/pipelines.test.mjs::five operational pages retain seven historical incident states": {
+      "classification": "EXCLUDED_NEGATIVE",
       "disposition": "RUN",
-      "reason": "Existing Node test remains mandatory"
+      "reason": "APTron dedicated incident UI excluded; retain historical API/state contracts and mandatory execution"
     },
     "frontend/scripts/pipelines.test.mjs::pending retry remains nonterminal despite failed attempt": {
       "classification": "UNKNOWN",
@@ -3309,6 +3309,351 @@
       "classification": "UNKNOWN",
       "disposition": "RUN",
       "reason": "Existing Node test remains mandatory"
+    },
+    "frontend/scripts/navigation.test.mjs::domain inventories retain explicit role guards and legacy bookmarks": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory APTron role filtering, existing inventory authorization, legacy bookmark preservation and excluded incident entry checks"
+    },
+    "tests/test_ci_image_coverage.py::test_repository_workflow_has_all_six_production_and_seven_legacy_roles": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_complete_fixture_coverage_does_not_clear_vulnerability_or_legal_gates": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_missing_production_image_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_swapped_role_artifact_is_failure_even_if_hashes_are_consistent": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_each_sbom_or_scan_digest_mismatch_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_stale_source_commit_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_wrong_build_target_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_tampered_or_missing_binding_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_workflow_matrix_drift_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_missing_required_scan_report_is_failure": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_ci_image_coverage.py::test_empty_catalog_cannot_satisfy_coverage": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R01 exact image role/source/build/SBOM digest/coverage enforcement; fixtures cannot certify runtime or waive vulnerabilities/legal gates"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_no_evidence_is_blocked_and_never_certified": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_independent_test_records_only_ready_for_human_review": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_single_host_docker_containers_are_not_three_failure_domains": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_no_duplicate_or_lost_acknowledged_critical_events": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_all_scenarios_are_mandatory_with_real_evidence_hash": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_ha_evidence_contract.py::test_missing_immutable_image_identity_fails_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 independent multi-host Patroni/etcd HA and acknowledged-event durability evidence must fail closed; synthetic fixtures cannot certify or approve release"
+    },
+    "tests/test_r03_supplier_evidence.py::test_missing_supplier_evidence_blocks_without_installing": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_missing_apk_and_signer_blocks": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_mismatched_apk_digest_is_rejected": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_all_four_cves_and_architecture_are_mandatory": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_supplier_evidence.py::test_even_matching_synthetic_bytes_never_sign_off_a_vendor": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 Root.io offline APK supplier trust/legality gates must remain blocked before independent signing and legal validation"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_default_is_blocked_and_no_remote_actions_exist": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_authorized_manifest_only_prepares_never_certifies": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_shared_failure_domain_is_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_missing_host_authorization_is_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_ha_lab_plan.py::test_production_network_or_unidentified_images_fail_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 3-host existing-lab plan requires owner authorization, physically independent domains, zero automatic remote actions and no implied DBA certification"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_absent_package_and_key_never_authorize_install": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_untrusted_fingerprint_blocks_before_invoking_apk_tools": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_untrusted_self_declared_key_without_independent_reference_blocks": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_verify_vendor_apk_offline.py::test_even_mocked_success_never_grants_supplier_license_or_release": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_unapproved_inventory_is_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_synthetic_render_still_not_certification": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_insufficient_sizing_is_rejected": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_duplicate_domains_or_documentation_ips_block": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_compose_profile_does_not_enable_ha_or_watchdog": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_physical_ha_contract_on_template_fails_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_local_host_facts_are_never_attested": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_legal_owner_evidence.py::test_all_historic_roles_present": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
+    },
+    "tests/test_r03_legal_owner_evidence.py::test_source_and_hash_binding_are_present": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
+    },
+    "tests/test_r03_legal_owner_evidence.py::test_owner_approval_never_claims_independent_legal_signoff": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
+    },
+    "tests/test_r03_independent_acceptance_templates.py::test_three_real_hosts_not_fabricated": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
+    },
+    "tests/test_r03_independent_acceptance_templates.py::test_physical_faults_are_not_marked_executed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
+    },
+    "tests/test_r03_independent_acceptance_templates.py::test_all_eight_final_oci_signoffs_are_unsigned": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 no synthetic host/witness/legal template may impersonate real independently signed release evidence"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_exact_postgres17_source_digest_and_build_toolchain": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_original_entrypoint_and_uid_are_preserved": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_copyright_and_build_info_carried_into_runtime": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_postgres_release_candidate.py::test_all_eight_release_scan_roles_remain_unchanged": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 select previously scan-clean PostgreSQL/gosu Dockerfile for existing unmodified eight-role release-image Tier C scan; no deployment or HA/legal signoff"
+    },
+    "tests/test_r03_patched_uat_boundary.py::test_legacy_uat_target_retains_old_collector_for_comparison": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
+    },
+    "tests/test_r03_patched_uat_boundary.py::test_patched_uat_requires_external_named_build_context": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
+    },
+    "tests/test_r03_patched_uat_boundary.py::test_patched_uat_retains_real_api_and_schema_migration_workload": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
+    },
+    "tests/test_r03_backend_release_selection.py::test_selected_runtime_migration_identical_to_bounded_candidate": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
+    },
+    "tests/test_r03_backend_release_selection.py::test_python_base_and_wheel_abi_pinning_are_present": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
+    },
+    "tests/test_r03_backend_release_selection.py::test_schema_and_api_targets_remain_nonroot": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
+    },
+    "tests/test_r03_uat_release_selection.py::test_build_source_matches_previously_qualified_legacy_compat_uat": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
+    },
+    "tests/test_r03_uat_release_selection.py::test_legacy_otel_pin_not_silently_upgraded": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
+    },
+    "tests/test_r03_uat_release_selection.py::test_migration_and_runtime_remain_nonroot_and_installer_free": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Draft UAT Alpine hardening must retain original pinned 0.123 Collector, nonroot UAT semantics and identical R03 previously qualified UAT candidate; no automatic patched release promotion"
+    },
+    "tests/test_r03_buildx_ca_contract.py::test_hosted_runner_supplies_trusted_public_ca_bundle_to_backend_build": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Hosted UAT image validation must supply the standard root CA via Buildx for required secure package install; never weaken CA requirement or TLS verification"
+    },
+    "tests/test_r03_buildx_ca_contract.py::test_release_uat_still_requires_ca_for_pip_and_apk": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Hosted UAT image validation must supply the standard root CA via Buildx for required secure package install; never weaken CA requirement or TLS verification"
+    },
+    "tests/test_r03_compiled_legal_material.py::test_missing_upstream_license_or_bad_go_list_cannot_be_reported_complete": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_r03_compiled_legal_material.py::test_preserves_nested_notices_replacements_and_missing_modules": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_r03_uat_version_probe.py::test_actual_version_command_and_expected_rejection_report_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_expiry_missing_owner_and_production_scope_stop_staging": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_isolation_rejects_public_ports_host_mounts_and_mutable_images": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_known_findings_are_retained_and_deferred_never_passed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_missing_evidence_and_production_profile_fail_before_deployment": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_new_advisory_version_or_severity_is_not_a_blanket_exception": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved staging exceptions and candidate legal/version evidence; no production approval"
+    },
+    "tests/test_staging_first_policy.py::test_loopback_forwarding_rejects_outside_targets_and_unapproved_ports": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Staging loopback forwarders reject targets outside the verified Docker network and non-staging ports"
     }
   }
 }

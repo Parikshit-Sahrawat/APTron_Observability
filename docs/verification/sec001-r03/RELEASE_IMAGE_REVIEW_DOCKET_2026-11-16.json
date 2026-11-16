@@ -1,0 +1,304 @@
+{
+  "schema": 1,
+  "status": "PRODUCTION_BLOCKED_STAGING_EXCEPTIONS_RECORDED",
+  "verified_artifact_run": 43803115925,
+  "pr_head_sha": "366cd9f4c57dd13c245a160d02662b99cf0568d6",
+  "tested_merge_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+  "approved_legal_images": 0,
+  "notes": "Verified all eight ZIP hashes, evidence checksums, Dockerfile build inputs and actual SBOM/scan identities. Staging-only exceptions do not close findings. Final distribution OCI identities and independent signed production decisions remain pending.",
+  "images": [
+    {
+      "role": "backend-migration",
+      "artifact_id": 14196763906,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14196763906",
+      "artifact_zip_sha256": "sha256:e7b86564fc2960a8fea54f163196a6e5df5e084a3aa729b3796000d7864f7ef2",
+      "image_config_id": "sha256:90f7f6249bad562e0318f59d05d616ac72bf20f3c7241592327a16afc42d669f",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": "backend",
+        "file": "backend/Dockerfile.runtime",
+        "target": "migration",
+        "image": "",
+        "dockerfile_sha256": "1790c1bd3d05a0e0b84d14125d5a22787fbe1443fa28e531ec02673f79302b3f"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 4,
+      "severe_by_severity": {
+        "High": 4
+      },
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 80,
+      "evidence_sha256": {
+        "image-binding.json": "0dfd646bbfea14bf9fb9b86f9fa608005501a8f20c656bcac495cfe64c25ac95",
+        "sbom.cdx.json": "7b17e8f3f6edbeb057d7fd6c94a6e83d7a72cea14f12669ee08129b717144db1",
+        "sbom.syft.json": "7351dab08eacfb0229e9ac9ec69a2a0d702b906df9c868fbc2d3fe1eeaa1c6db",
+        "grype.json": "0903e795bc0587aa9ea4569be1e72db869a4d5af4a9631c3a99cbd4f796f366a",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "5e8c6719f4ca3191c6295951412bded5954dff40d8b21e2ac56115661842d994"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "backend-runtime",
+      "artifact_id": 14196664930,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14196664930",
+      "artifact_zip_sha256": "sha256:bc6e5db28f8b98ded6f72f42ec2886b86d8741716e5cb5066ac3e1273acdd192",
+      "image_config_id": "sha256:ad39bc5fcb2378aef17e80463992bb3209a8a90bcaaa85099ff416f322647d80",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": "backend",
+        "file": "backend/Dockerfile.runtime",
+        "target": "runtime",
+        "image": "",
+        "dockerfile_sha256": "1790c1bd3d05a0e0b84d14125d5a22787fbe1443fa28e531ec02673f79302b3f"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 4,
+      "severe_by_severity": {
+        "High": 4
+      },
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 80,
+      "evidence_sha256": {
+        "image-binding.json": "a4e059a6c1138f5c6ffd370d72a254ea8f9bd9d4dd2be28a1812dedba1d1c001",
+        "sbom.cdx.json": "7247a62f7c4672ad5bbe793dd75562c903c35bfc86641f1988b3d8a120691e4d",
+        "sbom.syft.json": "5b59164ca96c32f85e1db390e00e35758f2a5a8c54ef9dd031a2f18a02b8cfe6",
+        "grype.json": "cb76b71ea18f41862efb2af49d7a444ee906ebd2386def26687b3bbea2f421f3",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "d53b8b2a9f679e95d3ef034f0a3454eefcbf4fe5834a79b29cef1338e1afdc2f"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "frontend",
+      "artifact_id": 14197457315,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14197457315",
+      "artifact_zip_sha256": "sha256:8883ffa3f38d91865874173fd938ed9c465c3a0b2bbc6ad628c77e67666720cd",
+      "image_config_id": "sha256:1cb2de5f8db87770ed89f9a14e0965ef5a2ea042da8fe05c47e25b3273f66aa7",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": "frontend",
+        "file": "frontend/Dockerfile.demo",
+        "target": "",
+        "image": "",
+        "dockerfile_sha256": "be9f14722ea914b2a7fc19cbf1cffd68f9ea23e31e634293d974905d9538f752"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 0,
+      "severe_by_severity": {},
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 64,
+      "evidence_sha256": {
+        "image-binding.json": "aec466d393e1704904f09548d8d582ea94ee35a1c86e6554dd78dd79460175d7",
+        "sbom.cdx.json": "d5455ba44265a657a0b60ad3702827781e6f4aac85769881aface63e3acdac41",
+        "sbom.syft.json": "5d62ebe3f866695dcc463302112817650e5894aaa05f854e9db3a35c72952e21",
+        "grype.json": "569c0dc2ef25e3b1a3e4c03fcde6082b59d3de7959e438232e75660371fe1754",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "3170b9dfbbe947af2289ab89e4a17ded90b2290f2a49832aab155a21743db885"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "ingestion-gateway",
+      "artifact_id": 14197217852,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14197217852",
+      "artifact_zip_sha256": "sha256:0092c8a26ea85d38eb6c922c52d648db894d30ca65c7f78f02e1d78fc4f34178",
+      "image_config_id": "sha256:aafcf324de4ac90a3e4ebd752ab3555ac7607aedcae0ae98bef55e138ae38488",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": ".",
+        "file": "deploy/release/Dockerfile.gateway",
+        "target": "",
+        "image": "",
+        "dockerfile_sha256": "9442ac1b50f5cea17359f4caa5febfeba58e0596e17fb26e2b9e30df3c5c4401"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 0,
+      "severe_by_severity": {},
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 64,
+      "evidence_sha256": {
+        "image-binding.json": "94f878c248dd824c968b08ee35aca02e77cd77765d56e9987ed75512354cf029",
+        "sbom.cdx.json": "19484b2b035a76bc6cce018a5a67bc5cf362d207165860cd375daedde6b40a4e",
+        "sbom.syft.json": "7add1846d524672a5d2c03e97947848246ec91a2205a433fc717e9821b19248a",
+        "grype.json": "f65d93b669cee1ae015c41c5e82dd676889b20854361a9c2761096d3d4517d00",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "3e8dd79d2d15cc97fa18794c1deda4de43e40861cfb4ea69f9d522c1c41fbae1"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "otel-contrib",
+      "artifact_id": 14196772764,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14196772764",
+      "artifact_zip_sha256": "sha256:0db1b80864eb3e0e4f1393133003ac3ec5c1aa92446b9e655c3e9eab13443d41",
+      "image_config_id": "sha256:f0eaa24275f0eac77186cf0c9b1d1c72c9edde884a7c6bf9e5332ca8b5939d97",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": "",
+        "file": "",
+        "target": "",
+        "image": "otel/opentelemetry-collector-contrib:0.123.0@sha256:e39311df1f3d941923c00da79ac7ba6269124a870ee87e3c3ad24d60f8aee4d2"
+      },
+      "observed_repo_digests": [
+        "otel/opentelemetry-collector-contrib@sha256:e39311df1f3d941923c00da79ac7ba6269124a870ee87e3c3ad24d60f8aee4d2"
+      ],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 108,
+      "severe_by_severity": {
+        "Critical": 19,
+        "High": 86,
+        "Unknown": 3
+      },
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 935,
+      "evidence_sha256": {
+        "image-binding.json": "44bf0ff4f7683ed6083c4cab843a61f06bd17e78f5034444b15fd4b70392aadd",
+        "sbom.cdx.json": "361b762d6728a02789be0210ae1ca745ae8b082756686abdcfbbc1f8524b9404",
+        "sbom.syft.json": "4d9699f7d3dcb9ad9f9cb297d2a5573261d9d8b544f1989c43f103ed15becce1",
+        "grype.json": "ed6e8ac4a66479921fee428980a2cd4ca1417e06ca5e680bd22482a7e2df4070",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "330c0a0852747d9801996b930cbdb43379c36dea6ebacbadcfe5dcd58a00abd8"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "postgres",
+      "artifact_id": 14197327460,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14197327460",
+      "artifact_zip_sha256": "sha256:200ab9d4645b098ef5b19549f7220f96c41b3d8b6f8a56a5f609b63f7493135d",
+      "image_config_id": "sha256:80bfeeb0a31f557c79f66235e2e6508292731d9f757aff3f0010d74e4bc85fc1",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": ".",
+        "file": "deploy/release/Dockerfile.postgres",
+        "target": "",
+        "image": "",
+        "dockerfile_sha256": "58048592f4333d07c89d12df6557d01a0b5b931f35e45db561bde7fcfd47f0b2"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 0,
+      "severe_by_severity": {},
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 50,
+      "evidence_sha256": {
+        "image-binding.json": "7506f0f4e2faaa16b9af9094c0cec1e895e5901aa933c3afa2cff61f37f4a484",
+        "sbom.cdx.json": "83951aa9d7cf9f84994469c8e8e12aba83b43fbb607cea8aa75c24dc25e31388",
+        "sbom.syft.json": "a611c47517db942f67f195c786dc5ffd8a6296e53bff0ebf551c45b779db27a8",
+        "grype.json": "d4ade899198351aea78af18d3995cf146d1bd2919188ea22f7622ab907ac1cd6",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "2d8c6f0f1309ba9d5a34868bd6a32d6ae103ac8a61ad15c5d4c5b82acd4dd8cb"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "production-frontend",
+      "artifact_id": 14197226818,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14197226818",
+      "artifact_zip_sha256": "sha256:b01c9663ebe0646979b810b6ed369f5c9ccf115ecad52ecf7387fbac56ab0260",
+      "image_config_id": "sha256:1217d4c0140ff9b163d0feea6bedd08adb7b9ef844caa7dd468d17982327d073",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": "frontend",
+        "file": "frontend/Dockerfile.runtime",
+        "target": "",
+        "image": "",
+        "dockerfile_sha256": "dc0237bd0fa0d6ada63dca25ea65c0ad1de75efaf16368ac46f18c1ce6c07a8e"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 0,
+      "severe_by_severity": {},
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 64,
+      "evidence_sha256": {
+        "image-binding.json": "2d93275963d7102faae4acec94b55cc13cc50e0497960a6b25b72e2ad5d665f1",
+        "sbom.cdx.json": "4a0f037b403d39c4f41b2d9a1cb841dc918174c5ac0947d3cf736f50eaacfdc0",
+        "sbom.syft.json": "34beeb4f208bb7f05a0c93c8f0b91157b9164f32e8796cf706e54bde2e42739d",
+        "grype.json": "037e7f956c14ff69aa884f41f5dfcb54ec903d8c8ca388022b4f644fc0a3c514",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "b95ccea089dd021db8457e579741eb1e91d6e4ee828e7bc57de5928a19f12709"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    },
+    {
+      "role": "uat-backend",
+      "artifact_id": 14197805024,
+      "artifact_url": "https://github.com/Parikshit-Sahrawat/APTron_Observability/actions/runs/43803115925/artifacts/14197805024",
+      "artifact_zip_sha256": "sha256:8cb0f57e4af7fec9a854a84e108baa15917d8349f3b85785aafd278d2685f721",
+      "image_config_id": "sha256:2d4cf5bef0e6135dacc00f0c33d0721cf602ed83a9c27056688e2926b06b4b5c",
+      "identity_kind": "docker-image-config-sha256",
+      "architecture": "amd64",
+      "tested_source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+      "build_input": {
+        "context": "backend",
+        "file": "backend/Dockerfile.uat",
+        "target": "",
+        "image": "",
+        "dockerfile_sha256": "697e4b1649f9dd7aad247bd8bc768cf85918e03cbcf506c5f0430b7c08c24e27"
+      },
+      "observed_repo_digests": [],
+      "final_distribution_manifest_digest": null,
+      "severe_matches": 112,
+      "severe_by_severity": {
+        "Critical": 19,
+        "High": 90,
+        "Unknown": 3
+      },
+      "license_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "independent_reviewer": null,
+      "components": 1015,
+      "evidence_sha256": {
+        "image-binding.json": "c12d01707a14bdbd2121471819b1edcdd9353cb020d77d335da40be9d62e4766",
+        "sbom.cdx.json": "fe4852c824603185102021217f0e7143931da80e480fc54f801204ed6976f303",
+        "sbom.syft.json": "8cca2ef4870c8f7fa3e70c73d58ff5453af6973dab66f65cb8ffd5007e9e907a",
+        "grype.json": "696acd3a1c5e26b64bbf09445e0dd66fa50ef67d1fc9aa93c84e90f5cb23883b",
+        "grype-db.json": "93852c2f32544a6dfb17b35485a557b9a3ae2631917e6bfb177ee302fb7d8f39",
+        "tools.json": "2c361bcab006a2c0eb1b57b718ff8dc20e77dcf57d5ff37ea585ebf739449032",
+        "licenses.json": "10b133ce8656a95bbeb00053bea9ad08bb1d4297dd6740c9337045b3477a8e05"
+      },
+      "signed_notice_and_source_offer_evidence": null,
+      "production_eligible": false
+    }
+  ]
+}

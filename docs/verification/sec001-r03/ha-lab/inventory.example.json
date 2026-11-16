@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "environment": "ISOLATED_EXISTING_HOSTS",
+  "cluster_name": "aptron-r03-ha-lab",
+  "owner_authorized": false,
+  "synthetic_data_only": true,
+  "production_network_connected": false,
+  "network_cidr": "192.0.2.0/24",
+  "images": {
+    "postgres": null,
+    "patroni": null,
+    "etcd": null,
+    "patroni_image_ref": null,
+    "etcd_image_ref": null
+  },
+  "tls": {
+    "independent_ca_fingerprint_sha256": null,
+    "san_and_client_auth_verified": false
+  },
+  "fencing": {
+    "approved_for_lab": false,
+    "change_ticket": null,
+    "watchdog_available": false
+  },
+  "hosts": [
+    {
+      "node_name": "aptron-ha-01",
+      "host_id": null,
+      "address": "192.0.2.11",
+      "failure_domain": null,
+      "physical_host": false,
+      "owner_authorized": false,
+      "host_attestation_sha256": null,
+      "os": "Ubuntu 24.04 LTS",
+      "vcpus": 8,
+      "memory_gib": 32,
+      "data_disk_gib": 200
+    },
+    {
+      "node_name": "aptron-ha-02",
+      "host_id": null,
+      "address": "192.0.2.12",
+      "failure_domain": null,
+      "physical_host": false,
+      "owner_authorized": false,
+      "host_attestation_sha256": null,
+      "os": "Ubuntu 24.04 LTS",
+      "vcpus": 8,
+      "memory_gib": 32,
+      "data_disk_gib": 200
+    },
+    {
+      "node_name": "aptron-ha-03",
+      "host_id": null,
+      "address": "192.0.2.13",
+      "failure_domain": null,
+      "physical_host": false,
+      "owner_authorized": false,
+      "host_attestation_sha256": null,
+      "os": "Ubuntu 24.04 LTS",
+      "vcpus": 8,
+      "memory_gib": 32,
+      "data_disk_gib": 200
+    }
+  ]
+}
