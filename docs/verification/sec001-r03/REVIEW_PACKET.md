@@ -58,3 +58,14 @@ No private or source-only artifact is an approval. No reviewer's name, date, sig
 5. Record independent GitHub approval; only then merge the authorized PR (no deploy, no auto-release).
 
 **Decision:** REVIEW-ONLY / SECURITY-BLOCKED / MERGE-HOLD / RELEASE-NO-GO.
+
+
+## Owner staging-first policy — 16 November 2026
+
+The later approved [staging-first policy](../staging-first/POLICY.md) supersedes
+previous statements that independent final legal approval or formal physical
+HA certification blocks the isolated **disposable CI staging** selected by the
+owner. Those requirements remain production-release gates. Original scan
+findings and pending signoffs are retained. The separate staging exception
+record expires 30 November 2026 at 23:59:59 IST; no staging artifact is approved
+for production promotion.

@@ -4,6 +4,11 @@
 set -euo pipefail
 : "${R03_COLLECTOR_IMAGE:?Pass the exact locally built isolated image tag}"
 : "${RUNNER_TEMP:?Requires an owned CI temporary directory}"
+# Exercise the real binary path inside each candidate image, including UAT.
+binary="${R03_COLLECTOR_BINARY:-/otelcol-contrib}"
+[[ "$binary" == /otelcol-contrib || "$binary" == /usr/local/bin/otelcol-contrib ]] || {
+  echo 'Unsupported candidate binary path' >&2; exit 1;
+}
 work="$(mktemp -d "$RUNNER_TEMP/r03-collector-private.XXXXXX")"
 network="r03-internal-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-1}"
 container="r03-collector-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-1}"
@@ -89,7 +94,7 @@ start_collector() {
   docker run -d --name "$container" --network "$network" \
     --user 10001:10001 --cap-drop ALL --security-opt no-new-privileges \
     -v "$work/fixture:/fixture:rw" -v "$work/server:/secrets:ro" \
-    --entrypoint /otelcol-contrib "$R03_COLLECTOR_IMAGE" \
+    --entrypoint "$binary" "$R03_COLLECTOR_IMAGE" \
     --config=/fixture/config.yaml >/dev/null
 }
 post_otlp() {

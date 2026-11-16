@@ -74,11 +74,19 @@ CMD ["python", "-m", "scripts.run_api"]
 FROM runtime_base AS uat_patched
 USER 0
 ARG PATCHED_COLLECTOR_SHA256
+ARG PATCHED_COLLECTOR_LEGAL_SHA256
 COPY --from=patched_telemetry /otelcol-contrib /usr/local/bin/otelcol-contrib
+COPY --from=patched_telemetry /otelcol-buildinfo.txt /usr/share/aptron/collector/otelcol-buildinfo.txt
+COPY --from=patched_telemetry /source-binding.json /usr/share/aptron/collector/source-binding.json
+COPY --from=patched_telemetry /collector-legal/ /usr/share/aptron/collector/legal/
 COPY migrations/ /app/migrations/
 COPY alembic.ini /app/alembic.ini
 RUN test -n "$PATCHED_COLLECTOR_SHA256" \
     && printf '%s  /usr/local/bin/otelcol-contrib\n' "$PATCHED_COLLECTOR_SHA256" | sha256sum -c - \
+    && test -n "$PATCHED_COLLECTOR_LEGAL_SHA256" \
+    && printf '%s  /usr/share/aptron/collector/legal/SHA256SUMS\n' "$PATCHED_COLLECTOR_LEGAL_SHA256" | sha256sum -c - \
+    && (cd /usr/share/aptron/collector/legal && sha256sum -c SHA256SUMS) \
+    && chmod -R a+rX /usr/share/aptron/collector \
     && chmod 0755 /usr/local/bin/otelcol-contrib \
     && /usr/local/bin/otelcol-contrib --version | grep -F '0.165.0' \
     && chmod -R a+rX /app/migrations /app/alembic.ini

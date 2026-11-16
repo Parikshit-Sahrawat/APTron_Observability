@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "status": "BLOCKED",
+  "exact_candidate_coverage": "PASS",
+  "policy": "UNMODIFIED_ZERO_SEVERE_AND_ACCOUNTABLE_LICENSE_REVIEW",
+  "blocked_roles": 8,
+  "images": [
+    {
+      "role": "backend-runtime",
+      "status": "BLOCKED",
+      "reason": "Unresolved High/Critical/unknown severity matches: 4"
+    },
+    {
+      "role": "backend-migration",
+      "status": "BLOCKED",
+      "reason": "Unresolved High/Critical/unknown severity matches: 4"
+    },
+    {
+      "role": "uat-backend",
+      "status": "BLOCKED",
+      "reason": "Unresolved High/Critical/unknown severity matches: 112"
+    },
+    {
+      "role": "frontend",
+      "status": "BLOCKED",
+      "reason": "License/NOTICE review pending; inventory is not legal approval"
+    },
+    {
+      "role": "postgres",
+      "status": "BLOCKED",
+      "reason": "License/NOTICE review pending; inventory is not legal approval"
+    },
+    {
+      "role": "ingestion-gateway",
+      "status": "BLOCKED",
+      "reason": "License/NOTICE review pending; inventory is not legal approval"
+    },
+    {
+      "role": "otel-contrib",
+      "status": "BLOCKED",
+      "reason": "Unresolved High/Critical/unknown severity matches: 108"
+    },
+    {
+      "role": "production-frontend",
+      "status": "BLOCKED",
+      "reason": "License/NOTICE review pending; inventory is not legal approval"
+    }
+  ],
+  "release_approved": false
+}

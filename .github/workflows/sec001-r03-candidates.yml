@@ -429,6 +429,8 @@ jobs:
           trap 'docker rm -f "$cid" >/dev/null 2>&1 || true' EXIT
           docker cp "$cid:/otelcol-contrib" "$RUNNER_TEMP/r03-patched-collector/otelcol-contrib"
           docker cp "$cid:/otelcol-buildinfo.txt" "$RUNNER_TEMP/r03-patched-collector/otelcol-buildinfo.txt"
+          docker cp "$cid:/collector-legal" "$RUNNER_TEMP/r03-patched-collector/collector-legal"
+          (cd "$RUNNER_TEMP/r03-patched-collector/collector-legal" && sha256sum -c SHA256SUMS)
           test -s "$RUNNER_TEMP/r03-patched-collector/otelcol-contrib"
           python - <<'PY'
           import hashlib,json,os,pathlib
@@ -438,6 +440,7 @@ jobs:
           manifest={"schema":1,"source_sha":os.environ["GITHUB_SHA"],
                     "collector_image_config_id":image_id,
                     "binary_sha256":hashlib.sha256(binary.read_bytes()).hexdigest(),
+                    "legal_checksums_sha256":hashlib.sha256((root/"r03-patched-collector"/"collector-legal"/"SHA256SUMS").read_bytes()).hexdigest(),
                     "qualification":"SAME_RUN_CANDIDATE_NOT_RELEASE",
                     "license_notice_review":"PENDING_ACCOUNTABLE_REVIEW",
                     "release_eligible":False}
@@ -494,6 +497,7 @@ jobs:
           assert len(manifest["collector_image_config_id"])==71
           assert hashlib.sha256(binary.read_bytes()).hexdigest()==manifest["binary_sha256"]
           assert (root/"r03-patched-collector"/"otelcol-buildinfo.txt").is_file()
+          assert hashlib.sha256((root/"r03-patched-collector"/"collector-legal"/"SHA256SUMS").read_bytes()).hexdigest()==manifest["legal_checksums_sha256"]
           print("PASS: image source binding + independently rehashed same-run patched Collector")
           PY
       - name: Install exact scanner tools
@@ -503,10 +507,12 @@ jobs:
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/sec001-r03-uat-patched"
           patched_sha="$(sha256sum "$RUNNER_TEMP/r03-patched-collector/otelcol-contrib" | cut -d' ' -f1)"
+          legal_sha="$(sha256sum "$RUNNER_TEMP/r03-patched-collector/collector-legal/SHA256SUMS" | cut -d' ' -f1)"
           docker build --iidfile "$RUNNER_TEMP/r03-uat-patched.id" \
             --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt \
             --build-context "patched_telemetry=$RUNNER_TEMP/r03-patched-collector" \
             --build-arg "PATCHED_COLLECTOR_SHA256=$patched_sha" \
+            --build-arg "PATCHED_COLLECTOR_LEGAL_SHA256=$legal_sha" \
             --target uat_patched -f backend/Dockerfile.alpine-r03-candidate \
             -t sec001-r03-uat-patched:scan backend
           docker run --rm --entrypoint /usr/local/bin/otelcol-contrib sec001-r03-uat-patched:scan --version | grep -F '0.165.0'
@@ -549,6 +555,19 @@ jobs:
           count="$(docker exec "$database" psql -U postgres -d postgres -Atqc "SELECT count(*) FROM information_schema.tables WHERE table_schema='public'")"
           test "$count" -gt 5
           echo "Patched UAT PG17 migration PASS: $count tables"
+      - name: Exercise mTLS and restart using the binary inside the patched UAT image
+        env:
+          R03_COLLECTOR_IMAGE: sec001-r03-uat-patched:scan
+          R03_COLLECTOR_BINARY: /usr/local/bin/otelcol-contrib
+        run: bash scripts/ci/r03_collector_mtls_checkpoint.sh
+      - name: Measure application version negotiation without changing the active pin
+        run: |
+          set -euo pipefail
+          docker run --rm --network none --entrypoint python \
+            -v "$PWD/scripts/ci/r03_uat_version_probe.py:/probe.py:ro" \
+            sec001-r03-uat-patched:scan /probe.py \
+            > "$RUNNER_TEMP/sec001-r03-uat-patched/application-compatibility.json"
+          cat "$RUNNER_TEMP/sec001-r03-uat-patched/application-compatibility.json"
       - name: Capture exact Syft/CycloneDX/Grype scan and compare with legacy UAT
         run: |
           set -euo pipefail

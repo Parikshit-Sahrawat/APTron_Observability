@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+  "source_sha": "e0c0a8d2cd31d6ad6a544a7f1e0de8e25fccb885",
+  "scope": "disposable-ci-staging",
+  "profile": "inventory",
+  "images": [
+    {
+      "role": "backend-runtime",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 4,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001",
+        "STG-VULN-BACKEND-RUNTIME"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:ad39bc5fcb2378aef17e80463992bb3209a8a90bcaaa85099ff416f322647d80"
+    },
+    {
+      "role": "backend-migration",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 4,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001",
+        "STG-VULN-BACKEND-MIGRATION"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:90f7f6249bad562e0318f59d05d616ac72bf20f3c7241592327a16afc42d669f"
+    },
+    {
+      "role": "uat-backend",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 112,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001",
+        "STG-VULN-UAT-BACKEND"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:2d4cf5bef0e6135dacc00f0c33d0721cf602ed83a9c27056688e2926b06b4b5c"
+    },
+    {
+      "role": "frontend",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 0,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:1cb2de5f8db87770ed89f9a14e0965ef5a2ea042da8fe05c47e25b3273f66aa7"
+    },
+    {
+      "role": "postgres",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 0,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:80bfeeb0a31f557c79f66235e2e6508292731d9f757aff3f0010d74e4bc85fc1"
+    },
+    {
+      "role": "ingestion-gateway",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 0,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:aafcf324de4ac90a3e4ebd752ab3555ac7607aedcae0ae98bef55e138ae38488"
+    },
+    {
+      "role": "otel-contrib",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 108,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001",
+        "STG-VULN-OTEL-CONTRIB"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:f0eaa24275f0eac77186cf0c9b1d1c72c9edde884a7c6bf9e5332ca8b5939d97"
+    },
+    {
+      "role": "production-frontend",
+      "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
+      "severe_matches_unresolved": 0,
+      "exception_ids": [
+        "STG-LEGAL-001",
+        "STG-HA-001"
+      ],
+      "legal_status": "DEFERRED_NOT_PASSED",
+      "physical_ha_status": "DEFERRED_NOT_PASSED",
+      "production_eligible": false,
+      "image_config_id": "sha256:1217d4c0140ff9b163d0feea6bedd08adb7b9ef844caa7dd468d17982327d073"
+    }
+  ],
+  "deployment_completed": false,
+  "production_eligible": false,
+  "expires_at": "2026-11-30T23:59:59+05:30"
+}
