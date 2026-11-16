@@ -56,6 +56,21 @@ jobs:
           python-version: '3.12'
       - name: Run independent failure-domain negative contract tests
         run: python -m unittest discover -s tests -p 'test_r03_ha_evidence_contract.py' -v
+      - name: Validate owner-approved three-host inert lab blueprint (NO DEPLOY)
+        run: |
+          python -m unittest discover -s tests -p 'test_r03_ha_lab_blueprint.py' -v
+          python -m unittest discover -s tests -p 'test_r03_legal_owner_evidence.py' -v
+          python docs/verification/sec001-r03/ha-lab/render_node.py \
+            --inventory docs/verification/sec001-r03/ha-lab/inventory.example.json \
+            > "$RUNNER_TEMP/r03-ha-blueprint-readiness.json"
+          python - <<'PY'
+          import json, os, pathlib
+          report = json.loads((pathlib.Path(os.environ["RUNNER_TEMP"]) /
+                               "r03-ha-blueprint-readiness.json").read_text())
+          assert report["status"] == "BLOCKED"
+          assert not report["deployment_authorized"] and not report["physical_ha_certified"]
+          print("PASS: no host identity invented or physical lab accidentally approved")
+          PY
       - name: Record missing independent multi-host evidence as BLOCKED
         run: |
           python scripts/ci/r03_ha_evidence_contract.py --output "$RUNNER_TEMP/r03-ha-contract.json"
@@ -84,6 +99,7 @@ jobs:
           path: |
             ${{ runner.temp }}/r03-ha-contract.json
             ${{ runner.temp }}/r03-ha-lab-plan.json
+            ${{ runner.temp }}/r03-ha-blueprint-readiness.json
           if-no-files-found: error
   candidate-evidence:
     name: candidate-evidence (${{ matrix.role }})

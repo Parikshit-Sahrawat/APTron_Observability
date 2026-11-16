@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "kind": "SEC001_R06_HISTORIC_LICENSE_TRIAGE_LEDGER",
+  "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+  "approved_owner_workbook_scope": "TECHNICAL_TRIAGE_BASELINE_ONLY",
+  "reported_components": 2506,
+  "unresolved_reviewer": null,
+  "final_oci_licence_approvals": false,
+  "images": [
+    {
+      "role": "backend-runtime",
+      "image_config_id": "sha256:6a966afdcb7c03eb2e9e8c89c27536baf9a69f6da786170405020b8a412ffd73",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-new-backend-evidence.zip",
+      "evidence_zip_sha256": "7bb80300e0315bc684f7e1359003b2191db3fb085b6a1c2092d55db735975aa9",
+      "components": 129,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "backend-migration",
+      "image_config_id": "sha256:980b50a191e1c65208506a3a31487ab606c5e2fa8272951fd58f0882bd2b2b3f",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-105-backend-migration-current.zip",
+      "evidence_zip_sha256": "605cfe79acac9288da362ecb30ea94a6d88740ce37980e91b2f6ea2ee73aadc2",
+      "components": 129,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "uat-backend",
+      "image_config_id": "sha256:49aaba6421b3f54633e739e7ac8f724a3e2365de7f55e299a506ab9af1f3723f",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-new-uat-evidence.zip",
+      "evidence_zip_sha256": "aa45e2200172cde423454a14ab083133c7f65821f5b54183f90f845e11122b69",
+      "components": 1071,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "frontend",
+      "image_config_id": "sha256:818af6d358e78365d4c68d8ebbaff86ba92ffc27a4ec877979451b629ed73343",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-105-frontend-current.zip",
+      "evidence_zip_sha256": "f995ff271507b719ae7d915f58d3c3b16ec9339f78e19fd2632689e90f9f7133",
+      "components": 64,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "postgres",
+      "image_config_id": "sha256:c5bdad76e976b6313ca39f28de4f73854488c6f3410d6b3919bfbdb5bd0bb3d5",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-105-postgres-current.zip",
+      "evidence_zip_sha256": "06cf954110498b52ca4cbd57cd2f184a5d4bb13351a65b6b9027c94f17415441",
+      "components": 50,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "ingestion-gateway",
+      "image_config_id": "sha256:cec740dba72e6533de6bfd4345c9256624881f8b93bd9f27a9fce5b5fbd4cff5",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-105-ingestion-gateway-current.zip",
+      "evidence_zip_sha256": "2f272e34feef12075b9874d9d56c5bd9a1f5a36548883dc6379741759459b413",
+      "components": 64,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "otel-contrib",
+      "image_config_id": "sha256:f0eaa24275f0eac77186cf0c9b1d1c72c9edde884a7c6bf9e5332ca8b5939d97",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-105-otel-contrib-current.zip",
+      "evidence_zip_sha256": "5b1458354c5cf0fbb3802da300e269bc60e32d5e63c6d759e82f5dacf9685515",
+      "components": 935,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    },
+    {
+      "role": "production-frontend",
+      "image_config_id": "sha256:f96ce973b9315e4c5a27e6e624b89a7c1d523a0fb593e51b08676620a99597a7",
+      "source_sha": "96c8b8c810c81dd92dd6d9f969c24fa00bf7822d",
+      "evidence_zip": "sec001-105-production-frontend-current.zip",
+      "evidence_zip_sha256": "60471bd837ad116c2e8d177681b3073741eb52b70a8e694c739ae07588aca043",
+      "components": 64,
+      "final_published_oci_manifest_digest": null,
+      "reviewer_name": null,
+      "license_notice_status": "PENDING_ACCOUNTABLE_REVIEW",
+      "signature_reference": null
+    }
+  ],
+  "legal_signoff_complete": false,
+  "release_eligible": false
+}

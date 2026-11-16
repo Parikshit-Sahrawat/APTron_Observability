@@ -3469,6 +3469,56 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Root.io supplier offline APK signature verifier must reject missing or unauthenticated keys, never install APK or mark legal/release approved"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_unapproved_inventory_is_blocked": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_synthetic_render_still_not_certification": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_insufficient_sizing_is_rejected": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_duplicate_domains_or_documentation_ips_block": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_compose_profile_does_not_enable_ha_or_watchdog": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_physical_ha_contract_on_template_fails_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_ha_lab_blueprint.py::test_local_host_facts_are_never_attested": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved HA blueprint must reject fictitious hosts, preserve fencing and not misrepresent physical HA certification"
+    },
+    "tests/test_r03_legal_owner_evidence.py::test_all_historic_roles_present": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
+    },
+    "tests/test_r03_legal_owner_evidence.py::test_source_and_hash_binding_are_present": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
+    },
+    "tests/test_r03_legal_owner_evidence.py::test_owner_approval_never_claims_independent_legal_signoff": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Owner-approved historical license triage must never be interpreted as independent final OCI digests and legal NOTICE signoff"
     }
   }
 }
