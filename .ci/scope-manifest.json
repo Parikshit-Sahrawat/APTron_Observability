@@ -3569,6 +3569,21 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "SEC001-R03 prove patched UAT uses separately evidenced rebuilt collector binary and no release pin change; keep legacy UAT for exact comparison"
+    },
+    "tests/test_r03_backend_release_selection.py::test_selected_runtime_migration_identical_to_bounded_candidate": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
+    },
+    "tests/test_r03_backend_release_selection.py::test_python_base_and_wheel_abi_pinning_are_present": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
+    },
+    "tests/test_r03_backend_release_selection.py::test_schema_and_api_targets_remain_nonroot": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Selected nondeployed Alpine release backend source must match qualified R03 runtime/migration and preserve source pin, nonroot, Alembic, and active Tier C blockers"
     }
   }
 }
