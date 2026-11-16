@@ -3654,6 +3654,26 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Staging loopback forwarders reject targets outside the verified Docker network and non-staging ports"
+    },
+    "frontend/scripts/organization_inventory.test.mjs::filtering or revocation while on a later page never leaves an empty invalid page": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "M3-A organization identity preservation, status filtering and valid pagination; mandatory frontend suite"
+    },
+    "frontend/scripts/organization_inventory.test.mjs::inactive status and identity search combine without changing the authorized records": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "M3-A organization identity preservation, status filtering and valid pagination; mandatory frontend suite"
+    },
+    "frontend/scripts/organization_inventory.test.mjs::saved organization moves to its new page after a rename without duplicating or dropping rows": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "M3-A organization identity preservation, status filtering and valid pagination; mandatory frontend suite"
+    },
+    "frontend/scripts/organization_inventory.test.mjs::saving an organization beyond page one reveals its exact persisted identity": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "M3-A organization identity preservation, status filtering and valid pagination; mandatory frontend suite"
     }
   }
 }

@@ -52,3 +52,9 @@ Job Monitoring targets SOS JobScheduler 1.x and JS7, plus log-file monitoring. H
 [Archive restoration ledger](https://github.com/Parikshit-Sahrawat/APTron_Observability/tree/archive/pre-cleanup-20261116/docs/verification/queue-cleanup/2026-11-16) preserves all 61 original branch tips and original open PR descriptions. Archive anchor `774854a210866573b0ad6fcdcfd8bd2b3e022b60` connects independent histories without merging their product trees. The archive also retains the exact one-time cleanup implementation and its expiry.
 
 Closed PRs #80/#82/#84/#89 and assessment PRs #101/#102 still contain unreconciled historical requirements. PR closure means queue retirement, not delivery or certification. PR #104 Help was adapted; #105 foundation was incorporated except its obsolete UAT base-image pin; #108/#109 are ancestors of #110. Restore and selectively port proven relevant changes only after exact-file reconciliation.
+
+## M3-A increment — 16 November 2026
+
+Organizations lifecycle visibility is implemented on `feat/aptron-organization-lifecycle-20261116`, a separate draft stacked on #110. It adds active/inactive filtering, saved-ID page selection after create/edit, valid pagination and pending/error form handling. Four mandatory unit regressions and a real disposable PostgreSQL/browser regression cover the increment. [Manifest and evidence boundary](../verification/aptron-m3a-organizations/IMPLEMENTATION.md).
+
+Local verification is reported in the draft PR; new live CI and independent Organizations UAT remain pending. No original UAT finding is closed. Compute identity/draft/collector reconciliation follows Organizations in the approved sequence. The remaining M3 identity/settings contracts, M4–M9 and production gates retain their prior states.

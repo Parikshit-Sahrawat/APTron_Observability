@@ -5,6 +5,7 @@ import "../resource-v2.css";
 import CollectorControl from "./CollectorControl";
 import EventDelivery from "./EventDelivery";
 import { hasPermission } from "../permissions";
+import { organizationPage, organizationPageFor } from "../organizationInventory.js";
 const TELEMETRY = ["Logs", "Metrics", "Traces"];
 import { fetchAuthorizedCustomers } from "../api";
 import {
@@ -87,19 +88,32 @@ function Modal({ title, children, onClose, wide = false }) {
 function OrgModal({ item, onClose, onSaved }) {
   const [form, setForm] = useState({ name: item?.name || "", code: item?.code || "", active: item?.active ?? true });
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const savingRequest = useRef(false);
+  const close = () => { if (!savingRequest.current) onClose(); };
   const save = async e => {
     e.preventDefault();
+    if (savingRequest.current) return;
+    if (!form.name.trim() || !form.code.trim()) {
+      setError("Organization name and short code are required.");
+      return;
+    }
+    savingRequest.current = true;
+    setSaving(true);
+    setError("");
     try {
-      const value = item?.id ? await updateOrganization(item.id, form) : await createOrganization(form);
-      onSaved(value);
+      const payload = { ...form, name: form.name.trim(), code: form.code.trim() };
+      const value = item?.id ? await updateOrganization(item.id, payload) : await createOrganization(payload);
+      await onSaved(value);
     } catch (e2) { setError(e2.message || "Unable to save organization"); }
+    finally { savingRequest.current = false; setSaving(false); }
   };
-  return <Modal title={item?.id ? "Edit Organization" : "Create Organization"} onClose={onClose}>
-    {error && <div className="scope-banner error-banner">{error}</div>}
-    <form className="resource-form" onSubmit={save}>
-      <div className="form-grid"><Field label="Organization Name"><input required value={form.name} onChange={e => setForm(v => ({ ...v, name: e.target.value }))} /></Field><Field label="Short Code"><input required value={form.code} onChange={e => setForm(v => ({ ...v, code: e.target.value.toUpperCase() }))} /></Field></div>
-      <label className="toggle"><input type="checkbox" checked={form.active} onChange={e => setForm(v => ({ ...v, active: e.target.checked }))} /><span>Active customer</span></label>
-      <div className="form-footer"><span className="muted small">Organization is the resource ownership boundary.</span><div><button type="button" className="filter-button" onClick={onClose}>Cancel</button><button className="primary-button">Save</button></div></div>
+  return <Modal title={item?.id ? "Edit Organization" : "Create Organization"} onClose={close}>
+    {error && <div className="scope-banner error-banner" role="alert">{error}</div>}
+    <form className="resource-form" onSubmit={save} aria-busy={saving}>
+      <div className="form-grid"><Field label="Organization Name"><input required maxLength={200} disabled={saving} value={form.name} onChange={e => setForm(v => ({ ...v, name: e.target.value }))} /></Field><Field label="Short Code"><input required maxLength={50} disabled={saving} value={form.code} onChange={e => setForm(v => ({ ...v, code: e.target.value.toUpperCase() }))} /></Field></div>
+      <label className="toggle"><input type="checkbox" disabled={saving} checked={form.active} onChange={e => setForm(v => ({ ...v, active: e.target.checked }))} /><span>Active customer</span></label>
+      <div className="form-footer"><span className="muted small">Organization is the resource ownership boundary.</span><div><button type="button" className="filter-button" disabled={saving} onClick={close}>Cancel</button><button className="primary-button" disabled={saving}>{saving ? "Saving…" : "Save"}</button></div></div>
     </form>
   </Modal>;
 }
@@ -263,6 +277,7 @@ export default function ResourceManagementV2({ user, section, embedded = false, 
   const [collectors, setCollectors] = useState([]);
   const [templates, setTemplates] = useState([]);
   const [query, setQuery] = useState("");
+  const [organizationStatus, setOrganizationStatus] = useState("all");
   const [page, setPage] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -271,7 +286,7 @@ export default function ResourceManagementV2({ user, section, embedded = false, 
   const [templateEditor, setTemplateEditor] = useState(null);
   const [collectorEditor, setCollectorEditor] = useState(null);
   const reloadGeneration = useRef(0);
-  const reload = async () => {
+  const reload = async (organizationToReveal = null) => {
     const generation = ++reloadGeneration.current;
     setLoading(true); setError("");
     try {
@@ -285,6 +300,13 @@ export default function ResourceManagementV2({ user, section, embedded = false, 
       // newer scope or expose rows before their registration settings arrive.
       if (generation !== reloadGeneration.current) return;
       setOrganizations(orgs);
+      if (typeof organizationToReveal === "string") {
+        setQuery("");
+        setOrganizationStatus("all");
+        setPage(organizationPageFor(orgs, organizationToReveal));
+        if (!orgs.some(o => o.id === organizationToReveal))
+          setError("Organization was saved but is unavailable in the authorized inventory. Refresh or review customer access.");
+      }
       const supportedSources = sources.filter(s => !isExcludedPlatform(s.source_type));
       const supportedIds = new Set(supportedSources.map(s => s.id));
       setDataSources(supportedSources);
@@ -334,29 +356,35 @@ export default function ResourceManagementV2({ user, section, embedded = false, 
     }
   };
   const disable = async (fn, item) => { if (!window.confirm("Disable " + (item.name || "this resource") + "?")) return; try { await fn(item.id); await reload(); } catch (e) { setError(e.message || "Unable to disable resource"); } };
-  const selectedOrganizations = organizations.filter(o =>
-    (!organizationIds.length || organizationIds.includes(o.id)) &&
-    (!query || [o.name, o.code, o.id].join(" ").toLowerCase().includes(query.toLowerCase().trim())));
+  const organizationInventory = organizationPage(
+    organizations.filter(o => !organizationIds.length || organizationIds.includes(o.id)),
+    { query, status: tab === "organizations" ? organizationStatus : "all", page },
+  );
+  const selectedOrganizations = organizationInventory.items;
   const selectedRows = tab === "collectors" ? filteredCollectors : selectedOrganizations;
-  const visibleRows = embedded ? selectedRows.slice(page * 25, page * 25 + 25) : selectedRows;
+  const currentPage = tab === "organizations" ? organizationInventory.page : page;
+  const visibleRows = embedded
+    ? tab === "organizations" ? organizationInventory.visible : selectedRows.slice(page * 25, page * 25 + 25)
+    : selectedRows;
   const summary = [["organizations", "Organizations", selectedOrganizations.length, "Selected organization boundaries"], ["data-sources", "Data Sources", dataSources.length, "Loaded resources in selected scope"], ["collectors", "Collectors", collectors.length, "Loaded collectors and registrations"], ["templates", "Templates", templates.length, "Available shared policy packages"]];
   return <div className={embedded ? "resource-page resource-page-embedded" : "resource-page"} role={embedded && tab === "organizations" ? "region" : undefined} aria-label={embedded && tab === "organizations" ? "Monitored customer organizations" : undefined}>
     <div className="page-heading"><div><h1>{embedded ? (tab === "collectors" ? "Collectors" : "Organizations") : "Resource Management"}</h1><p>{embedded ? (tab === "collectors" ? "Collector configuration and independent collection methods. Enabled configuration is not verified monitoring health." : "Monitored customer organizations; provider departments are managed in Access Management.") : "Organization → Data Source → Templates → Collector Configuration."}</p></div><div className="page-header-actions"><button className="filter-button" onClick={reload}>Refresh</button>{embedded && tab === "organizations" && can("customers.create") && <button className="primary-button" onClick={() => setOrgEditor({})}>Create Organization</button>}{embedded && tab === "collectors" && dataSources.some(s => can("collectors.manage", s.organization_id)) && <button className="primary-button" onClick={() => setCollectorEditor({})}>Create Collector</button>}{!embedded && <button className="primary-button" disabled={!organizations.some(o => o.active && can("resources.create",o.id) && can("collectors.manage",o.id) && can("templates.manage",o.id))} onClick={() => setWizard({ initial: null })}>+ Add Data Source</button>}</div></div>
     {!(embedded && tab === "organizations") && <label className="form-field resource-customer-filter"><span>Resource organization filter</span><select aria-label="Resource organization filter" value={customerFilter} onChange={e => { setOrganizationFilter(e.target.value); setPage(0); }}><option value="">All authorized organizations</option>{organizations.map(o => <option value={o.id} key={o.id}>{o.name}</option>)}</select></label>}
     {embedded && <label className="form-field"><span>Search {tab === "collectors" ? "collectors" : "organizations"}</span><input value={query} onChange={e => { setQuery(e.target.value); setPage(0); }} /></label>}
+    {tab === "organizations" && <label className="form-field"><span>Organization status</span><select value={organizationStatus} onChange={e => { setOrganizationStatus(e.target.value); setPage(0); }}><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>}
     {!embedded && <div className="resource-summary-grid">{summary.map(x => <button type="button" key={x[0]} className="card resource-summary-card resource-summary-link" onClick={() => { setTab(x[0]); setQuery(""); }}><span>{x[1]}</span><b>{x[2]}</b><small>{x[3]}</small><em>Open list →</em></button>)}</div>}
     <div className={embedded ? "resource-layout resource-layout-embedded" : "resource-layout"}>{!embedded && <aside className="resource-sidebar card">{NAV.map(([key, title, subtitle]) => <button key={key} className={tab === key ? "resource-tab active" : "resource-tab"} onClick={() => { setTab(key); setQuery(""); }}><b>{title}</b><small>{subtitle}</small></button>)}</aside>}
       <section className="resource-main">{error && <div className="scope-banner error-banner">{error}</div>}{loading ? <div className="card state-panel"><div className="spinner" /><h3>Loading Resource Management</h3></div> : <>
         {tab === "organizations" && <div className="resource-section-stack">{!embedded && <div className="card resource-toolbar"><h2>Organizations</h2><button className="primary-button" disabled={!can("customers.create")} onClick={() => setOrgEditor({})}>Create Organization</button></div>}<div className="card table-wrap"><table><thead><tr><th>Organization</th><th>Code</th><th>Status</th><th>Loaded Data Sources</th><th>Actions</th></tr></thead><tbody>{visibleRows.map(o=><tr key={o.id}><td><b>{o.name}</b><small>{o.id}</small></td><td>{o.code}</td><td>{o.active?'Active':'Inactive'}</td><td>{dataSources.filter(s=>s.organization_id===o.id).length}</td><td><div className="row-actions"><button disabled={!can('customers.update',o.id)} onClick={()=>setOrgEditor(o)}>Edit</button>{o.active&&<button disabled={!can('customers.update',o.id)} onClick={()=>disable(disableOrganization,o)}>Deactivate</button>}</div></td></tr>)}</tbody></table>{!selectedOrganizations.length&&<p>No organizations in this scope.</p>}</div></div>}
         {tab === "data-sources" && <div className="resource-section-stack"><div className="card resource-toolbar"><div><h2>Data Sources</h2><span className="muted small">One organization VM/machine can have multiple workload roles.</span></div><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search hostname, role, product..." /></div><div className="card table-wrap"><table><thead><tr><th>Data Source</th><th>Organization</th><th>Environment</th><th>Workload Roles</th><th>OS / Product</th><th>Templates</th><th>Agent</th><th>Actions</th></tr></thead><tbody>{filteredSources.filter(s => !isExcludedPlatform(s.source_type)).map(s => { const m = meta(s); const cs = collectors.filter(c => c.data_source_id === s.id); return <tr key={s.id}><td><b title={s.name}>{m.visible_name || s.name}</b><small>{m.hostname || s.endpoint}</small></td><td>{orgMap.get(s.organization_id)?.name || "—"}</td><td>{m.environment || "—"}</td><td><div className="chip-row">{(m.workload_roles || [m.server_type]).map(x => <span className="mini-chip" key={x}>{x}</span>)}</div></td><td>{m.os_type || "—"}<small>{m.product_family || ""} / {m.product || ""}</small></td><td>{(m.templates || []).join(", ") || "—"}</td><td>{cs.length ? cs[0].status : "NO AGENT"}</td><td><div className="row-actions"><button className="filter-button" disabled={!can("resources.update",s.organization_id) || !can("templates.manage",s.organization_id) || !can("collectors.manage",s.organization_id)} onClick={() => editSource(s)}>Edit</button>{s.enabled && can("resources.delete",s.organization_id) && <button className="danger-button" onClick={() => disable(disableDataSource, s)}>Disable</button>}</div></td></tr>})}</tbody></table></div></div>}
         {tab === "collectors" && <div className="resource-section-stack">{!embedded && <div className="card resource-toolbar"><h2>Collectors</h2><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search Collector"/><button className="primary-button" disabled={!dataSources.some(s=>can('collectors.manage',s.organization_id))} onClick={()=>setCollectorEditor({})}>Create Collector</button></div>}<div className="card table-wrap"><table><thead><tr><th>Collector</th><th>Data Source</th><th>Organization</th><th>Type</th><th>Enabled</th><th>Actions</th></tr></thead><tbody>{visibleRows.map(c=>{const source=dataSources.find(s=>s.id===c.data_source_id);return <tr key={c.id}><td><b>{c.name}</b><small>{c.id}</small></td><td>{source?.name||'—'}</td><td>{orgMap.get(source?.organization_id)?.name||'—'}</td><td>{c.collector_type}</td><td>{c.enabled?'Enabled · health unverified':'Disabled'}</td><td><button disabled={!can('collectors.view',source?.organization_id)} onClick={()=>setCollectorEditor(c)}>Collector Details</button>{c.enabled&&<button disabled={!can('collectors.manage',source?.organization_id)} onClick={()=>disable(disableCollector,c)}>Disable</button>}</td></tr>})}</tbody></table>{!filteredCollectors.length&&<p>No collectors in this scope.</p>}</div></div>}
-        {embedded && ["organizations", "collectors"].includes(tab) && <div className="access-pagination"><span>{selectedRows.length} loaded records · {selectedRows.length ? page * 25 + 1 : 0}–{Math.min((page + 1) * 25, selectedRows.length)}</span><button className="filter-button" disabled={!page} onClick={() => setPage(v => v - 1)}>Previous</button><button className="filter-button" disabled={(page + 1) * 25 >= selectedRows.length} onClick={() => setPage(v => v + 1)}>Next</button></div>}
+        {embedded && ["organizations", "collectors"].includes(tab) && <div className="access-pagination"><span>{selectedRows.length} loaded records · {selectedRows.length ? currentPage * 25 + 1 : 0}–{Math.min((currentPage + 1) * 25, selectedRows.length)}</span><button className="filter-button" disabled={!currentPage} onClick={() => setPage(currentPage - 1)}>Previous</button><button className="filter-button" disabled={(currentPage + 1) * 25 >= selectedRows.length} onClick={() => setPage(currentPage + 1)}>Next</button></div>}
         {['events','delivery'].includes(tab)&&<EventDelivery key={tab} kind={tab} organizations={selectedOrganizations} user={user}/>}
         {tab === "templates" && <div className="resource-section-stack"><div className="card resource-toolbar"><div><h2>Monitoring Templates</h2><span className="muted small">Collector + attributes + metrics + alert rules + log collection.</span></div><button className="primary-button" disabled={!user?.platform_admin} onClick={() => setTemplateEditor({})}>+ Create Template</button></div><div className="template-admin-grid">{templates.map(t => <div className="card template-admin-card" key={t.id}><div className="template-admin-head"><div><b>{t.name}</b><small>{t.scope} · v{t.version}</small></div><span className={t.status === "DISABLED" ? "status status--unknown" : "status status--success"}>{t.status}</span></div><p>{t.description}</p><div className="template-counts"><span>{t.attributes.length} attributes</span><span>{t.metrics.length} metrics</span><span>{t.alerts.length} alerts</span><span>{t.logs.length} log rules</span></div><div className="row-actions"><button className="filter-button" disabled={!user?.platform_admin} onClick={() => setTemplateEditor(t)}>Edit</button>{user?.platform_admin && t.status !== "DISABLED" && <button className="danger-button" onClick={() => disable(disableMonitoringTemplate, t)}>Disable</button>}</div></div>)}</div></div>}
       </>}</section>
     </div>
     {collectorEditor && <CollectorControl collector={collectorEditor.id?collectorEditor:null} sources={dataSources} user={user} onClose={()=>setCollectorEditor(null)} onSaved={reload}/>}
-    {orgEditor && <OrgModal item={orgEditor.id ? orgEditor : null} onClose={() => setOrgEditor(null)} onSaved={async () => { setOrgEditor(null); await reload(); onOrganizationSaved?.(); }} />}
+    {orgEditor && <OrgModal item={orgEditor.id ? orgEditor : null} onClose={() => setOrgEditor(null)} onSaved={async (saved) => { setOrgEditor(null); await reload(saved.id); onOrganizationSaved?.(); }} />}
     {wizard && <DataSourceWizard organizations={organizations} templates={templates} initial={wizard.initial} onClose={() => setWizard(null)} onSaved={async () => { setWizard(null); await reload(); }} onOrganizationSaved={async () => { await reload(); }} />}
     {templateEditor && <TemplateEditor value={templateEditor} onClose={() => setTemplateEditor(null)} onSaved={async () => { setTemplateEditor(null); await reload(); }} />}
   </div>;
