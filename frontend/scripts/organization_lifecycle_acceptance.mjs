@@ -31,8 +31,8 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
   try {
     await page.goto(ui.href);
     await login('test-admin');
-    // This fixture deliberately manages inactive and newly registered customers.
-    // Select the existing elevated ALL capability explicitly, through the UI.
+    // ALL is an explicit filter over the current active customer directory.
+    // It does not grant access to inactive customers or bypass tenant scope.
     const principal = await page.evaluate(async base => {
       const response = await fetch(base + '/api/v1/auth/me', { headers: { Authorization: 'Bearer ' + sessionStorage.getItem('opscontrol.sessionToken') } });
       if (!response.ok) throw Error('Fixture authority unavailable');
@@ -43,11 +43,11 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     await page.locator('.org-menu').getByRole('checkbox', { name: /^ALL customers/ }).check();
     await page.locator('.org-context-button').click();
     const token = await page.evaluate(() => sessionStorage.getItem('opscontrol.sessionToken'));
-    const headers = { Authorization: 'Bearer ' + token };
+    const headers = { Authorization: 'Bearer ' + token, 'X-OpsControl-Customers': 'ALL' };
     phase = 'seed-real-pagination';
-    for (let index = 0; index < 26; index++) {
+    for (let index = 0; index < 39; index++) {
       const response = await page.request.post(api.origin + '/api/v1/organizations', {
-        headers, data: { name: 'APTron lifecycle seed ' + String(index).padStart(2, '0'), code: 'LCSEED' + index, active: index % 2 === 0 },
+        headers, data: { name: 'APTron lifecycle seed ' + String(index).padStart(2, '0'), code: 'LCSEED' + index, active: index < 26 },
       });
       assert.equal(response.status(), 201);
     }
@@ -58,14 +58,21 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     await search.fill('APTron lifecycle seed');
     phase = 'organization-status-active';
     await status.selectOption('active');
-    assert.equal(await region.getByRole('row').count(), 14);
+    assert.equal(await region.getByRole('row').count(), 26);
+    assert.deepEqual(await region.locator('tbody tr td:nth-child(2)').allTextContents(),
+      Array.from({ length: 25 }, (_, index) => 'LCSEED' + index));
+    phase = 'organization-status-inactive';
     await status.selectOption('inactive');
-    assert.equal(await region.getByRole('row').count(), 14);
+    assert.equal(await region.getByRole('row').count(), 1);
+    await region.getByText('No organizations in this scope.', { exact: true }).waitFor();
+    phase = 'organization-status-all-page-one';
     await status.selectOption('all');
     assert.equal(await region.getByRole('row').count(), 26);
+    phase = 'organization-status-all-page-two';
     await region.getByRole('button', { name: 'Next', exact: true }).click();
     assert.equal(await region.getByRole('row').count(), 2);
-    report.checks.push('26 real organizations: combined active/inactive search and both inventory pages');
+    assert.equal(await region.locator('tbody tr td:nth-child(2)').textContent(), 'LCSEED25');
+    report.checks.push('39 real fixtures: ALL exposes only 26 active customers; 13 inactive customers excluded; both inventory pages verified');
 
     phase = 'save-hidden-by-old-filter';
     await search.fill('no matching organization');
@@ -118,12 +125,11 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     assert.equal(await region.getByRole('button', { name: 'Previous', exact: true }).isEnabled(), true);
     report.checks.push('Real create reveals saved ID beyond page one despite old search/status; pending form rejects duplicate submit and close');
 
-    phase = 'rename-deactivate-preserve';
+    phase = 'rename-preserve';
     await search.fill('ZZ APTron lifecycle target');
     await region.getByRole('row').filter({ hasText: 'ZZ APTron lifecycle target' }).getByRole('button', { name: 'Edit', exact: true }).click();
     dialog = page.getByRole('dialog', { name: 'Edit Organization', exact: true });
     await dialog.getByLabel('Organization Name').fill('A APTron lifecycle renamed');
-    await dialog.getByLabel('Active customer', { exact: true }).uncheck();
     await dialog.getByRole('button', { name: 'Save', exact: true }).click();
     await dialog.waitFor({ state: 'hidden' });
     await region.getByRole('row').filter({ hasText: 'A APTron lifecycle renamed' }).waitFor();
@@ -136,16 +142,17 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     assert.equal(persisted.created_at, saved.created_at);
     assert.equal(persisted.name, 'A APTron lifecycle renamed');
     assert.equal(persisted.code, 'LCTARGET');
-    assert.equal(persisted.active, false);
+    assert.equal(persisted.active, true);
     await page.reload();
     region = await organizations();
     await region.getByRole('row').filter({ hasText: 'A APTron lifecycle renamed' }).waitFor();
     await region.getByLabel('Search organizations', { exact: true }).fill('LCTARGET');
     await region.getByLabel('Organization status', { exact: true }).selectOption('active');
-    assert.equal(await region.getByRole('row').count(), 1);
-    await region.getByLabel('Organization status', { exact: true }).selectOption('inactive');
     assert.equal(await region.getByRole('row').count(), 2);
-    report.checks.push('Rename/deactivation retains canonical ID, code and creation time; reload and combined filters show persisted state');
+    await region.getByLabel('Organization status', { exact: true }).selectOption('inactive');
+    assert.equal(await region.getByRole('row').count(), 1);
+    await region.getByLabel('Organization status', { exact: true }).selectOption('all');
+    report.checks.push('Rename retains canonical ID, code and creation time; reload and combined filters show authorized persisted state');
 
     phase = 'server-conflict-preserves-form';
     await region.getByRole('button', { name: 'Create Organization', exact: true }).click();
@@ -167,7 +174,7 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
         await region.getByRole('row').filter({ hasText: 'A APTron lifecycle renamed' }).getByRole('button', { name: 'Edit', exact: true }).click();
         dialog = page.getByRole('dialog', { name: 'Edit Organization', exact: true });
         await dialog.waitFor();
-        assert.equal(await dialog.getByLabel('Active customer', { exact: true }).isChecked(), false);
+        assert.equal(await dialog.getByLabel('Active customer', { exact: true }).isChecked(), true);
         const box = await dialog.boundingBox();
         assert.ok(box.x >= 0 && box.x + box.width <= width + 1);
         assert.ok(await dialog.evaluate(el => el.scrollWidth <= el.clientWidth + 1));
@@ -177,6 +184,28 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
       }
     }
     report.checks.push('Persisted edit form is contained at desktop/tablet/mobile in both themes; Escape closes idle dialog');
+
+    phase = 'deactivate-leaves-active-directory';
+    await page.setViewportSize({ width: 1366, height: 900 });
+    await region.getByRole('row').filter({ hasText: 'A APTron lifecycle renamed' }).getByRole('button', { name: 'Edit', exact: true }).click();
+    dialog = page.getByRole('dialog', { name: 'Edit Organization', exact: true });
+    await dialog.getByLabel('Active customer', { exact: true }).uncheck();
+    const deactivation = page.waitForResponse(response => response.url() === api.origin + '/api/v1/organizations/' + saved.id && response.request().method() === 'PATCH');
+    await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+    const deactivatedResponse = await deactivation;
+    assert.equal(deactivatedResponse.status(), 200);
+    const deactivated = await deactivatedResponse.json();
+    assert.equal(deactivated.id, saved.id);
+    assert.equal(deactivated.code, saved.code);
+    assert.equal(deactivated.created_at, saved.created_at);
+    assert.equal(deactivated.active, false);
+    await dialog.waitFor({ state: 'hidden' });
+    await region.getByText('Organization was saved but is unavailable in the authorized inventory. Refresh or review customer access.', { exact: true }).waitFor();
+    await region.getByLabel('Search organizations', { exact: true }).fill('LCTARGET');
+    assert.equal(await region.getByRole('row').count(), 1);
+    const inactiveRead = await page.request.get(api.origin + '/api/v1/organizations/' + saved.id, { headers });
+    assert.equal(inactiveRead.status(), 404);
+    report.checks.push('Deactivation response preserves identity; inactive customer leaves ALL and direct scoped read fails closed');
 
     phase = 'viewer-tenant-denial';
     await page.setViewportSize({ width: 1366, height: 900 });
