@@ -99,27 +99,40 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     const received = new Promise((resolve, reject) => { captured = resolve; rejected = reject; });
     const held = new Promise(resolve => { release = resolve; });
     let posts = 0;
+    let routeFinished;
+    let routeFailure;
+    const finished = new Promise(resolve => { routeFinished = resolve; });
     let saved;
     const routePattern = '**/api/v1/organizations';
     await page.route(routePattern, async route => {
       if (route.request().method() !== 'POST') return route.continue();
       posts++;
       if (posts !== 1) return route.continue();
+      let completionAttempted = false;
       try {
         const response = await route.fetch();
         assert.equal(response.status(), 201);
         saved = await response.json();
         captured();
         await held;
+        completionAttempted = true;
         await route.fulfill({ response });
       } catch (error) {
+        routeFailure = error;
         rejected(error);
-        await route.abort();
+        // Never attempt a second completion after fulfill has handled a route.
+        if (!completionAttempted) {
+          try { await route.abort(); } catch (abortError) { routeFailure = abortError; }
+        }
+      } finally {
+        routeFinished();
       }
     });
     try {
-      await dialog.getByRole('button', { name: 'Save', exact: true }).click();
-      await received;
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Save', exact: true }).click(),
+        received,
+      ]);
       assert.equal(await dialog.getByRole('button', { name: 'Saving…', exact: true }).isDisabled(), true);
       // Reentrant native submit while the unchanged real server response is held.
       await dialog.locator('form').evaluate(form => form.requestSubmit());
@@ -127,10 +140,13 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
       await page.keyboard.press('Escape');
       assert.equal(await dialog.isVisible(), true);
       release();
+      await finished;
+      if (routeFailure) throw routeFailure;
       await dialog.waitFor({ state: 'hidden' });
       await region.getByRole('row').filter({ hasText: 'ZZ APTron lifecycle target' }).waitFor();
     } finally {
       release();
+      if (posts) await finished;
       await page.unroute(routePattern);
     }
     assert.equal(posts, 1);
