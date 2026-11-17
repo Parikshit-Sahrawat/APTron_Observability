@@ -3674,6 +3674,26 @@
       "classification": "INCLUDED_POSITIVE",
       "disposition": "RUN",
       "reason": "M3-A organization identity preservation, status filtering and valid pagination; mandatory frontend suite"
+    },
+    "backend/tests/test_critical_event_identity.py::test_current_server_binding_accepts_only_exact_registered_authority": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "S02-ID-01 authoritative registration and immutable event retry negative contracts"
+    },
+    "backend/tests/test_critical_event_identity.py::test_missing_disabled_deleted_or_reassigned_registry_binding_denies": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "S02-ID-01 authoritative registration and immutable event retry negative contracts"
+    },
+    "backend/tests/test_critical_event_identity.py::test_payload_and_untrusted_transport_cannot_grant_or_recover_authority": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "S02-ID-01 authoritative registration and immutable event retry negative contracts"
+    },
+    "backend/tests/test_critical_event_identity.py::test_retry_hash_and_version_conflicts_never_overwrite_original_identity": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "S02-ID-01 authoritative registration and immutable event retry negative contracts"
     }
   }
 }
