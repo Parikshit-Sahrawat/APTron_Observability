@@ -46,6 +46,8 @@ try{
       const operator=await login('operator');
       await operator.locator('section.card').filter({has:operator.getByRole('heading',{name:'Current Executions',exact:true})}).getByRole('row').filter({hasText:'Fictional Daily Warehouse'}).click();
       await operator.getByRole('button',{name:'Move to INVESTIGATING',exact:true}).click();
+      // Wait for the persisted transition before adding a note and closing this browser.
+      await operator.getByRole('dialog').getByText('INVESTIGATING',{exact:true}).waitFor();
       await operator.getByPlaceholder('Add chronological operator note...').fill('Browser investigation verified the source failure and live host correlation.');
       await operator.getByRole('button',{name:'Add Note',exact:true}).click();
       await operator.getByText('Browser investigation verified the source failure and live host correlation.',{exact:true}).waitFor();

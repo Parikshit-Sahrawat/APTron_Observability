@@ -18,7 +18,20 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
   async function login(username) {
     await page.getByLabel('Username', { exact: true }).fill(username);
     await page.getByLabel('Password', { exact: true }).fill(fixture.password);
+    const customerScope = page.waitForResponse(response =>
+      new URL(response.url()).pathname === '/api/v1/auth/customer-scope' && response.request().method() === 'GET');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    const response = await customerScope;
+    assert.equal(response.status(), 200);
+    const directory = await response.json();
+    // The real directory response normalizes the prior user's ALL/UUID filter.
+    // Wait for that state to be applied before navigating into a keyed inventory.
+    await page.waitForFunction(ids => {
+      const mode = localStorage.getItem('opscontrol.customerSelectionMode');
+      const selected = JSON.parse(localStorage.getItem('opscontrol.organizationIds') || '[]');
+      return (mode === 'SELECTED' || (mode === 'ALL' && selected.length === ids.length))
+        && selected.every(id => ids.includes(id));
+    }, directory.map(customer => customer.id));
     await page.getByRole('navigation', { name: 'Primary navigation' }).waitFor();
   }
   async function organizations() {
@@ -26,6 +39,7 @@ export async function checkOrganizationLifecycle(browser, fixture, out) {
     const region = page.getByRole('region', { name: 'Monitored customer organizations' });
     await region.getByRole('heading', { name: 'Organizations', exact: true }).waitFor();
     await region.getByText('Loading Resource Management', { exact: true }).waitFor({ state: 'hidden' });
+    await region.getByRole('table').waitFor({ state: 'visible' });
     return region;
   }
   try {
