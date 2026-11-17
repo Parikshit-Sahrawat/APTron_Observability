@@ -183,6 +183,7 @@ def downgrade():
     for function in (
         "aptron_critical_mutable_state_only",
         "aptron_critical_failure_owner",
+        "aptron_critical_collector_owner",
         "aptron_critical_source_owner",
         "aptron_critical_append_only",
     ):
@@ -214,6 +215,27 @@ GUARDS = (
       END IF; RETURN NEW; END $$""",
     """CREATE TRIGGER critical_source_owner BEFORE INSERT ON event_identity_registry
        FOR EACH ROW EXECUTE FUNCTION aptron_critical_source_owner()""",
+    *tuple(
+        "CREATE TRIGGER "
+        + name
+        + "_source_owner BEFORE INSERT ON "
+        + name
+        + " FOR EACH ROW EXECUTE FUNCTION aptron_critical_source_owner()"
+        for name in ("identity_conflict_audit", "delivery_gap_audit")
+    ),
+    """CREATE FUNCTION aptron_critical_collector_owner() RETURNS trigger LANGUAGE plpgsql AS $$
+    BEGIN
+      PERFORM 1 FROM event_identity_registry r
+        JOIN managed_agents m ON m.id=NEW.collector_id AND m.organization_id=r.tenant_id
+        JOIN collectors c ON c.id=m.collector_id AND c.data_source_id=r.source_id
+        JOIN worker_identities w ON w.id=m.worker_id AND w.organization_id=r.tenant_id
+        JOIN data_sources s ON s.id=c.data_source_id AND s.organization_id=r.tenant_id
+        WHERE r.event_key=NEW.event_key FOR SHARE OF m,c,w,s;
+      IF NOT FOUND THEN
+        RAISE EXCEPTION 'critical-event Collector source owner mismatch' USING ERRCODE='23514';
+      END IF; RETURN NEW; END $$""",
+    """CREATE TRIGGER critical_collector_owner BEFORE INSERT ON protected_event_inbox
+       FOR EACH ROW EXECUTE FUNCTION aptron_critical_collector_owner()""",
     """CREATE FUNCTION aptron_critical_failure_owner() RETURNS trigger LANGUAGE plpgsql AS $$
     BEGIN
       IF NEW.original_failure_event_key IS NOT NULL AND NOT EXISTS (

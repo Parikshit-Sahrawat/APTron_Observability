@@ -55,6 +55,13 @@ class CriticalEventSchemaTests(unittest.TestCase):
         self.assertIn("BEFORE UPDATE OR DELETE ON critical_event_ledger", guards)
         self.assertIn("source owner mismatch", guards)
         self.assertIn("recovery source mismatch", guards)
+        self.assertIn("Collector source owner mismatch", guards)
+        self.assertIn("FOR SHARE OF m,c,w,s", guards)
+        for table in ("identity_conflict_audit", "delivery_gap_audit"):
+            self.assertIn(table + "_source_owner BEFORE INSERT ON " + table, guards)
+        self.assertIn("m.organization_id=r.tenant_id", guards)
+        self.assertIn("c.data_source_id=r.source_id", guards)
+        self.assertIn("w.organization_id=r.tenant_id", guards)
         connection = Mock()
         connection.exec_driver_sql.return_value.scalar.return_value = True
         with patch.object(

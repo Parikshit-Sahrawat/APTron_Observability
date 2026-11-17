@@ -29,3 +29,13 @@ Before merge: exact-head PostgreSQL migration/model drift, populated old-data pr
 | S03-RECON | Reviewed transaction + receipt semantics | Fresh synchronous reaffirmation, CL-2 finalization, durable processing claim barrier, idempotent replay and contiguous checkpoints | Lost ACK, canceled commit, primary promotion, source replacement recovery authorization, gap and conflict audit; no external side effect on uncertain claim |
 
 These subsequent increments remain authorized sequencing targets, not completed functionality or empty placeholder PRs. Their exact migrations, wire contract and trust/durability prerequisites must be reviewable before implementation/promotion. A valid signature is not replication proof. Physical HA remains deferred until production readiness, never marked passed by single-runner staging.
+
+## 17 November focused model/migration review
+
+Natural identity is database-unique on `(tenant_id, source_id, event_id)` independently of digest/version; conflicting retries cannot create a second registry identity. Digest/version equality still needs the S02 transaction comparison. Nine new tables use restrictive foreign keys and immutable subject/payload guards. No migration 0001–0038, historical retention function or legacy table definition is modified.
+
+Review found independently valid foreign keys did not establish inbox installation ownership or audit source ownership. New INSERT guards join ManagedAgent → Collector → DataSource and WorkerIdentity against the event's tenant/source under shared row locks, and validate source ownership on conflict/gap audit insertion. These relationship guards do not certify mTLS, current generation, capability, revocation, HA or synchronous replication. Legacy reassignment is not prohibited by a new trigger on a legacy table; the next service must coordinate authoritative mutations and preserve historical event identity.
+
+Expanded disposable probe exercises matching and wrong-source/wrong-customer installations, cross-customer audits, all nine DELETE guards, immutable payload/ledger/receipt/audit/outbox subjects and generation regression, while allowing operational-state updates. It calls the real downgrade inside a rolled-back SAVEPOINT: empty schema removal/restoration, populated-evidence refusal, unchanged legacy organization snapshot and Alembic version. All synthetic writes (including unsigned receipt fixtures) are rolled back; no receipt is issued. Exact-head live results remain pending until CI completes.
+
+Prepared next increment: [transactional ingestion implementation brief](TRANSACTIONAL_INGESTION_PLAN.md). Receipts and reconciliation remain separate reviewable changes, with positive durability acknowledgments disabled pending demonstrated guarantees.
