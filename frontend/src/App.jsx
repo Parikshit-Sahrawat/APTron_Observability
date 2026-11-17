@@ -514,7 +514,12 @@ export default function App({ user }) {
           )}
         {active === "Resource Management" && (
           <ResourceManagement
-            key={scopeKey}
+            // Under ALL, a refreshed directory is the same authorized filter.
+            // Keep the saved-ID page; authority, mode and explicit scope changes
+            // still remount and discard the previous view.
+            key={navSection === "organizations" && scopeMode === "ALL"
+              ? (user?.authorization_revision || "") + scopeMode + environment
+              : scopeKey}
             user={user}
             section={navSection}
             onSectionChange={(section) =>

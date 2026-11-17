@@ -127,3 +127,20 @@ For each item, record: reproduction steps, screenshot/evidence reference, affect
 - **Ongoing administration:** centrally manage collection methods (including journald), configuration revisions, validation/deployment, health, diagnostics, upgrades, maintenance, and enabled/disabled state. Preserve a clear resource association and return link.
 - **Data integrity:** Both entry points reference the same collector ID, resource ID, backend configuration, revision and deployment history; no duplicated independent collector records or competing activation paths. Existing connected agents must be recognized and never require re-enrollment simply to enter management.
 - **Status:** APPROVED architecture; implementation OPEN; acceptance requires a one-time successful onboarding followed by ongoing edits through central Collectors, consistent statuses, authorization, and no regressions in telemetry or agent state.
+
+## APTron M3-A implementation update — 16 November 2026
+
+Audited append; all historical observations and original acceptance statuses remain intact. Current APTron Job Monitoring scope is SOS JobScheduler 1.x / JS7 plus native log monitoring; older ETL/Pentaho wording above is historical and does not expand product scope.
+
+The owner authorized the next implementation phase after #110 staging validation. Organizations remains first in independent UAT, followed by Compute Instances. Branch `feat/aptron-organization-lifecycle-20261116` is a separate, bounded increment stacked on #110; main and persisted user environments are unchanged.
+
+| Retained finding | Bounded implementation / regression | Acceptance state |
+|---|---|---|
+| RM-DEF-003 | Active/inactive/all status selection combined with identity search and valid pagination | IMPLEMENTED; live CI and independent UAT pending |
+| RM-DEF-028 | Reveal the exact saved organization ID on its actual page; clear conflicting filters; preserve rename/deactivation ID on reload | IMPLEMENTED; live CI and independent UAT pending |
+| RM-DEF-011 | Existing API name/code limits, whitespace validation, pending-save lock, retained error form and accessible error | IMPLEMENTED for Organizations only; live CI and independent UAT pending |
+| RM-DEF-005 | New regression checks Organizations reload against actual persisted state | Broader browser-history finding remains OPEN |
+| RM-DEF-002 / 004 | Organization descriptions and performance under ingestion | OPEN; not addressed by this increment |
+| Compute / Collector findings | Existing identity, agent, revision 2, telemetry and enrollment history preserved | OPEN; next in UAT order |
+
+[Changed-file manifest and evidence boundary](../verification/aptron-m3a-organizations/IMPLEMENTATION.md). Four new mandatory frontend regressions are registered alongside all 726 existing test identities. A real API/PostgreSQL browser regression is wired into disposable staging. Implementation and local test results do not close owner UAT or certify production security, licensing, native Collector or physical HA.
