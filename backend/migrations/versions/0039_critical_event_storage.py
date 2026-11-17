@@ -284,3 +284,24 @@ GUARDS += (
         )
     ),
 )
+
+# Row triggers do not intercept TRUNCATE. Retain evidence against that statement
+# too; the application role must additionally have no DDL/trigger-disable rights.
+GUARDS += tuple(
+    "CREATE TRIGGER "
+    + name
+    + "_retain_truncate BEFORE TRUNCATE ON "
+    + name
+    + " FOR EACH STATEMENT EXECUTE FUNCTION aptron_critical_append_only()"
+    for name in (
+        "event_identity_registry",
+        "protected_event_inbox",
+        "protected_finalization_outbox",
+        "critical_event_ledger",
+        "durable_receipt_claim",
+        "receipt_reaffirmation",
+        "processing_outbox",
+        "identity_conflict_audit",
+        "delivery_gap_audit",
+    )
+)

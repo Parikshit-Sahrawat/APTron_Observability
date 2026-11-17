@@ -62,6 +62,10 @@ class CriticalEventSchemaTests(unittest.TestCase):
         self.assertIn("m.organization_id=r.tenant_id", guards)
         self.assertIn("c.data_source_id=r.source_id", guards)
         self.assertIn("w.organization_id=r.tenant_id", guards)
+        for table in TABLES:
+            self.assertIn(
+                table.name + "_retain_truncate BEFORE TRUNCATE ON " + table.name, guards
+            )
         connection = Mock()
         connection.exec_driver_sql.return_value.scalar.return_value = True
         with patch.object(

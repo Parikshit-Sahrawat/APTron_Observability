@@ -329,6 +329,15 @@ def main():
                 checks.append(name)
             else:
                 raise AssertionError("Database allowed evidence mutation: " + name)
+        try:
+            with db.begin_nested():
+                db.execute(
+                    text("TRUNCATE " + ", ".join(table.name for table in TABLES))
+                )
+        except IntegrityError:
+            checks.append("truncate-all-evidence-denied")
+        else:
+            raise AssertionError("Database allowed evidence TRUNCATE")
         # Permitted operational fields remain writable without changing evidence.
         for table, values in (
             (inbox, {"protection_state": "STILL_UNVERIFIED"}),
