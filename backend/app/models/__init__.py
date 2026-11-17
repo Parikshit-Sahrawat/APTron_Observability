@@ -22,3 +22,6 @@ import app.security.models  # noqa: E402,F401
 # Register canonical resource metadata for standalone ORM consumers.
 # JobOrderHistory has a tenant-scoped FK to monitoring_resources.
 import app.unified.models  # noqa: E402,F401
+
+# Dormant critical-event tables participate in migration/model drift checks.
+import app.critical_events.models  # noqa: E402,F401
