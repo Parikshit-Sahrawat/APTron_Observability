@@ -5,6 +5,7 @@ from sqlalchemy import (
     Column,
     Text,
     BigInteger,
+    Boolean,
     DateTime,
     LargeBinary,
     ForeignKey,
@@ -221,4 +222,31 @@ TABLES = (
     processing,
     conflicts,
     gaps,
+)
+
+# Authentication registry is separate from the nine IR-002 event tables.
+
+certificates = Table(
+    "collector_certificates",
+    Base.metadata,
+    Column("fingerprint", LargeBinary, primary_key=True),
+    uid("installation_id", "managed_agents.id"),
+    Column("generation", BigInteger, nullable=False),
+    uid("tenant_id", "organizations.id"),
+    uid("source_id", "data_sources.id"),
+    uid("configuration_id", "collectors.id"),
+    uid("worker_id", "worker_identities.id"),
+    value("environment"),
+    Column("recovery", Boolean, nullable=False, server_default=text("false")),
+    Column("revoked", Boolean, nullable=False, server_default=text("false")),
+    CheckConstraint("octet_length(fingerprint) = 32"),
+    CheckConstraint("generation > 0"),
+    CheckConstraint("btrim(environment) <> ''"),
+    UniqueConstraint("installation_id", "generation"),
+    Index(
+        "uq_collector_current_certificate",
+        "installation_id",
+        unique=True,
+        postgresql_where=text("NOT revoked"),
+    ),
 )
