@@ -3709,6 +3709,41 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Sprint03 frozen additive PostgreSQL evidence schema and retention constraints"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_validate_authority_digest_and_versions": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_conflict_audit_owns_only_denied_attempt": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_submission_bounds_and_connection_lifetime": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_rollback_after_each_write": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_concurrent_retry_and_conflict": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_registration_mutation_races": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_commit_wait_cancellation_disconnect_and_replay": {
+      "classification": "INCLUDED_POSITIVE",
+      "disposition": "RUN",
+      "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
     }
   }
 }

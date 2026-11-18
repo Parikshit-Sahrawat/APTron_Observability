@@ -5,7 +5,7 @@ cd "$(dirname "$0")/../backend"
 python_bin=${OPSCONTROL_TEST_PYTHON:-python}
 export POSTGRES_PASSWORD
 POSTGRES_PASSWORD=$("$python_bin" -c 'import secrets; print(secrets.token_hex(32))')
-container=$(docker run -d --rm -e POSTGRES_PASSWORD -e POSTGRES_DB=s03_auth_lab -p 127.0.0.1::5432 postgres:17)
+container=$(docker run -d --rm -e POSTGRES_PASSWORD -e POSTGRES_DB=s03_auth_lab -p 127.0.0.1::5432 postgres:17 -c synchronous_commit=local -c synchronous_standby_names=s03_test_standby)
 trap 'docker stop "$container" >/dev/null' EXIT
 address=$(docker port "$container" 5432/tcp)
 export DATABASE_URL="postgresql+psycopg://postgres:$POSTGRES_PASSWORD@$address/s03_auth_lab"
@@ -19,3 +19,4 @@ done
 "$python_bin" -m alembic downgrade 0039_critical_event_storage
 "$python_bin" -m alembic upgrade head
 "$python_bin" -m scripts.collector_certificate_probe
+APTRON_TXN_LAB=1 "$python_bin" -m unittest discover -s tests -p test_transactional_ingestion.py -v
