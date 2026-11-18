@@ -4,10 +4,12 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
 from hmac import compare_digest
+from ipaddress import ip_address
 from uuid import UUID, uuid4
 
 from sqlalchemy import and_, func, select
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.exc import DBAPIError
 
 from .identity import EventIdentity, IdentityConflict, UnauthorizedSource, same_retry
 from .models import conflicts, finalization, inbox, registry
@@ -41,6 +43,80 @@ class Submission:
             raise ValueError("Canonical payload digest mismatch")
 
 
+@dataclass(frozen=True)
+class ProtectionPolicy:
+    """Deployment-owned pins supplied independently of requests and pool discovery."""
+
+    policy_id: str
+    environment: str
+    database: str
+    system_identifier: int
+    server_address: str
+    server_port: int
+
+    def __post_init__(self):
+        if self.policy_id != "disposable-local":
+            raise ValueError("Unsupported ingestion protection policy")
+        if not all(
+            isinstance(s, str) and s.strip() for s in (self.environment, self.database)
+        ):
+            raise ValueError("Explicit environment and database pins required")
+        if type(self.system_identifier) is not int or self.system_identifier <= 0:
+            raise ValueError("Explicit PostgreSQL system identifier required")
+
+        ip_address(self.server_address)
+        if type(self.server_port) is not int or not 0 < self.server_port < 65536:
+            raise ValueError("Explicit PostgreSQL port required")
+
+    def check_transaction(self, db):
+        if (
+            (db.dialect.name, db.dialect.driver) != ("postgresql", "psycopg")
+            or not db.in_transaction()
+            or db.connection.driver_connection.autocommit
+        ):
+            raise RuntimeError("Transactional PostgreSQL psycopg connection required")
+        state = db.exec_driver_sql("""
+            SELECT pg_catalog.pg_is_in_recovery() AS recovering,
+                   pg_catalog.current_setting('transaction_read_only') AS read_only,
+                   pg_catalog.current_setting('transaction_isolation') AS isolation,
+                   pg_catalog.current_database() AS database,
+                   system_identifier,
+                   pg_catalog.host(pg_catalog.inet_server_addr()) AS server_address,
+                   pg_catalog.inet_server_port() AS server_port,
+                   pg_catalog.current_setting('server_version_num')::int AS version,
+                   pg_catalog.current_setting('default_transaction_read_only') AS default_read_only,
+                   pg_catalog.current_schemas(true) AS schemas,
+                   pg_catalog.current_setting('session_replication_role') AS replication_role,
+                   pg_catalog.current_setting('full_page_writes') AS full_page_writes,
+                   pg_catalog.current_setting('fsync') AS fsync,
+                   pg_catalog.current_setting('synchronous_commit') AS sync_commit
+              FROM pg_catalog.pg_control_system()
+        """).mappings().one()
+        if (
+            state.recovering
+            or state.read_only != "off"
+            or state.default_read_only != "off"
+        ):
+            raise RuntimeError("Writable PostgreSQL primary required")
+        if state.isolation != "read committed":
+            raise RuntimeError("READ COMMITTED isolation required")
+        if (
+            state.database != self.database
+            or state.system_identifier != self.system_identifier
+            or state.server_address != self.server_address
+            or state.server_port != self.server_port
+            or not 170000 <= state.version < 180000
+            or state.schemas != ["pg_catalog", "public"]
+            or state.replication_role != "origin"
+            or state.full_page_writes != "on"
+            or state.fsync != "on"
+            or state.sync_commit not in {"local", "on", "remote_write", "remote_apply"}
+        ):
+            raise RuntimeError(
+                "PostgreSQL target or settings violate protection policy"
+            )
+
+
 class CommitIndeterminate(RuntimeError):
     """Local COMMIT outcome or synchronous wait was ambiguous. No receipt."""
 
@@ -65,6 +141,13 @@ def _commit(db, transaction):
             raise RuntimeError("PostgreSQL commit warning")
     except Exception as exc:
         db.invalidate()
+        # A server-reported serialization rollback is a known rejection even
+        # when a deferred operation reports it at COMMIT.
+        if (
+            isinstance(exc, DBAPIError)
+            and getattr(exc.orig, "sqlstate", None) == "40001"
+        ):
+            raise
         raise CommitIndeterminate("Commit requires independent reconciliation") from exc
 
 
@@ -148,15 +231,11 @@ def _persist(db, subject, event, policy):
 
 
 class IngestionService:
-    def __init__(self, engine, *, policy_id, server_certificate, server_key, client_ca):
-        if (
-            not isinstance(policy_id, str)
-            or not policy_id.strip()
-            or len(policy_id) > 256
-        ):
-            raise ValueError("Explicit protection policy required")
+    def __init__(self, engine, *, policy, server_certificate, server_key, client_ca):
+        if type(policy) is not ProtectionPolicy:
+            raise ValueError("Trusted ingestion protection policy required")
         self._engine = engine
-        self._policy = policy_id
+        self._policy = policy
         self._transport = CollectorTransport(
             server_certificate=server_certificate,
             server_key=server_key,
@@ -169,6 +248,11 @@ class IngestionService:
         with self._transport.accept(raw_socket) as (stream, authenticate):
 
             def authority(db, event):
+                self._policy.check_transaction(db)
+                if event.environment != self._policy.environment:
+                    raise UnauthorizedSource(
+                        "Environment outside configured ingestion policy"
+                    )
                 return authenticate(
                     db,
                     tenant_id=event.identity.tenant_id,
@@ -185,7 +269,7 @@ class IngestionService:
                 try:
                     with self._engine.connect() as db, db.begin() as tx:
                         subject = authority(db, event)
-                        key = _persist(db, subject, event, self._policy)
+                        key = _persist(db, subject, event, self._policy.policy_id)
                         _commit(db, tx)
                         return key
                 except IdentityConflict:

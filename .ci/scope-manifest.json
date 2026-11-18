@@ -3744,6 +3744,46 @@
       "classification": "INCLUDED_POSITIVE",
       "disposition": "RUN",
       "reason": "Mandatory real PostgreSQL and mTLS transactional ingestion fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_protection_policy_and_primary": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_conflict_audit_rechecks_protection_policy": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_unsupported_transaction_modes": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_serialization_abort_and_clean_retry": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_delete_waits_and_preserves_legacy_owner": {
+      "classification": "LEGACY_PRESERVATION",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_legacy_upgrade_and_restrictive_foreign_keys": {
+      "classification": "LEGACY_PRESERVATION",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_prior_mutations_deny_new_event": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "backend/tests/test_transactional_ingestion.py::test_independent_same_tenant_contention": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
     }
   }
 }

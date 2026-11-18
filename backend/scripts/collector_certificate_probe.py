@@ -96,23 +96,26 @@ def connection(transport, directory, name):
                 pass
 
 
-def fixture(engine):
+def fixture(engine, *, organization_id=None):
     with Session(engine) as session, session.begin():
-        org = Organization(name=uuid4().hex, code=uuid4().hex)
-        session.add(org)
-        session.flush()
+        if organization_id is None:
+            org = Organization(name=uuid4().hex, code=uuid4().hex)
+            session.add(org)
+            session.flush()
+            organization_id = org.id
+        suffix = uuid4().hex
         sources = [
             DataSource(
-                organization_id=org.id,
-                name=name,
+                organization_id=organization_id,
+                name=name + suffix,
                 source_type="LINUX",
                 connection_config={"opscontrol": {"environment": "lab"}},
             )
             for name in ("one", "two")
         ]
         worker = WorkerIdentity(
-            organization_id=org.id,
-            name="lab",
+            organization_id=organization_id,
+            name="lab" + suffix,
             token_hash=uuid4().hex * 2,
             expires_at=datetime.now(timezone.utc) + timedelta(days=1),
         )
@@ -121,16 +124,16 @@ def fixture(engine):
         config = Collector(
             data_source_id=sources[0].id,
             remote_worker_id=worker.id,
-            name="lab",
+            name="lab" + suffix,
             collector_type="LINUX",
         )
         session.add(config)
         session.flush()
         agent = ManagedAgent(
-            organization_id=org.id,
+            organization_id=organization_id,
             collector_id=config.id,
             worker_id=worker.id,
-            hostname="lab",
+            hostname="lab" + suffix,
             version="test",
             runtime_version="test",
         )
@@ -138,7 +141,7 @@ def fixture(engine):
         session.flush()
         return (
             dict(
-                tenant_id=org.id,
+                tenant_id=organization_id,
                 source_id=sources[0].id,
                 installation_id=agent.id,
                 configuration_id=config.id,

@@ -1,5 +1,6 @@
 """Independent real connections to the runner-owned PG17 and ephemeral test PKI."""
 
+import json
 import os
 import ssl
 import tempfile
@@ -23,6 +24,7 @@ from app.critical_events.ingestion import (
     Submission,
     IngestionService,
     CommitIndeterminate,
+    ProtectionPolicy,
 )
 from app.critical_events.models import (
     registry,
@@ -58,15 +60,26 @@ class TransactionalIngestionTests(unittest.TestCase):
         for name in ("ca", "localhost", "client", "new"):
             issue(self.directory, name)
         self.enroll("client", 0)
-        self.service = IngestionService(
-            self.db,
-            policy_id="disposable-local",
+        self.policy = ProtectionPolicy(
+            "disposable-local",
+            "lab",
+            "s03_auth_lab",
+            int(os.environ["APTRON_LAB_SYSTEM_ID"]),
+            os.environ["APTRON_LAB_PRIMARY_ADDRESS"],
+            5432,
+        )
+        self.service = self.build_service(self.db, self.policy)
+        self.submit = self.peer()
+        self.event = self.make_event()
+
+    def build_service(self, engine, policy):
+        return IngestionService(
+            engine,
+            policy=policy,
             server_certificate=self.directory / "localhost.pem",
             server_key=self.directory / "localhost.key",
             client_ca=self.directory / "ca.pem",
         )
-        self.submit = self.peer()
-        self.event = self.make_event()
 
     def peer(self, name="client"):
         return self.lab.enter_context(connection(self.service, self.directory, name))
@@ -413,3 +426,290 @@ class TransactionalIngestionTests(unittest.TestCase):
                         select(claims.c.receipt_id).where(claims.c.event_key == key)
                     )
                 )
+
+    def scoped_peer(self, engine, policy):
+        service = self.build_service(engine, policy)
+        return self.lab.enter_context(connection(service, self.directory, "client"))
+
+    def test_protection_policy_and_primary(self):
+        with self.assertRaises(ValueError):
+            replace(self.policy, policy_id="CENTRAL_DURABLE")
+        for policy in (
+            replace(self.policy, system_identifier=self.policy.system_identifier + 1),
+            replace(self.policy, database="another"),
+            replace(self.policy, server_address="192.0.2.1"),
+            replace(self.policy, server_port=5433),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "violate protection policy"):
+                self.scoped_peer(self.db, policy)(self.event)
+        with self.assertRaises(UnauthorizedSource):
+            self.scoped_peer(self.db, replace(self.policy, environment="other"))(
+                self.event
+            )
+        standby = create_engine(
+            self.db.url.set(port=int(os.environ["APTRON_LAB_STANDBY_PORT"]))
+        )
+        self.lab.callback(standby.dispose)
+        with standby.connect() as db:
+            self.assertTrue(db.scalar(text("select pg_is_in_recovery()")))
+        with self.assertRaisesRegex(RuntimeError, "Writable PostgreSQL primary"):
+            self.scoped_peer(standby, self.policy)(self.event)
+        for setting, reason in (
+            ("transaction_read_only = on", "Writable PostgreSQL primary"),
+            ("default_transaction_read_only = on", "Writable PostgreSQL primary"),
+            ("synchronous_commit = off", "violate protection policy"),
+            ("session_replication_role = replica", "violate protection policy"),
+            ("search_path = pg_catalog", "violate protection policy"),
+        ):
+
+            def configure(db):
+                db.exec_driver_sql("SET LOCAL " + setting)
+
+            with self.listen(configure, "begin"), self.assertRaisesRegex(
+                RuntimeError, reason
+            ):
+                self.submit(self.event)
+        self.assertEqual(self.submit(self.event), self.submit(self.event))
+
+    def test_conflict_audit_rechecks_protection_policy(self):
+        key = self.submit(self.event)
+        conflict = replace(
+            self.event,
+            canonical_payload=b"changed",
+            identity=replace(
+                self.event.identity, payload_sha256=sha256(b"changed").digest()
+            ),
+        )
+        transactions = 0
+
+        def read_only_during_audit(db):
+            nonlocal transactions
+            transactions += 1
+            if transactions == 2:
+                db.exec_driver_sql("SET TRANSACTION READ ONLY")
+
+        with self.listen(read_only_during_audit, "begin"), self.assertRaisesRegex(
+            RuntimeError, "Writable PostgreSQL primary"
+        ):
+            self.submit(conflict)
+        self.assertEqual(transactions, 2)
+        with self.db.connect() as db:
+            self.assertIsNone(
+                db.scalar(
+                    select(conflicts.c.conflict_id).where(
+                        conflicts.c.evidence_reference == str(key)
+                    )
+                )
+            )
+        self.assertEqual(self.submit(self.event), key)
+
+    def test_unsupported_transaction_modes(self):
+        for level in (
+            "READ UNCOMMITTED",
+            "REPEATABLE READ",
+            "SERIALIZABLE",
+            "AUTOCOMMIT",
+        ):
+            with self.subTest(level=level), self.assertRaises(RuntimeError):
+                self.scoped_peer(
+                    self.db.execution_options(isolation_level=level), self.policy
+                )(self.event)
+        other = create_engine("sqlite://")
+        self.lab.callback(other.dispose)
+        with self.assertRaisesRegex(RuntimeError, "PostgreSQL psycopg"):
+            self.scoped_peer(other, self.policy)(self.event)
+
+    def test_serialization_abort_and_clean_retry(self):
+        from sqlalchemy.exc import DBAPIError
+
+        tables = (registry, inbox, finalization, conflicts)
+        before = [self.count(t) for t in tables]
+        # Forced server-side 40001, once during the final write and once at COMMIT.
+        for timing in ("INITIALLY IMMEDIATE", "INITIALLY DEFERRED"):
+            with self.db.begin() as db:
+                db.exec_driver_sql(
+                    """CREATE FUNCTION txn_abort_fixture() RETURNS trigger LANGUAGE plpgsql AS $$
+                    BEGIN RAISE EXCEPTION 'fixture serialization failure' USING ERRCODE='40001'; END $$"""
+                )
+                db.exec_driver_sql(
+                    f"""CREATE CONSTRAINT TRIGGER txn_abort_fixture AFTER INSERT ON
+                    protected_finalization_outbox DEFERRABLE {timing} FOR EACH ROW EXECUTE FUNCTION txn_abort_fixture()"""
+                )
+            try:
+                with self.assertRaises(DBAPIError) as failed:
+                    self.submit(self.event)
+                self.assertEqual(failed.exception.orig.sqlstate, "40001")
+                self.assertEqual([self.count(t) for t in tables], before)
+            finally:
+                with self.db.begin() as db:
+                    db.exec_driver_sql(
+                        "DROP TRIGGER txn_abort_fixture ON protected_finalization_outbox"
+                    )
+                    db.exec_driver_sql("DROP FUNCTION txn_abort_fixture()")
+        self.assertEqual(self.submit(self.event), self.submit(self.event))
+
+    def test_delete_waits_and_preserves_legacy_owner(self):
+        from sqlalchemy.exc import IntegrityError
+        from app.telemetry.models import ManagedAgent
+
+        from app.models import DataSource
+
+        for table, parent_id in (
+            (ManagedAgent.__table__, self.scope["installation_id"]),
+            (DataSource.__table__, self.scope["source_id"]),
+        ):
+            with self.subTest(table=table.name):
+                selector = table.c.id == parent_id
+                with self.db.connect() as db:
+                    original = db.execute(select(table).where(selector)).one()
+
+                def remove():
+                    with self.db.begin() as db:
+                        db.execute(table.delete().where(selector))
+
+                self.event = self.make_event()
+                key, deletion = self.while_locked(remove)
+                with self.assertRaises(IntegrityError) as denied:
+                    deletion.result()
+                self.assertEqual(denied.exception.orig.sqlstate, "23503")
+                with self.db.connect() as db:
+                    self.assertEqual(
+                        db.execute(select(table).where(selector)).one(), original
+                    )
+                    self.assertEqual(
+                        db.scalar(
+                            select(inbox.c.collector_id).where(inbox.c.event_key == key)
+                        ),
+                        self.scope["installation_id"],
+                    )
+
+    def test_legacy_upgrade_and_restrictive_foreign_keys(self):
+        original = json.loads(os.environ["APTRON_LAB_LEGACY_ROW"])
+        with self.db.begin() as db:
+            self.assertEqual(
+                db.scalar(
+                    text("SELECT to_jsonb(a) FROM managed_agents a WHERE id=:id"),
+                    {"id": original["id"]},
+                ),
+                original,
+            )
+            self.assertFalse(
+                db.scalar(
+                    text(
+                        "SELECT EXISTS (SELECT FROM collector_certificates WHERE installation_id=:id)"
+                    ),
+                    {"id": original["id"]},
+                )
+            )
+            parents = dict(db.exec_driver_sql("""
+                SELECT confrelid::regclass::text, confdeltype::text FROM pg_constraint
+                 WHERE conrelid='collector_certificates'::regclass AND contype='f'
+            """).all())
+            self.assertEqual(
+                parents,
+                {
+                    name: "r"
+                    for name in (
+                        "organizations",
+                        "data_sources",
+                        "collectors",
+                        "managed_agents",
+                        "worker_identities",
+                    )
+                },
+            )
+
+    def test_prior_mutations_deny_new_event(self):
+        from app.models import DataSource
+
+        src = DataSource.__table__
+        for change in ("disable", "reassign", "rotate", "revoke"):
+            with self.subTest(change=change):
+                submitted = self.peer()
+                with self.db.begin() as db:
+                    if change == "disable":
+                        db.execute(
+                            update(src)
+                            .where(src.c.id == self.scope["source_id"])
+                            .values(enabled=False)
+                        )
+                    elif change == "reassign":
+                        db.execute(
+                            update(Collector.__table__)
+                            .where(Collector.id == self.scope["configuration_id"])
+                            .values(data_source_id=self.other_source)
+                        )
+                    elif change == "rotate":
+                        self.enroll("new", 1, db)
+                    else:
+                        revoke_certificate(
+                            db,
+                            sha256(
+                                ssl.PEM_cert_to_DER_cert(
+                                    (self.directory / "client.pem").read_text()
+                                )
+                            ).digest(),
+                        )
+                before = self.count(registry)
+                with self.assertRaises(UnauthorizedSource):
+                    submitted(self.make_event())
+                self.assertEqual(before, self.count(registry))
+                if change != "revoke":
+                    # Each case starts from a distinct legitimately enrolled installation.
+                    self.scope, self.other_source = fixture(self.db)
+                    issue(self.directory, "client")
+                    self.enroll("client", 0)
+
+    def test_independent_same_tenant_contention(self):
+        from statistics import median, quantiles
+
+        second, _ = fixture(self.db, organization_id=self.scope["tenant_id"])
+        with self.db.begin() as db:
+            register_certificate(
+                db,
+                **second,
+                certificate_pem=(self.directory / "new.pem").read_text(),
+                expected_generation=0,
+            )
+        peer = self.peer("new")
+
+        def independent():
+            e = self.make_event()
+            return peer(
+                replace(
+                    e,
+                    collector_id=second["installation_id"],
+                    identity=replace(e.identity, source_id=second["source_id"]),
+                )
+            )
+
+        # Observe a real blocked backend even though event, source and installation differ.
+        first, result = self.while_locked(independent)
+        self.assertNotEqual(first, result.result())
+
+        def batch(submit):
+            durations = []
+            for _ in range(24):
+                start = time.perf_counter()
+                submit()
+                durations.append((time.perf_counter() - start) * 1000)
+            return durations
+
+        def one():
+            return self.submit(self.make_event())
+
+        for concurrent in (False, True):
+            start = time.perf_counter()
+            if concurrent:
+                with ThreadPoolExecutor(2) as pool:
+                    runs = [pool.submit(batch, fn) for fn in (one, independent)]
+                    times = runs[0].result() + runs[1].result()
+            else:
+                times = batch(one) + batch(independent)
+            elapsed = time.perf_counter() - start
+            print(
+                f"Same tenant clients={2 if concurrent else 1} events={len(times)} "
+                f"events/s={len(times)/elapsed:.1f} median_ms={median(times):.2f} "
+                f"p95_ms={quantiles(times,n=20)[18]:.2f}",
+                flush=True,
+            )
