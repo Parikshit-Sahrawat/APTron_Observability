@@ -38,7 +38,7 @@ export default function Overview({ jobs, onSelect, onNavigate, onOpenAlert, orga
         // Overview needs counts, not an unbounded infrastructure inventory.
         params.set("limit", "1");
         const response = await fetch(
-          (import.meta.env.VITE_API_BASE_URL || "http://localhost:8000") +
+          (import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000") +
             "/api/v1/infrastructure/resources?" + params,
           { headers: authHeaders(), signal: controller.signal },
         );

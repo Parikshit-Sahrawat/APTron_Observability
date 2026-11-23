@@ -42,6 +42,8 @@ jobs:
           npm test --prefix frontend
           npm run lint --prefix frontend
           npm run build --prefix frontend
+      - name: Validate single-host candidate structure without deployment
+        run: python scripts/ci/check_single_host_compose.py
       - name: Prepare locked scanners and browser
         run: |
           python scripts/ci/install_scanners.py "$RUNNER_TEMP/staging-scanners"

@@ -1,0 +1,104 @@
+# Review candidate only. Final-image security/licensing and owner acceptance apply.
+# Exactly three steady-state central containers. No migration/receipt/HA service.
+name: ${APTRON_PROJECT_NAME:-aptron-single-host}
+services:
+  postgres:
+    image: ${APTRON_POSTGRES_IMAGE:?approved digest-pinned PostgreSQL 17 image required}
+    environment:
+      POSTGRES_DB: aptron
+      POSTGRES_USER: aptron_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes:
+      - type: bind
+        source: ${APTRON_PGDATA:?absolute persistent host directory required}
+        target: /var/lib/postgresql/data
+        bind:
+          create_host_path: false
+    command: [postgres, -c, fsync=on, -c, full_page_writes=on, -c, synchronous_commit=on]
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U aptron_owner -d aptron']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+    stop_grace_period: 60s
+    security_opt: [no-new-privileges:true]
+    logging: &logging
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+  engine:
+    image: ${APTRON_BACKEND_IMAGE:?reviewed digest-pinned backend runtime image required}
+    command: [python, -m, scripts.run_single_host]
+    init: true
+    user: '10001:10001'
+    env_file:
+      - ${APTRON_ENGINE_ENV_FILE:?restricted runtime database credentials and allowlists required}
+    environment:
+      ENVIRONMENT: production
+      SEED_DEMO_DATA: 'false'
+      TRUSTED_PROXY_IPS: ${APTRON_GATEWAY_IP:-172.30.90.2}
+      OPSCONTROL_WORKER_HEARTBEAT: /tmp/aptron-worker-heartbeat
+    read_only: true
+    tmpfs: ['/tmp:rw,noexec,nosuid,size=64m,mode=1777']
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks:
+      database: {}
+      ingress: {}
+    healthcheck:
+      test: [CMD, python, -m, scripts.check_single_host]
+      start_period: 45s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    stop_grace_period: 30s
+    logging: *logging
+  gateway:
+    image: ${APTRON_FRONTEND_IMAGE:?reviewed digest-pinned same-origin frontend runtime image required}
+    entrypoint: [nginx]
+    command: [-g, 'daemon off;']
+    ports: ['${APTRON_BIND_ADDRESS:-127.0.0.1}:${APTRON_HTTPS_PORT:-8443}:8443']
+    read_only: true
+    tmpfs: [/tmp, /var/run, /var/cache/nginx]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, SETUID, SETGID, DAC_OVERRIDE]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - type: bind
+        source: ${APTRON_GATEWAY_CONFIG:?rendered build-specific nginx configuration required}
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+        bind: {create_host_path: false}
+    secrets: [tls_certificate, tls_key]
+    depends_on:
+      engine: {condition: service_healthy}
+    networks:
+      ingress:
+        ipv4_address: ${APTRON_GATEWAY_IP:-172.30.90.2}
+    healthcheck:
+      test: [CMD-SHELL, 'nginx -t && test -s /var/run/nginx.pid && kill -0 $$(cat /var/run/nginx.pid)']
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    stop_grace_period: 30s
+    logging: *logging
+networks:
+  database:
+    internal: true
+  ingress:
+    ipam:
+      config:
+        - subnet: ${APTRON_INGRESS_SUBNET:-172.30.90.0/28}
+secrets:
+  postgres_password:
+    file: ${APTRON_POSTGRES_PASSWORD_FILE:?owner-managed database secret file required}
+  tls_certificate:
+    file: ${APTRON_TLS_CERTIFICATE:?owner-provided TLS certificate required}
+  tls_key:
+    file: ${APTRON_TLS_KEY:?owner-provided TLS private key required}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { authHeaders } from "./auth";
-const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 export async function operations(path, options={}) {
   const response = await fetch(BASE+"/api/v1/operations"+path,{...options,headers:{"Content-Type":"application/json",...authHeaders()}});
   if(!response.ok){let message="Operational evidence unavailable";try{message=(await response.json()).detail||message;}catch{}throw new Error(message);}
