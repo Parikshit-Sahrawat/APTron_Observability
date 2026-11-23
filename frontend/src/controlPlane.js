@@ -1,5 +1,5 @@
 import { authHeaders } from "./auth";
-const base = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const base = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 export async function control(path, method = "GET", payload, options = {}) {
   const response = await fetch(base + path, {
     method,

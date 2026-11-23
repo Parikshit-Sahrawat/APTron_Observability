@@ -38,7 +38,7 @@ export const authHeaders = () => {
     ? { Authorization: `Bearer ${token}`, "X-OpsControl-Customers": customers }
     : {};
 };
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 export async function signIn(username, password) {
   const response = await fetch(API_BASE + "/api/v1/auth/login", {
     method: "POST",

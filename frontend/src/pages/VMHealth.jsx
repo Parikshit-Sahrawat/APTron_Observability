@@ -3,7 +3,7 @@ import { authHeaders } from "../auth";
 import { evidenceTime } from "../operations";
 import StatusBadge from "../components/StatusBadge";
 import InventoryPager from "../components/InventoryPager";
-const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 export default function VMHealth({
   organizationIds,
   environment = [],

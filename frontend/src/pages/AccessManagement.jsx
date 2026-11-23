@@ -13,7 +13,7 @@ import "../access-management.css";
 import AccessOnboarding from "./AccessOnboarding";
 import AccessBoundaries from "./AccessBoundaries";
 
-const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 const TABS = [
   "Departments",
   "Employees",

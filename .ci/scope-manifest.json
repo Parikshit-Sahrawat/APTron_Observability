@@ -3784,6 +3784,46 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Mandatory PostgreSQL 17 admission, isolation and authority regression fixture"
+    },
+    "tests/test_single_host.py::test_child_failure_stops_peer": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_sigterm_stops_and_reaps_children": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_shutdown_deadline_kills_unresponsive_child": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_start_failure_reaps_started_child": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_stale_missing_and_future_heartbeat_fail_closed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_resolved_deployment_rejects_unsafe_overrides": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_gateway_render_keeps_hash_csp_and_clears_forwarding": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_single_host.py::test_compose_source_retains_isolation_and_single_tmpfs_mount": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
     }
   }
 }
