@@ -1,0 +1,13 @@
+{
+  ".ci/scope-manifest.json": "b7371390426ad733a3ffdd696624b94cef2caf69ea079f205a69624278636d76",
+  ".github/workflows/staging-first.yml": "99af660dc9e352f0f923cf0710a94177a2913ce7ec31b66ab2d2a71a2f83d663",
+  "backend/scripts/check_single_host.py": "49c0498e32fea02b2e921b6d47d317b4f4948080c8d31de677e2a59ad3d9ea67",
+  "backend/scripts/single_host_fixture.py": "80ee42c8a86fc30b44d5dd66c778ed1fe41e81e3c03d641028428174dc348e8e",
+  "deploy/single-host/README.md": "26ccdff80c061c7b5d31ec2a040a6a991d997d6a383db78fcad02ac7a0b34344",
+  "docs/planning/APTRON_IMPLEMENTATION_ROADMAP.md": "ece6c7a88522abea7ed28df37cb9e3e744e07b168e025b680ac3ee25f3cbae7c",
+  "frontend/Dockerfile.runtime": "4b202421dd9924e3732cdb9ebfac2039107988bdcfe0646be032c0d8c303056a",
+  "scripts/staging/sh02_browser.mjs": "f92ba5b693e172ced7701010f7a1980c26c3687a385cb594884c8308a76d0225",
+  "scripts/staging/single_host_acceptance.py": "096d138d5f5a4778d8ac0c94ad985681998d0900ca2345f35f9c8cd51ba4a34a",
+  "scripts/validate_single_host.py": "7d9808d8a398fdbe60fdddaf869cae896c549e93b4acdc77c4897a3c0a2fd9c6",
+  "tests/test_sh02_acceptance.py": "826aa4841d1dda87cd2ae4969c481c651074f0d6cbcd7ccf56b47c5f9eb36173"
+}

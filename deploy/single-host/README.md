@@ -127,3 +127,7 @@ prune, truncate or an in-place destructive restore as a recovery procedure.
 
 Local source-level tests and configuration review are not container/runtime,
 backup, HA, native Collector or production acceptance.
+
+## SH-02 automation
+
+The `single-host-acceptance` job in the existing staging workflow builds/scans the actual backend runtime, migration, production frontend and PostgreSQL roles and exercises this manifest. See [SH-02 scope and evidence](../../docs/verification/single-host-sh02/REPORT.md). Automation implementation is not an executed runtime PASS. The health probe now expects the production plaintext rejection on its internal connection; the independent acceptance probe requires a successful verified HTTPS request through the gateway. The production frontend image defaults to same-origin API access.

@@ -3824,6 +3824,26 @@
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
       "reason": "Mandatory single-host process supervision, health, TLS and deployment isolation regression"
+    },
+    "tests/test_sh02_acceptance.py::test_health_observes_production_https_denial_without_bypass": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory SH-02 HTTPS health, hosted isolation and exact-image deployment safety regression"
+    },
+    "tests/test_sh02_acceptance.py::test_runner_rejects_nonhosted_and_remote_docker": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory SH-02 HTTPS health, hosted isolation and exact-image deployment safety regression"
+    },
+    "tests/test_sh02_acceptance.py::test_forwarder_refuses_public_and_outside_subnet": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory SH-02 HTTPS health, hosted isolation and exact-image deployment safety regression"
+    },
+    "tests/test_sh02_acceptance.py::test_only_exact_scanned_images_and_owned_mounts_are_deployed": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "Mandatory SH-02 HTTPS health, hosted isolation and exact-image deployment safety regression"
     }
   }
 }
