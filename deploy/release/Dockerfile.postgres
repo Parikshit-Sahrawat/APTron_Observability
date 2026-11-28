@@ -14,7 +14,7 @@ RUN go mod download && go mod verify \
     && /out/gosu --version \
     && go version -m /out/gosu > /out/gosu-buildinfo.txt \
     && cp LICENSE /out/LICENSE
-FROM postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac
+FROM postgres:17.12-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73
 RUN --mount=type=secret,id=proxy_ca,required=true \
     SSL_CERT_FILE=/run/secrets/proxy_ca apk upgrade --no-cache
 COPY --from=gosu-build /out/gosu /usr/local/bin/gosu

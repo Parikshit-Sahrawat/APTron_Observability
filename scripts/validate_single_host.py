@@ -11,12 +11,20 @@ import re
 import sys
 
 
-def validate(config):
+def validate(config, *, local_images=None):
     services = config["services"]
     if set(services) != {"gateway", "engine", "postgres"}:
         raise ValueError("Exactly three central services required")
     for name, service in services.items():
-        if not re.fullmatch(r"[^\s@]+@sha256:[0-9a-f]{64}", service["image"]):
+        image = service["image"]
+        if local_images is not None:
+            # Only an exact, independently scanned local image map supplied by
+            # the disposable runner can use Docker config IDs. CLI stays OCI-only.
+            if image != local_images[name] or not re.fullmatch(
+                r"sha256:[0-9a-f]{64}", image
+            ):
+                raise ValueError("Scanned local image identity mismatch")
+        elif not re.fullmatch(r"[^\s@]+@sha256:[0-9a-f]{64}", image):
             raise ValueError("Immutable image reference required")
         if service.get("privileged") or service.get("network_mode") == "host":
             raise ValueError("Privileged or host networking forbidden")

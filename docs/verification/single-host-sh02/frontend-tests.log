@@ -1,0 +1,76 @@
+
+> opscontrol-frontend@0.1.0 test
+> node --experimental-test-coverage --test scripts/permissions.test.mjs scripts/pipelines.test.mjs scripts/explicit_scope.test.mjs scripts/navigation.test.mjs scripts/pagination.test.mjs scripts/monitoring_settings.test.mjs scripts/organization_inventory.test.mjs
+
+✔ owned browser clients explicitly select a UUID snapshot and empty stays empty (1.283842ms)
+✔ failed customer lookup cannot fall back to unrestricted operational requests (0.482637ms)
+✔ authorized active collector restores all editable settings and pinned selections without copying credentials (2.691019ms)
+✔ legacy default GET settings remain explicit and optional assertions empty (0.314513ms)
+✔ NOT_CONFIGURED does not fetch or restore a historical collector (0.281183ms)
+✔ DISABLED does not fetch or restore a historical collector (0.128344ms)
+✔ disabled collector resets controls; a collector belonging to another source fails closed (0.812703ms)
+✔ out-of-order source fetch cannot replace the selected source or organization (0.318039ms)
+✔ pending hydration preserves actual user edits and invalidates an in-flight preview (7.783311ms)
+✔ source switch cancels a real pending settings read and no stale state or error is applied (1.035678ms)
+✔ permission failures propagate instead of silently exposing an editable default configuration (0.399511ms)
+✔ saved selections are applied before controls become ready (0.89065ms)
+✔ excluded source aliases cannot become monitoring selections (0.413322ms)
+✔ VM and application types and generic telemetry terms stay supported (0.178689ms)
+✔ approved child hashes open only existing authorized sections (2.120241ms)
+✔ organizational access is an access view, never a customer grant (0.207752ms)
+✔ configuration sections have stable guarded routes (0.207362ms)
+✔ domain inventories retain explicit role guards and legacy bookmarks (1.683924ms)
+✔ saving an organization beyond page one reveals its exact persisted identity (2.395775ms)
+✔ inactive status and identity search combine without changing the authorized records (0.628346ms)
+✔ filtering or revocation while on a later page never leaves an empty invalid page (0.195374ms)
+✔ saved organization moves to its new page after a rename without duplicating or dropping rows (6.368832ms)
+Pagination traversal, duplicate, mutation, incomplete and scope-change regressions passed
+✔ scripts/pagination.test.mjs (96.77654ms)
+✔ navigation and customer actions default deny (1.213887ms)
+✔ administrative pages use independent filters (0.156125ms)
+✔ revocation replaces UI affordances; platform capability is explicit (0.111067ms)
+✔ malformed cached customer preferences cannot corrupt selector state (1.061898ms)
+✔ retired navigation cannot be enabled by cached permissions (0.209234ms)
+✔ dedicated Incidents UI stays excluded even with legacy permission (0.103205ms)
+✔ five operational pages retain seven historical incident states (1.582731ms)
+✔ pending retry remains nonterminal despite failed attempt (0.243156ms)
+✔ scheduler or process success cannot imply verified native success (0.182355ms)
+✔ scheduler retry and manual recovery preserve original failure (0.197998ms)
+✔ explicit customer scope never expands to ALL (0.475685ms)
+✔ old success or failure is invalidated on customer switch (0.333491ms)
+✔ native workload classifications remain distinct (0.2659ms)
+✔ persisted schedule authority and incomplete coverage stay explicit (0.25869ms)
+✔ review actions require category and verified completion (1.410883ms)
+✔ independent recovery confirmation and confirmed-only reversal (0.294834ms)
+✔ timestamps use explicit UTC (0.852312ms)
+✔ capabilities follow bound methods only (1.529601ms)
+✔ revision and authorization errors are explicit (0.308885ms)
+✔ resource restriction affordances do not become grants (1.012884ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.773853
+ℹ start of coverage report
+ℹ ---------------------------------------------------------------------------
+ℹ file                       | line % | branch % | funcs % | uncovered lines
+ℹ ---------------------------------------------------------------------------
+ℹ scripts                    |        |          |         | 
+ℹ  explicit_scope.mjs        | 100.00 |   100.00 |  100.00 | 
+ℹ src                        |        |          |         | 
+ℹ  excludedPlatforms.js      | 100.00 |    85.71 |  100.00 | 
+ℹ  foundationNavigation.js   | 100.00 |   100.00 |  100.00 | 
+ℹ  monitoringSettings.js     | 100.00 |    92.11 |   92.31 | 
+ℹ  navigation.js             |  98.04 |    87.50 |   83.33 | 41
+ℹ  organizationInventory.js  | 100.00 |   100.00 |  100.00 | 
+ℹ  pagination.js             | 100.00 |   100.00 |  100.00 | 
+ℹ  permissions.js            | 100.00 |    93.33 |  100.00 | 
+ℹ  pipelines                 |        |          |         | 
+ℹ   contracts.js             |  95.65 |    80.28 |   77.78 | 87 121-126 151
+ℹ ---------------------------------------------------------------------------
+ℹ all files                  |  98.08 |    89.38 |   88.57 | 
+ℹ ---------------------------------------------------------------------------
+ℹ end of coverage report
