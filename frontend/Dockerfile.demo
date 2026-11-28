@@ -8,7 +8,7 @@ ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 RUN npm run build
 # Reuse the validated modern nginx runtime base instead of the retired
 # nginx 1.27/Alpine image with known fixable OS-package advisories.
-FROM nginx:stable-alpine@sha256:47928bf67eb62a1863cb08d9ecb52d3e704304ba614eaee17884204677702951
+FROM nginx:1.30.8-alpine@sha256:8eb04fe3b385090e9aa02961f77398ad09b6bf33ab07f6669a5bb7acce22c0d3
 # Keep demo builds usable without a proxy secret while accepting the same
 # verified CA injection used by the production candidate when provided.
 RUN --mount=type=secret,id=proxy_ca,required=false \
