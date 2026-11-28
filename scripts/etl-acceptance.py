@@ -87,6 +87,7 @@ try:
         if phase=='failed':linux.terminate();linux.wait(timeout=5)
         if phase=='recovered':linux=target();env['LINUX_TARGET_PID']=str(linux.pid)
         probe('collect-'+phase);probe(phase);browser(phase)
+        if phase=='failed':probe('after-failed-browser')
         if phase in ('failed','recovered'):operations(phase);noc_browser(phase)
     current_phase='isolation'
     probe('isolation')

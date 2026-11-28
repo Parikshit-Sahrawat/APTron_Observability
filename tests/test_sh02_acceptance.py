@@ -68,6 +68,30 @@ class SH02Tests(unittest.TestCase):
             {"GITHUB_ACTIONS": "true", "RUNNER_ENVIRONMENT": "github-hosted"}
         )
 
+    def test_preflight_diagnostic_excludes_untrusted_error_text(self):
+        runner = load("sh02_diagnostic", "scripts/staging/single_host_acceptance.py")
+        cause = ValueError("sensitive fixture input")
+        error = runner.PreflightError(
+            "staging-exceptions",
+            "New or changed severe finding requires owner review",
+            role="backend-runtime",
+            uncovered_matches=2,
+        )
+        error.__cause__ = cause
+        self.assertEqual(
+            runner.preflight_diagnostic(error),
+            {
+                "error_type": "PreflightError",
+                "preflight_stage": "staging-exceptions",
+                "reason": "New or changed severe finding requires owner review",
+                "image_role": "backend-runtime",
+                "uncovered_severe_matches": 2,
+            },
+        )
+        self.assertEqual(
+            runner.preflight_diagnostic(cause), {"error_type": "ValueError"}
+        )
+
     def test_forwarder_refuses_public_and_outside_subnet(self):
         runner = load("sh02_forwarder", "scripts/staging/single_host_acceptance.py")
         for address, subnet in (

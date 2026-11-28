@@ -39,37 +39,82 @@ ROLES = {
 }
 
 
+class PreflightError(ValueError):
+    def __init__(self, stage, reason, *, role=None, uncovered_matches=None):
+        super().__init__(reason)
+        self.stage = stage
+        self.role = role
+        self.uncovered_matches = uncovered_matches
+
+
+def preflight_diagnostic(error):
+    detail = {"error_type": type(error).__name__}
+    if isinstance(error, PreflightError):
+        detail.update(preflight_stage=error.stage, reason=str(error))
+        if error.role is not None:
+            detail["image_role"] = error.role
+        if error.uncovered_matches is not None:
+            detail["uncovered_severe_matches"] = error.uncovered_matches
+    return detail
+
+
 def runner_guard(env):
     if (
         env.get("GITHUB_ACTIONS") != "true"
         or env.get("RUNNER_ENVIRONMENT") != "github-hosted"
     ):
-        raise ValueError("SH-02 requires a disposable GitHub-hosted runner")
+        raise PreflightError(
+            "runner", "SH-02 requires a disposable GitHub-hosted runner"
+        )
     if (
         env.get("DOCKER_HOST", "") not in {"", "unix:///var/run/docker.sock"}
         or env.get("DOCKER_CONTEXT", "default") != "default"
     ):
-        raise ValueError("Remote Docker targets forbidden")
+        raise PreflightError("runner", "Remote Docker targets forbidden")
 
 
 def image_decision(directory, source):
     from image_coverage import contract, verify
     from security_manifest import verify_evidence
-    from staging_image_gate import assess
+    from staging_image_gate import UncoveredSevereFindings, assess
 
-    policy = json.loads((ROOT / ".ci/staging-exceptions.json").read_text())
-    rows = {r["role"]: r for r in contract()}
+    try:
+        policy = json.loads((ROOT / ".ci/staging-exceptions.json").read_text())
+        rows = {r["role"]: r for r in contract()}
+    except (ValueError, KeyError, TypeError, OSError) as error:
+        raise PreflightError(
+            "policy-inputs", "Could not load the staging policy or image role contract"
+        ) from error
+
     result = {}
     for role in ROLES.values():
         path = directory / ("image-evidence-" + role)
-        binding = verify(path, rows[role], source)
-        verify_evidence(path)
-        decision = assess(
-            policy,
-            role,
-            json.loads((path / "grype.json").read_text()),
-            datetime.now(timezone.utc),
-        )
+        try:
+            binding = verify(path, rows[role], source)
+            verify_evidence(path)
+            scan = json.loads((path / "grype.json").read_text())
+        except (ValueError, KeyError, TypeError, OSError) as error:
+            raise PreflightError(
+                "image-evidence",
+                "Check source and image binding, evidence checksums, and scanner database freshness",
+                role=role,
+            ) from error
+
+        try:
+            decision = assess(policy, role, scan, datetime.now(timezone.utc))
+        except UncoveredSevereFindings as error:
+            raise PreflightError(
+                "staging-exceptions",
+                "New or changed severe finding requires owner review",
+                role=role,
+                uncovered_matches=error.match_count,
+            ) from error
+        except (ValueError, KeyError, TypeError) as error:
+            raise PreflightError(
+                "staging-exceptions",
+                "Check the staging policy and scope, approval, and expiry of exceptions",
+                role=role,
+            ) from error
         result[role] = {**decision, "image_id": binding["image_id"]}
     # Reuse accountable per-role exceptions without editing staging_roles,
     # exception fingerprints/expiry, or the independent eight-image gate.
@@ -172,11 +217,13 @@ def main(image_evidence, evidence):
     if evidence.resolve().is_relative_to(
         ROOT
     ) or image_evidence.resolve().is_relative_to(ROOT):
-        raise ValueError("Evidence must be outside clean source checkout")
+        raise PreflightError(
+            "workspace", "Evidence must be outside clean source checkout"
+        )
     if subprocess.check_output(
         ["git", "status", "--porcelain"], cwd=ROOT, text=True
     ).strip():
-        raise ValueError("Clean committed source required")
+        raise PreflightError("workspace", "Clean committed source required")
     source = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
     ).strip()
@@ -843,14 +890,15 @@ if __name__ == "__main__":
     try:
         exit_code = main(args.image_evidence, args.evidence)
     except Exception as error:
-        # Preflight failures must never look like an executed runtime PASS.
+        # Only explicitly authored diagnostic text is safe for hosted logs.
+        diagnostic = preflight_diagnostic(error)
         if not args.evidence.resolve().is_relative_to(ROOT):
             args.evidence.mkdir(parents=True, exist_ok=True)
             (args.evidence / "acceptance.json").write_text(
                 json.dumps(
                     {
                         "status": "BLOCKED_BEFORE_DEPLOYMENT",
-                        "error_type": type(error).__name__,
+                        **diagnostic,
                         "production_eligible": False,
                         "receipts_enabled": False,
                         "reconciliation_enabled": False,
@@ -859,6 +907,6 @@ if __name__ == "__main__":
                 )
                 + "\n"
             )
-        print("SH-02 preflight blocked: " + type(error).__name__, file=sys.stderr)
+        print("SH-02 preflight blocked: " + json.dumps(diagnostic), file=sys.stderr)
         exit_code = 1
     raise SystemExit(exit_code)

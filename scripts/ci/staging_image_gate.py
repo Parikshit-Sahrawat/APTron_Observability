@@ -9,6 +9,12 @@ from image_coverage import ROOT, contract, verify
 from security_manifest import verify_evidence
 
 
+class UncoveredSevereFindings(ValueError):
+    def __init__(self, match_count):
+        super().__init__("New or changed severe finding requires owner review")
+        self.match_count = match_count
+
+
 def fingerprint(match):
     v, a = match["vulnerability"], match["artifact"]
     return {"id": v["id"], "namespace": v.get("namespace", ""),
@@ -50,8 +56,9 @@ def assess(policy, role, scan, now):
     known = {json.dumps(f, sort_keys=True) for item in allowed for f in item["findings"]}
     severe = [fingerprint(m) for m in scan["matches"] if
               m["vulnerability"].get("severity", "Unknown").lower() in {"critical", "high", "unknown"}]
-    if any(json.dumps(f, sort_keys=True) not in known for f in severe):
-        raise ValueError("New or changed severe finding requires owner review")
+    uncovered_count = sum(json.dumps(f, sort_keys=True) not in known for f in severe)
+    if uncovered_count:
+        raise UncoveredSevereFindings(uncovered_count)
     return {"role": role, "status": "STAGING_ELIGIBLE_WITH_EXCEPTIONS",
             "severe_matches_unresolved": len(severe),
             "exception_ids": [x["id"] for x in legal + ha + (allowed if severe else [])],

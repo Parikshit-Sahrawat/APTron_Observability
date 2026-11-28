@@ -65,6 +65,17 @@ def collect(phase):
         assert event_count==db.scalar(select(func.count()).select_from(AlertIncidentEvent))
     print('Actual authenticated HTTPS Carte reads and idempotent lifecycle collection PASS:',phase)
 
+def verify_failed_investigation(state, phase):
+    path = '/api/v1/etl/executions/' + state['failed_execution_id'] + '/investigation'
+    investigation = api(200, 'GET', path, state['reader_token'])
+    is_investigating = investigation['status'] == 'INVESTIGATING'
+    note_count = len(investigation['notes'])
+    assert is_investigating and note_count == 2, (
+        phase, 'historical investigation', f'investigating={is_investigating}',
+        f'notes={note_count}', 'expected investigating=True and notes=2',
+    )
+    print(f'Historical investigation persistence PASS: {phase}')
+
 def verify(phase):
     state=load();reader=state['reader_token'];history=api(200,'GET','/api/v1/etl/executions',reader)
     current=api(200,'GET','/api/v1/etl/executions?latest_only=true',reader)
@@ -100,10 +111,10 @@ def verify(phase):
         api(200,'POST','/api/v1/etl/executions/'+detail['id']+'/correlation',state['operator_token'])
     if phase=='poll-failed':
         assert len(history)==4 and detail['id']==state['failed_execution_id']
+        verify_failed_investigation(state, phase)
     if phase=='recovered':
         assert len(history)==5 and any(h['status']=='FAILED' for h in history) and not any(h['status']=='NO_RUN' for h in history)
-        inv=api(200,'GET','/api/v1/etl/executions/'+state['failed_execution_id']+'/investigation',reader)
-        assert inv['status']=='INVESTIGATING' and len(inv['notes'])==2
+        verify_failed_investigation(state, phase)
         by_reference={}
         for event in reversed(evidence['alert_events']):by_reference.setdefault(event['reference'],[]).append(event['event_type'])
         assert len(by_reference)==3 and all(events[-1].endswith('_RESOLVED') for events in by_reference.values()),by_reference
@@ -198,5 +209,6 @@ if __name__=='__main__':
     command=sys.argv[1]
     if command=='setup':setup()
     elif command=='isolation':isolation()
+    elif command=='after-failed-browser':verify_failed_investigation(load(), command)
     elif command.startswith('collect-'):collect(command.removeprefix('collect-'))
     else:verify(command)

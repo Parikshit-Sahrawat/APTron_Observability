@@ -3835,6 +3835,11 @@
       "disposition": "RUN",
       "reason": "Mandatory SH-02 HTTPS health, hosted isolation and exact-image deployment safety regression"
     },
+    "tests/test_sh02_acceptance.py::test_preflight_diagnostic_excludes_untrusted_error_text": {
+      "classification": "SHARED_SECURITY",
+      "disposition": "RUN",
+      "reason": "SH-02 preflight diagnostics exclude sensitive exception text"
+    },
     "tests/test_sh02_acceptance.py::test_forwarder_refuses_public_and_outside_subnet": {
       "classification": "SHARED_SECURITY",
       "disposition": "RUN",
