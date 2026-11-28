@@ -10,7 +10,7 @@ RELEASE=ROOT/"deploy/release/Dockerfile.postgres"
 class PostgreSQLReleaseCandidateTests(TestCase):
     def test_exact_postgres17_source_digest_and_build_toolchain(self):
         s=RELEASE.read_text()
-        self.assertIn("FROM postgres:17-alpine@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac",s)
+        self.assertIn("FROM postgres:17.12-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73",s)
         self.assertIn("FROM golang:1.27.4-alpine3.23@sha256:7a93747afee80359e81dbe39c8a65037b147cada0262bf86f5b96dd06842b368 AS gosu-build",s)
         self.assertIn("6456aaa0f3c854d199d0f037f068eb97515b7513",s)
         self.assertIn("go mod verify",s)
